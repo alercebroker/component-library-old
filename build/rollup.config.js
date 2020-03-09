@@ -54,7 +54,8 @@ const external = [
   'vue',
   'vuetify',
   'julian',
-  '@mdi/font'
+  '@mdi/font',
+  'd3-celestial'
 ];
 
 // UMD/IIFE shared settings: output.globals

@@ -36,7 +36,7 @@ export default {
             default: false
         }
     },
-    data() {
+    data: function() {
         return {
             scaleFactor: 1,
             resizeCheckIntervals: []
