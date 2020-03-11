@@ -1,5 +1,5 @@
 <template>
-  <v-card height="100%">
+  <v-card :flat="flat">
     <v-toolbar dense flat :dark="dark">
       <v-row align="center">
         <v-col cols="3">
@@ -91,7 +91,7 @@ export default {
   props: {
     dark: {
       type: Boolean,
-      default: true
+      default: false
     },
     detections: {
       type: Array,
@@ -102,6 +102,10 @@ export default {
     object: {
       type: String,
       default: ""
+    },
+    flat: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

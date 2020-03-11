@@ -18,6 +18,10 @@ export default {
     candidates: {
       type: Object,
       required: true
+    },
+    selectedSN: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -86,13 +90,13 @@ export default {
         align: "left",
         baseline: "bottom"
       };
-      let config = this.config
+      let config = this.config;
       Celestial.add({
         type: "raw",
         callback: function(error, json) {
           if (error) return console.warn(error);
           // Load the geoJSON file and transform to correct coordinate system, if necessary
-          var dsn = Celestial.getData(jsonSN,config.transform);
+          var dsn = Celestial.getData(jsonSN, config.transform);
           // Add to celestial objects container in d3
           Celestial.container
             .selectAll(".sn")
@@ -194,8 +198,28 @@ export default {
     }
   },
   watch: {
-    candidates: {
-      handler: function() {}
+    selectedSN(newSN, oldSN) {
+      if (oldSN) {
+        Celestial.container.select("#" + oldSN.oid).attr("class", "sn");
+      }
+      Celestial.container
+        .select("#" + newSN.oid)
+        .attr("class", "selectedSN");
+      Celestial.redraw();
+      this.zoomSN();
+    }
+  },
+  methods: {
+    zoomSN: function() {
+      let ra = this.selectedSN["meanra"],
+        dec = this.selectedSN["meandec"],
+        oid = this.selectedSN["oid"];
+      let pt = [ra, dec, 0];
+      let anim = [];
+      anim.push({ param: "zoom", value: -0.3, duration: 2 });
+      anim.push({ param: "center", value: pt, duration: 250 });
+      anim.push({ param: "zoom", value: 1.3, duration: 2 });
+      Celestial.animate(anim, false);
     }
   }
 };

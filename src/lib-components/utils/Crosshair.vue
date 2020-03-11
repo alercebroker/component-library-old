@@ -9,13 +9,12 @@
 <script>
 export default {
   name: "crosshair",
-  components: {
-  },
+  components: {},
   props: {
     images: {
       type: Array,
-      default: function(){
-        return []
+      default: function() {
+        return [];
       }
     },
     fullscreen: {
@@ -34,7 +33,7 @@ export default {
   methods: {
     drawCrosshair(x, y, w, h, ctx) {
       ctx.lineWidth = 10;
-      ctx.strokeStyle = 'rgba(255,0,0,0.3)';
+      ctx.strokeStyle = "rgba(255,0,0,0.3)";
       ctx.beginPath();
       ctx.moveTo(x, h / 4);
       ctx.lineTo(x, y - 10);
@@ -57,13 +56,20 @@ export default {
           canvas.height = img.height;
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          drawCrosshair(
-            canvas.width / 2,
-            canvas.height / 2,
-            canvas.width,
-            canvas.height,
-            ctx
-          );
+          if (!this.error) {
+            drawCrosshair(
+              canvas.width / 2,
+              canvas.height / 2,
+              canvas.width,
+              canvas.height,
+              ctx
+            );
+            this.error = false;
+          }
+        };
+        img.onerror = function() {
+          img.src = "https://via.placeholder.com/300";
+          this.error = true;
         };
         img.src = this.images[i];
       }
@@ -71,7 +77,7 @@ export default {
   },
   watch: {
     images() {
-      this.drawImage()
+      this.drawImage();
     }
   }
 };
