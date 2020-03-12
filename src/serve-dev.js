@@ -9,8 +9,9 @@ Vue.config.productionTip = false;
 Vue.use(Vuetify, {
   iconfont: "mdi"
 })
-
 var vuetify = new Vuetify()
+
+
 new Vue({
   vuetify,
   render: (h) => h(Dev),

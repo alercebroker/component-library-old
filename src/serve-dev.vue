@@ -1,13 +1,37 @@
+<template>
+  <v-app id="app">
+    <v-container>
+      <v-row justify="center">
+        <v-col cols="6">
+          <card-stamps :detections="detections" :object="oid" flat></card-stamps>
+          <celestial :candidates="candidates" :selectedSN="selectedSN" />
+          <v-btn @click="onClick">Select Object</v-btn>
+          <aladin
+            :selectedObject="selectedSN"
+            :objects="candidates"
+            @objectSelected="onObjectSelected"
+          />
+          <select-display :options="options">
+            <light-curve-plot slot="options1" :detections="detections" type="difference"></light-curve-plot>
+          </select-display>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
+</template>
+
 <script>
 import Vue from "vue";
-import { CardStamps, Celestial, Aladin} from "@/entry";
+import { CardStamps, Celestial, Aladin, SelectDisplay, LightCurvePlot } from "@/entry";
 import axios from "axios";
 export default Vue.extend({
   name: "ServeDev",
   components: {
     CardStamps,
     Celestial,
-    Aladin
+    Aladin,
+    SelectDisplay,
+    LightCurvePlot
   },
   data() {
     return {
@@ -21,7 +45,11 @@ export default Vue.extend({
           oid: "ZTF20aaophpu"
         }
       },
-      selectedSN: null
+      selectedSN: null,
+      options: [
+        { text: "Option 1", value: "options1" },
+        { text: "Option 2", value: "options2" }
+      ]
     };
   },
   mounted() {
@@ -31,32 +59,19 @@ export default Vue.extend({
         this.detections = response.data.result.detections;
       });
   },
-  methods:{
-    onClick(){
+  methods: {
+    onClick() {
       this.selectedSN = {
         oid: "ZTF20aaophpu",
-        meanra:10,
-        meandec:20
-      }
+        meanra: 10,
+        meandec: 20
+      };
     },
-    onObjectSelected(object){
+    onObjectSelected(object) {
       this.selectedSN = object;
     }
   }
 });
 </script>
 
-<template>
-  <v-app id="app">
-    <v-container>
-      <v-row justify="center">
-        <v-col cols="6">
-          <card-stamps :detections="detections" :object="oid" flat></card-stamps>
-          <celestial :candidates="candidates" :selectedSN="selectedSN"/>
-          <v-btn @click="onClick">Select Object</v-btn>
-          <aladin :selectedObject="selectedSN" :objects="candidates" @objectSelected="onObjectSelected"/>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-app>
-</template>
+
