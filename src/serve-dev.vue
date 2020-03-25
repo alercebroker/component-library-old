@@ -3,7 +3,8 @@
     <v-container>
       <v-row justify="center">
         <v-col cols="6">
-          <card-stamps :detections="detections" :object="oid" flat></card-stamps>
+          <card-stamps :detections="detections" :object="oid" flat >
+          </card-stamps>
           <celestial :candidates="candidates" :selectedSN="selectedSN" />
           <v-btn @click="onClick">Select Object</v-btn>
           <aladin
@@ -22,7 +23,14 @@
 
 <script>
 import Vue from "vue";
-import { CardStamps, Celestial, Aladin, SelectDisplay, LightCurvePlot } from "@/entry";
+import {
+  CardStamps,
+  Celestial,
+  Aladin,
+  SelectDisplay,
+  LightCurvePlot,
+} from "@/entry";
+
 import axios from "axios";
 export default Vue.extend({
   name: "ServeDev",
@@ -31,7 +39,7 @@ export default Vue.extend({
     Celestial,
     Aladin,
     SelectDisplay,
-    LightCurvePlot
+    LightCurvePlot,
   },
   data() {
     return {
@@ -49,6 +57,18 @@ export default Vue.extend({
       options: [
         { text: "Option 1", value: "options1" },
         { text: "Option 2", value: "options2" }
+      ],
+      tools: [
+        {
+          id: "zoom",
+          text: "Zoom",
+          icon: "mdi-magnify-plus"
+        },
+        {
+          id: "crosshair",
+          text: "Crosshair",
+          icon: "mdi-crosshairs"
+        }
       ]
     };
   },

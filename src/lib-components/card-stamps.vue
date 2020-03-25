@@ -10,13 +10,14 @@
             :items="dates"
             item-value="index"
             item-text="date"
-            :value="selectedStamp"
+            data-test="dateSelect"
+            :value="stateSelectedDetection"
             @change="onDateSelected"
           ></v-select>
         </v-col>
         <v-col cols="2">
-          <v-icon @click="prevStamp">mdi-arrow-left-drop-circle</v-icon>
-          <v-icon @click="nextStamp">mdi-arrow-right-drop-circle</v-icon>
+          <v-icon @click="prevStamp" data-test="prevIcon">mdi-arrow-left-drop-circle</v-icon>
+          <v-icon @click="nextStamp" data-test="nextIcon">mdi-arrow-right-drop-circle</v-icon>
         </v-col>
         <v-spacer></v-spacer>
         <v-col cols="1" v-if="hasFullscreenListener">
@@ -69,9 +70,10 @@
         </v-col>
       </v-row>
       <v-row align="start" style="max-height:20px;" class="pa-0" justify="center">
-        <v-col style="max-height:20px;" cols="1" class="pa-0">
-          <v-icon @click="selectZoom">mdi-magnify-plus</v-icon>
-          <v-icon @click="selectCrosshair">mdi-crosshairs</v-icon>
+        <v-col v-for="tool in tools" :key="tool.id" style="max-height:20px;" cols="1" class="pa-0">
+          <slot :name="'btn-'+tool.id" :tool="tool" :selectTool="selectTool">
+            <v-icon @click="selectTool(tool.id)">{{tool.icon}}</v-icon>
+          </slot>
         </v-col>
       </v-row>
     </v-card-text>
@@ -103,30 +105,56 @@ export default {
       type: String,
       default: ""
     },
+    selectedDetection: {
+      type: Number,
+      default: 0
+    },
     flat: {
       type: Boolean,
       default: false
+    },
+    tools: {
+      type: Array,
+      default: () => [
+        {
+          id: "zoom",
+          text: "Zoom",
+          icon: "mdi-magnify-plus"
+        },
+        {
+          id: "crosshair",
+          text: "Crosshair",
+          icon: "mdi-crosshairs"
+        }
+      ]
     }
   },
   data() {
     return {
       isFullscreen: false,
       stampComponent: "crosshair",
-      currentStamp: 0,
-      selectedStamp: 0
+      // internal state selected detection
+      //in case there is no external prop
+      stateSelectedDetection: 0
     };
+  },
+  created() {
+    // make the prop and state the same
+    this.stateSelectedDetection = this.selectedDetection;
   },
   methods: {
     prevStamp() {
-      if (this.currentStamp > 0) {
-        this.currentStamp -= 1;
-        this.selectedStamp -= 1;
+      if (this.stateSelectedDetection > 0) {
+        this.stateSelectedDetection -= 1
+        // send the index of selected detection to parent
+        this.$emit("selectDetection", this.selectedDetection - 1);
       }
     },
     nextStamp() {
-      if (this.currentStamp + 1 < this.detections.length) {
-        this.currentStamp += 1;
-        this.selectedStamp += 1;
+      if (this.stateSelectedDetection + 1 < this.detections.length) {
+        this.stateSelectedDetection += 1
+        // send the index of selected detection to parent
+        this.$emit("selectDetection", this.selectedDetection + 1);
       }
     },
     getCandid(index) {
@@ -141,25 +169,22 @@ export default {
         "http://avro.alerce.online/get_stamp?oid=" +
         this.object +
         "&candid=" +
-        this.getCandid(this.currentStamp) +
+        this.getCandid(this.selectedDetection) +
         "&type=" +
         type +
         "&format=fits";
       return link;
     },
     fullscreen() {
-      this.isFullscreen = !this.isFullscreen;
-      this.$emit("fullscreen", { id: 7, value: this.isFullscreen });
+      this.$emit("fullscreen");
     },
-    selectZoom() {
-      this.stampComponent = "zoom";
-    },
-    selectCrosshair() {
-      this.stampComponent = "crosshair";
+    selectTool(id) {
+      this.stampComponent = id;
     },
     onDateSelected(date) {
-      this.currentStamp = date;
-      this.selectedStamp = date;
+      // send the index of selected detection to parent
+      this.stateSelectedDetection = date;
+      this.$emit("selectDetection", date);
     },
     getScienceURL(object, candid) {
       return (
@@ -207,19 +232,19 @@ export default {
     science() {
       return this.getScienceURL(
         this.object,
-        this.getCandid(this.currentStamp)
+        this.getCandid(this.selectedDetection)
       );
     },
     difference() {
       return this.getDifferenceURL(
         this.object,
-        this.getCandid(this.currentStamp)
+        this.getCandid(this.selectedDetection)
       );
     },
     template() {
       return this.getTemplateURL(
         this.object,
-        this.getCandid(this.currentStamp)
+        this.getCandid(this.selectedDetection)
       );
     },
     fullscreenIcon() {
@@ -227,6 +252,11 @@ export default {
     },
     hasFullscreenListener() {
       return this.$listeners && this.$listeners.fullscreen;
+    }
+  },
+  watch:{
+    selectedDetection(newVal){
+      this.stateSelectedDetection = newVal;
     }
   }
 };

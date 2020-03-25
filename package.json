@@ -20,9 +20,11 @@
     "!src/serve-dev.*"
   ],
   "dependencies": {
+    "@babel/polyfill": "^7.8.7",
     "@mdi/font": "^4.9.95",
     "d3-celestial": "^0.6.25",
     "echarts": "^4.6.0",
+    "jest-canvas-mock": "^2.2.0",
     "julian": "^0.2.0",
     "vue-echarts": "^5.0.0-beta.0",
     "vuetify": "^2.2.15"
