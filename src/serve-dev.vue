@@ -11,6 +11,7 @@
             :selectedObject="selectedSN"
             :objects="candidates"
             @objectSelected="onObjectSelected"
+            displayClass="class"
           />
           <select-display :options="options">
             <light-curve-plot slot="options1" :detections="detections" type="difference"></light-curve-plot>
@@ -45,14 +46,14 @@ export default Vue.extend({
     return {
       detections: [],
       oid: "ZTF20aaophpu",
-      candidates: {
-        ZTF20aaophpu: {
-          pclassearly: 1,
-          meanra: 10,
-          meandec: 20,
+      candidates: [
+        {
+          class: "SN",
+          meanra: 120.2053139,
+          meandec: 27.4985753733333,
           oid: "ZTF20aaophpu"
         }
-      },
+      ],
       selectedSN: null,
       options: [
         { text: "Option 1", value: "options1" },

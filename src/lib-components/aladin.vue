@@ -10,7 +10,19 @@ export default {
       default: null
     },
     objects: {
-      type: Object
+      type: Array
+    },
+    circleSize: {
+      type: Number,
+      default: 2
+    },
+    displayClass: {
+      type: String,
+      default: null
+    },
+    showCloseObjects: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -38,14 +50,16 @@ export default {
     onClick(object) {
       if (object) {
         this.$emit("objectSelected", this.findZTFObject(object));
-        this.aladinObject = object;
+        // this.aladinObject = object;
       } else {
         this.aladinObject = null;
         this.$emit("objectSelected", null);
       }
     },
     findZTFObject(object) {
-      return this.objects[object.data.name]
+      return this.objects.find(x => {
+        return x.oid === object.data.name;
+      });
     },
     draw(source, canvasCtx, viewParams) {
       canvasCtx.beginPath();
@@ -87,12 +101,12 @@ export default {
     addObjects(objects) {
       this.aladin.removeLayers();
       let sources = [];
-      Object.keys(objects).forEach(object => {
+      objects.forEach(object => {
         sources.push(
-          A.source(objects[object].meanra, objects[object].meandec, {
-            name: object,
-            size: 2,
-            class: objects[object].classrf ? objects[object].classrf.text : ""
+          A.source(object.meanra, object.meandec, {
+            name: object.oid,
+            size: this.circleSize,
+            class: object[this.displayClass] ? object[this.displayClass] : ""
           })
         );
       });
@@ -123,6 +137,27 @@ export default {
         });
         t.addObjects(t.objects);
       };
+    },
+    addCatalogsInformation(coordinates) {
+      if (!this.showCloseObjects || !this.aladin) {
+        return;
+      }
+      this.aladin.addCatalog(
+        A.catalogFromSimbad(coordinates, 0.014, {
+          onClick: "showTable"
+        })
+      );
+      this.aladin.addCatalog(
+        A.catalogFromNED(coordinates, 0.014, {
+          onClick: "showTable",
+          shape: "plus"
+        })
+      );
+      this.aladin.addCatalog(
+        A.catalogFromVizieR("I/311/hip2", coordinates, 0.014, {
+          onClick: "showTable"
+        })
+      );
     }
   },
   watch: {
@@ -130,12 +165,17 @@ export default {
       handler: "addObjects"
     },
     selectedObject(newObject) {
+      let coordinates = {
+        ra: newObject.meanra,
+        dec: newObject.meandec
+      };
+      this.addCatalogsInformation(coordinates)
       let src = this.catalog.sources.find(source => {
         return source.data.name === newObject.oid;
       });
       this.aladinObject = src;
-      console.log(newObject)
-      this.aladin.gotoRaDec(newObject.meanra, newObject.meandec);
+      this.aladin.gotoRaDec(coordinates.ra, coordinates.dec);
+      this.aladin.setFov(0.1);
     },
     aladinObject(newObject, oldObject) {
       if (newObject) newObject.select();
