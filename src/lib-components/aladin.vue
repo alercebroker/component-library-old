@@ -33,18 +33,14 @@ export default {
     };
   },
   mounted() {
-    if (document.getElementById("aladin-script")) {
-      this.aladin = A.aladin("#aladin-lite-div", {
-        survey: "P/PanSTARRS/DR1/color-z-zg-g",
-        fov: 60,
-        cooFrame: "J2000d"
-      });
-      if (this.objects) {
-        this.addObjects(this.objects);
-      }
-      return; // was already loaded
+    this.aladin = A.aladin("#aladin-lite-div", {
+      survey: "P/PanSTARRS/DR1/color-z-zg-g",
+      fov: 60,
+      cooFrame: "J2000d"
+    });
+    if (this.objects) {
+      this.catalog = this.addObjects(this.aladin, this.objects);
     }
-    this.addAladinScript();
   },
   methods: {
     onClick(object) {
@@ -98,8 +94,8 @@ export default {
         source.y + 10
       );
     },
-    addObjects(objects) {
-      this.aladin.removeLayers();
+    addObjects(aladin, objects) {
+      aladin.removeLayers();
       let sources = [];
       objects.forEach(object => {
         sources.push(
@@ -112,32 +108,12 @@ export default {
       });
       let catalog = A.catalog({ sourceSize: 10, shape: this.draw });
       catalog.addSources(sources);
-      this.aladin.addCatalog(catalog);
-      this.aladin.on("objectClicked", this.onClick);
+      aladin.addCatalog(catalog);
+      aladin.on("objectClicked", this.onClick);
       // this.aladin.on("objectHovered", this.onHover);
-      this.catalog = catalog;
+      return catalog;
     },
-    addAladinScript() {
-      // add jquery
-      let scriptTag = document.createElement("script");
-      scriptTag.src = "https://code.jquery.com/jquery-1.12.1.min.js";
-      document.getElementsByTagName("head")[0].appendChild(scriptTag);
-      // add aladin
-      scriptTag = document.createElement("script");
-      scriptTag.src =
-        "https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.js";
-      scriptTag.id = "aladin-script";
-      document.getElementsByTagName("head")[0].appendChild(scriptTag);
-      let t = this;
-      scriptTag.onload = function() {
-        t.aladin = A.aladin("#aladin-lite-div", {
-          survey: "P/PanSTARRS/DR1/color-z-zg-g",
-          fov: 60,
-          cooFrame: "J2000d"
-        });
-        t.addObjects(t.objects);
-      };
-    },
+    
     addCatalogsInformation(coordinates) {
       if (!this.showCloseObjects || !this.aladin) {
         return;
@@ -169,7 +145,7 @@ export default {
         ra: newObject.meanra,
         dec: newObject.meandec
       };
-      this.addCatalogsInformation(coordinates)
+      this.addCatalogsInformation(coordinates);
       let src = this.catalog.sources.find(source => {
         return source.data.name === newObject.oid;
       });
@@ -186,7 +162,6 @@ export default {
 </script>
 
 <style>
-@import "https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.css";
 #aladin-lite-div {
   height: "100%";
   width: "100%";

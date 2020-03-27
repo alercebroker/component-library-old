@@ -1,0 +1,3 @@
+global.A = {
+  aladin: function(){}
+}
