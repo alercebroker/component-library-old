@@ -128,31 +128,7 @@ function getSeries(data) {
     }
     series.push(serie)
   })
-  bands.forEach(band => {
-    let serie = {
-      name: bandsMap[band].name + " non-detections",
-      type: "scatter",
-      scale: true,
-      color: hexToRGB(bandsMap[band].color, 0.5),
-      symbolSize: 6,
-      symbol: "path://M0,49.017c0-13.824,11.207-25.03,25.03-25.03h438.017c13.824,0,25.029,11.207,25.029,25.03L262.81,455.745c0,0-18.772,18.773-37.545,0C206.494,436.973,0,49.017,0,49.017z"
-    }
-    serie.data = formatNonDetections(data.nonDetections, band)
-    series.push(serie)
-  })
   return series
-}
-
-function hexToRGB(hex, alpha) {
-    var r = parseInt(hex.slice(1, 3), 16),
-        g = parseInt(hex.slice(3, 5), 16),
-        b = parseInt(hex.slice(5, 7), 16);
-
-    if (alpha) {
-        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
-    } else {
-        return "rgb(" + r + ", " + g + ", " + b + ")";
-    }
 }
 
 function formatDetections(detections, band) {
@@ -161,17 +137,7 @@ function formatDetections(detections, band) {
       return x.fid == band;
     })
     .map(function (x) {
-      return [x.mjd, x.magpsf, x.candid_str, x.sigmapsf];
-    });
-}
-
-function formatNonDetections(non_detections, band) {
-  return non_detections
-    .filter(function (x) {
-      return x.fid == band && x.diffmaglim > 10;
-    })
-    .map(function (x) {
-      return [x.mjd, x.diffmaglim];
+      return [x.mjd, x.magpsf_corr, x.candid_str, x.sigmapsf_corr];
     });
 }
 
@@ -292,7 +258,6 @@ function getLegend(data) {
   let bands = [... new Set(data.detections.map(item => item.fid))];
   let legend = bands.map(band => bandsMap[band].name)
   legend = legend.concat(bands.map(band => bandsMap[band].name + " detections"))
-  legend = legend.concat(bands.map(band => bandsMap[band].name + " non-detections"))
   return legend
 }
 

@@ -47,18 +47,7 @@ export default {
     };
   },
   mounted() {
-    let options = import("./plot-types/" + this.type + ".js")
-      .then(imported => {
-        let data = {
-          detections: this.detections,
-          nonDetections: this.nonDetections,
-          period: this.period
-        };
-        this.scatter = imported.default(data);
-      })
-      .catch(error => {
-        console.error("ERROR", error);
-      });
+    this.generateOptions()
   },
   methods: {
     onClick() {
@@ -67,12 +56,27 @@ export default {
           .toUTCString()
           .slice(0, -3) + "UT";
       this.$emit("detectionClick", date);
+    },
+    generateOptions() {
+      let options = import("./plot-types/" + this.type + ".js")
+        .then(imported => {
+          let data = {
+            detections: this.detections,
+            nonDetections: this.nonDetections,
+            period: this.period
+          };
+          this.scatter = imported.default(data);
+        })
+        .catch(error => {
+          console.error("ERROR", error);
+        });
     }
   },
   computed: {},
   watch: {
-    detections(dets) {},
-    nonDetections(nonDets) {}
+    type(newType) {
+      this.generateOptions()
+    }
   }
 };
 </script>

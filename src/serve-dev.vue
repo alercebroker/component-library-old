@@ -14,7 +14,13 @@
             displayClass="class"
           />
           <select-display :options="options">
-            <light-curve-plot slot="options1" :detections="detections" type="difference"></light-curve-plot>
+            <light-curve-plot
+              slot="difference"
+              :detections="detections"
+              :nonDetections="non_detections"
+              type="difference"
+            ></light-curve-plot>
+            <light-curve-plot slot="apparent" :detections="detections" type="apparent"></light-curve-plot>
           </select-display>
         </v-col>
       </v-row>
@@ -45,6 +51,7 @@ export default Vue.extend({
   data() {
     return {
       detections: [],
+      non_detections: [],
       oid: "ZTF20aaophpu",
       candidates: [
         {
@@ -56,8 +63,8 @@ export default Vue.extend({
       ],
       selectedSN: null,
       options: [
-        { text: "Option 1", value: "options1" },
-        { text: "Option 2", value: "options2" }
+        { text: "Difference Magnitude", value: "difference" },
+        { text: "Apparent Magnitude", value: "apparent" }
       ],
       tools: [
         {
@@ -71,17 +78,22 @@ export default Vue.extend({
           icon: "mdi-crosshairs"
         }
       ],
-      ok:false
+      ok: false
     };
   },
   beforeMount() {
-    this.addAladinScript()
+    this.addAladinScript();
   },
   mounted() {
     axios
       .post("https://ztf.alerce.online/get_detections", { oid: this.oid })
       .then(response => {
         this.detections = response.data.result.detections;
+      });
+    axios
+      .post("https://ztf.alerce.online/get_non_detections", { oid: this.oid })
+      .then(response => {
+        this.non_detections = response.data.result.non_detections;
       });
   },
   methods: {
@@ -107,7 +119,7 @@ export default Vue.extend({
       let t = this;
       scriptTag.onload = () => {
         t.ok = true;
-      }
+      };
     }
   }
 });
