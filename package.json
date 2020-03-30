@@ -8,7 +8,9 @@
     "test:unit": "vue-cli-service test:unit",
     "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
     "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
-    "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"
+    "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
+    "styleguide": "vue-styleguidist server",
+    "styleguide:build": "vue-styleguidist build"
   },
   "main": "dist/components.ssr.js",
   "module": "dist/components.esm.js",
@@ -27,6 +29,7 @@
     "jest-canvas-mock": "^2.2.0",
     "julian": "^0.2.0",
     "vue-echarts": "^5.0.0-beta.0",
+    "vue-i18n": "^8.16.0",
     "vuetify": "^2.2.15"
   },
   "devDependencies": {
@@ -51,6 +54,7 @@
     "sass": "^1.26.2",
     "sass-loader": "^8.0.2",
     "vue": "^2.6.10",
+    "vue-styleguidist": "^4.15.0",
     "vue-template-compiler": "^2.6.10"
   },
   "peerDependencies": {

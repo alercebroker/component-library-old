@@ -97,9 +97,7 @@ export default {
     },
     detections: {
       type: Array,
-      default: function() {
-        return [];
-      }
+      default: []
     },
     object: {
       type: String,
