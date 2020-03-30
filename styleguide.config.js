@@ -9,6 +9,7 @@ module.exports = {
 		path.join(__dirname, 'config/global.requires.js'),
 		path.join(__dirname, 'config/global.styles.scss')
 	],
+	skipComponentsWithoutExample: false,
     renderRootJsx: path.join(__dirname, 'config/styleguide.root.js'),
     validExtends: fullFilePath => !/(?=node_modules)(?!node_modules\/vuetify)/.test(fullFilePath),
     webpackConfig: {
@@ -26,6 +27,23 @@ module.exports = {
 				{
 					test: /\.css$/,
 					use: ['style-loader', 'css-loader']
+				},
+				{
+					test: /\.(ttf|otf|eot|woff|woff2)$/,
+					use: {
+					  loader: "file-loader",
+					  options: {
+						name: "fonts/[name].[ext]",
+						}
+					}
+				},
+				{
+					test: /\.(png|jpe?g|gif)$/i,
+					use: [
+					  {
+						loader: 'file-loader',
+					  },
+					],
 				},
 				{
 					test: /\.s(c|a)ss$/,
@@ -60,13 +78,7 @@ module.exports = {
         },
         {
             name: "Components",
-            sections: [
-                {
-                    name: "Images",
-                    content: "docs/images.md",
-                    components: ['src/*components/card-stamps.vue']
-                }
-            ]
+            components: 'src/*components/**.vue'
         }
     ],
 

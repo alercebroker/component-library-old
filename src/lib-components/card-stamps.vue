@@ -84,6 +84,13 @@
 import { jdToDate } from "./utils/AstroDates.js";
 import ZoomOnHover from "./utils/ZoomOnHover.vue";
 import Crosshair from "./utils/Crosshair.vue";
+
+
+/**
+ * Description of card-stamps
+ * @version 0.0.1
+ * @example ../../docs/examples/card-stamps.example.md
+*/
 export default {
   name: "card-stamps",
   components: {
@@ -91,26 +98,50 @@ export default {
     Crosshair
   },
   props: {
+    /**
+    * The style of the card
+    * @values true, false
+    */
     dark: {
       type: Boolean,
       default: false
     },
+    /**
+    * Detections of a survey telescope
+    * @values 
+    */
     detections: {
       type: Array,
       default: []
     },
+    /**
+    * 
+    * @values 
+    */
     object: {
       type: String,
       default: ""
     },
+    /**
+    * 
+    * @values 0 to quantity of detections
+    */
     selectedDetection: {
       type: Number,
       default: 0
     },
+    /**
+    * 
+    * @values true, false
+    */
     flat: {
       type: Boolean,
       default: false
     },
+    /**
+    * 
+    * @values 
+    */
     tools: {
       type: Array,
       default: () => [

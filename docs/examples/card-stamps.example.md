@@ -1,4 +1,4 @@
-card-stamps example:
+card-stamps usage
 
 ```vue
 <template>

@@ -3,6 +3,12 @@
 </template>
 
 <script>
+
+/**
+ * Description of aladin dsadas das
+ * @version 0.0.1
+ * @example ../../docs/examples/aladin.example.md
+*/
 export default {
   props: {
     selectedObject: {
@@ -165,6 +171,6 @@ export default {
 #aladin-lite-div {
   height: "100%";
   width: "100%";
-  /* min-height: 530px; */
+  min-height: 530px;
 }
 </style>
