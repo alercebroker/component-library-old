@@ -71,6 +71,11 @@
       </v-row>
       <v-row align="start" style="max-height:20px;" class="pa-0" justify="center">
         <v-col v-for="tool in tools" :key="tool.id" style="max-height:20px;" cols="1" class="pa-0">
+          <!--
+            @slot Tool buttons
+            @binding {object} tool tool object from tool prop
+            @binding {function} method for setting the selected tool 
+            -->
           <slot :name="'btn-'+tool.id" :tool="tool" :selectTool="selectTool">
             <v-icon @click="selectTool(tool.id)">{{tool.icon}}</v-icon>
           </slot>
@@ -84,6 +89,10 @@
 import { jdToDate } from "./utils/AstroDates.js";
 import ZoomOnHover from "./utils/ZoomOnHover.vue";
 import Crosshair from "./utils/Crosshair.vue";
+/**
+ * Component for displaying stamps
+ * @displayName Card Stamps
+ */
 export default {
   name: "card-stamps",
   components: {
@@ -91,28 +100,48 @@ export default {
     Crosshair
   },
   props: {
+    /**
+     * Style of the component's toolbar
+     */
     dark: {
       type: Boolean,
       default: false
     },
+    /**
+     * List of detections. Each detection should be an object containing at least
+     * mjd and candid_str
+     * Example detection object: (aqui agregar ejemplo no se si se puede)
+     */
     detections: {
       type: Array,
       default: function() {
         return [];
       }
     },
+    /**
+     * The Object ID of the stamp
+     */
     object: {
       type: String,
       default: ""
     },
+    /**
+     * The index of the selected detection in the array
+     */
     selectedDetection: {
       type: Number,
       default: 0
     },
+    /**
+     * The style of the card
+     */
     flat: {
       type: Boolean,
       default: false
     },
+    /**
+     * Array with tool options for mode switching toolbar
+     */
     tools: {
       type: Array,
       default: () => [
@@ -135,7 +164,7 @@ export default {
       stampComponent: "crosshair",
       // internal state selected detection
       //in case there is no external prop
-      stateSelectedDetection: 0
+      stateSelectedDetection: this.selectedDetection
     };
   },
   created() {
@@ -145,15 +174,21 @@ export default {
   methods: {
     prevStamp() {
       if (this.stateSelectedDetection > 0) {
-        this.stateSelectedDetection -= 1
-        // send the index of selected detection to parent
+        this.stateSelectedDetection -= 1;
+        /**
+         * Event triggered when a detection is selected
+         * @arg {number} index of the selected detection
+         */
         this.$emit("selectDetection", this.selectedDetection - 1);
       }
     },
     nextStamp() {
       if (this.stateSelectedDetection + 1 < this.detections.length) {
-        this.stateSelectedDetection += 1
-        // send the index of selected detection to parent
+        this.stateSelectedDetection += 1;
+        /**
+         * Event triggered when a detection is selected
+         * @arg {number} index of the selected detection
+         */
         this.$emit("selectDetection", this.selectedDetection + 1);
       }
     },
@@ -182,8 +217,11 @@ export default {
       this.stampComponent = id;
     },
     onDateSelected(date) {
-      // send the index of selected detection to parent
       this.stateSelectedDetection = date;
+      /**
+       * Event triggered when a detection is selected
+       * @arg {number} index of the selected detection
+       */
       this.$emit("selectDetection", date);
     },
     getScienceURL(object, candid) {
@@ -232,19 +270,19 @@ export default {
     science() {
       return this.getScienceURL(
         this.object,
-        this.getCandid(this.selectedDetection)
+        this.getCandid(this.stateSelectedDetection)
       );
     },
     difference() {
       return this.getDifferenceURL(
         this.object,
-        this.getCandid(this.selectedDetection)
+        this.getCandid(this.stateSelectedDetection)
       );
     },
     template() {
       return this.getTemplateURL(
         this.object,
-        this.getCandid(this.selectedDetection)
+        this.getCandid(this.stateSelectedDetection)
       );
     },
     fullscreenIcon() {
@@ -254,10 +292,10 @@ export default {
       return this.$listeners && this.$listeners.fullscreen;
     }
   },
-  watch:{
-    selectedDetection(newVal){
+  watch: {
+    selectedDetection(newVal) {
       this.stateSelectedDetection = newVal;
-    }
+    },
   }
 };
 </script>
