@@ -92,6 +92,7 @@ import Crosshair from "./utils/Crosshair.vue";
 /**
  * Component for displaying stamps
  * @displayName Card Stamps
+ * @example ../../docs/examples/card-stamps.example.md
  */
 export default {
   name: "card-stamps",
@@ -109,14 +110,12 @@ export default {
     },
     /**
      * List of detections. Each detection should be an object containing at least
-     * mjd and candid_str
-     * Example detection object: (aqui agregar ejemplo no se si se puede)
+     * `mjd` and `candid_str`
+     * Example detection object: [example](https://github.com/alercebroker/component-library/blob/master/tests/unit/detections.js)
      */
     detections: {
       type: Array,
-      default: function() {
-        return [];
-      }
+      default: []
     },
     /**
      * The Object ID of the stamp
