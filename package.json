@@ -10,7 +10,8 @@
     "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
     "styleguide": "vue-styleguidist server",
-    "styleguide:build": "vue-styleguidist build"
+    "styleguide:build": "vue-styleguidist build",
+    "deploy": "vue-cli-service s3-deploy"
   },
   "main": "dist/components.ssr.js",
   "module": "dist/components.esm.js",
@@ -24,13 +25,16 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "@mdi/font": "^4.9.95",
+    "compression-webpack-plugin": "^3.1.0",
     "d3-celestial": "^0.6.25",
     "echarts": "^4.6.0",
     "jest-canvas-mock": "^2.2.0",
     "julian": "^0.2.0",
+    "vue-cli-plugin-s3-deploy": "^4.0.0-rc3",
     "vue-echarts": "^5.0.0-beta.0",
     "vue-i18n": "^8.16.0",
-    "vuetify": "^2.2.15"
+    "vuetify": "^2.2.15",
+    "vuetify-loader": "^1.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
