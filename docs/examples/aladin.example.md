@@ -1,8 +1,7 @@
-aladin usage
-
 ```vue
 <template>
     <aladin 
+    v-if="ok"
     :selectedObject="selectedSN"
     :objects="candidates"
     displayClass="class"></aladin>
@@ -12,6 +11,7 @@ aladin usage
 export default {
   data() {
     return {
+        ok: false,
         candidates: [
             {
             class: "SN",

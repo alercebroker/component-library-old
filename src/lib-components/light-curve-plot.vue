@@ -13,6 +13,11 @@ import "echarts/lib/component/tooltip";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/dataZoom";
 import "echarts/lib/chart/custom";
+/**
+ * Component for light curve visualization
+ * @displayName LightCurvePlot
+ * @example ../../docs/examples/light-curve-plot.example.md
+*/
 export default {
   name: "light-curve-plot",
   components: {
@@ -76,10 +81,22 @@ export default {
   watch: {
     type(newType) {
       this.generateOptions()
+    },
+    detections(newDetections){
+      this.generateOptions()
+    },
+    nonDetections(newNonDetections){
+      this.generateOptions()
     }
   }
 };
 </script>
 
-<style>
+<style css>
+.echarts {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+}
 </style>

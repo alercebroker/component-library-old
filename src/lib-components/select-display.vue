@@ -21,6 +21,11 @@
 </template>
 
 <script>
+/**
+ * Component for displaying stuff and select from many options in radio buttons
+ * @displayName SelectDisplay
+ * @example ../../docs/examples/select-display.example.md
+ */
 export default {
   name: "select-display",
   props: {
