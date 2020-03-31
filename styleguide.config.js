@@ -4,7 +4,8 @@ const vueLoader = require('vue-loader')
 module.exports = {
 	title: 'ALeRCE components',
     version: '0.0.1',
-    exampleMode: 'collapse',
+	exampleMode: 'collapse',
+	usageMode: "expand",
     require: [
 		path.join(__dirname, 'docs/config/global.requires.js'),
 		path.join(__dirname, 'docs/config/global.styles.scss')
