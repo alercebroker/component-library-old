@@ -1,8 +1,8 @@
-import { shallowMount } from '@vue/test-utils'
-import Vue from 'vue'
-import Celestial from '@/lib-components/celestial.vue'
-import '@babel/polyfill'
+// import { shallowMount } from '@vue/test-utils'
+// import Vue from 'vue'
+// import Celestial from '@/lib-components/celestial.vue'
+// import '@babel/polyfill'
 
-describe('celestial.vue', () => {
+// describe('celestial.vue', () => {
 
-})
+// })
