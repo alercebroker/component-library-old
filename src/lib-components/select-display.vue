@@ -29,6 +29,14 @@
 export default {
   name: "select-display",
   props: {
+    /**
+     * The options for radio buttons. Each option should have
+     * text and value properties.
+     * 
+     * Text: is the displayed label for the radio button
+     * value: is the identifier for buttons and defines selected value.
+     * It should match the slot name
+     */
     options: {
       type: Array,
       required: true

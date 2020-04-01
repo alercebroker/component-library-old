@@ -13,6 +13,13 @@
       :detections="detections" 
       type="apparent">
     </light-curve-plot>
+    <light-curve-plot
+      slot="folded"
+      :detections="detections"
+      :period="period"
+      type="folded"
+    >
+    </light-curve-plot>
   </select-display>
 </template>
 <script>
@@ -22,10 +29,12 @@ export default {
     return {
       detections: [],
       nonDetections: [],
+      period: null,
       oid: "ZTF20aaophpu",
       options: [
         { text: "Difference Magnitude", value: "difference" },
-        { text: "Apparent Magnitude", value: "apparent" }
+        { text: "Apparent Magnitude", value: "apparent" },
+        { text: "Folded", value: "folded"}
       ]
     }
   },
@@ -40,6 +49,11 @@ export default {
     .then(response => {
       this.nonDetections = response.data.result.non_detections;
     });
+    axios
+    .post("https://ztf.alerce.online/get_period", {oid: this.oid})
+    .then(response => {
+      this.period = response.data.result.period;
+    })
   }
 }
 </script>
