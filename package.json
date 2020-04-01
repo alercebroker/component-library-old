@@ -10,7 +10,8 @@
     "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
     "styleguide": "vue-styleguidist server",
-    "styleguide:build": "vue-styleguidist build"
+    "styleguide:build": "vue-styleguidist build",
+    "deploy": "vue-cli-service s3-deploy"
   },
   "main": "dist/components.ssr.js",
   "module": "dist/components.esm.js",
@@ -24,16 +25,21 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "@mdi/font": "^4.9.95",
+    "compression-webpack-plugin": "^3.1.0",
     "d3-celestial": "^0.6.25",
     "echarts": "^4.6.0",
     "jest-canvas-mock": "^2.2.0",
     "julian": "^0.2.0",
+    "vue-cli-plugin-s3-deploy": "^4.0.0-rc3",
     "vue-echarts": "^5.0.0-beta.0",
     "vue-i18n": "^8.16.0",
-    "vuetify": "^2.2.15"
+    "vuetify": "^2.2.15",
+    "vuetify-loader": "^1.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.7.7",
     "@rollup/plugin-alias": "^2.2.0",
     "@rollup/plugin-commonjs": "^11.0.1",
@@ -43,6 +49,7 @@
     "@vue/cli-service": "^4.1.0",
     "@vue/test-utils": "1.0.0-beta.31",
     "axios": "^0.19.2",
+    "concurrently": "^4.1.1",
     "cross-env": "^6.0.3",
     "deepmerge": "^4.2.2",
     "fibers": "^4.0.2",
@@ -54,8 +61,13 @@
     "sass": "^1.26.2",
     "sass-loader": "^8.0.2",
     "vue": "^2.6.10",
+    "vue-docgen-cli": "^3.20.0",
+    "vue-loader": "^15.2.4",
     "vue-styleguidist": "^4.15.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "vuepress": "^1.0.3",
+    "webpack": "^4.10.0",
+    "webpack-bundle-analyzer": "3.3.2"
   },
   "peerDependencies": {
     "vue": "^2.6.10"
