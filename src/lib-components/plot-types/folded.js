@@ -1,6 +1,6 @@
 import { formatTooltip, bandMap } from "./utils/light-curve-utils"
 
-export default function folded(data) {
+export default function folded(plotData) {
   return {
     grid: {
       left: "7%",
@@ -14,7 +14,7 @@ export default function folded(data) {
       }
     },
     legend: {
-      data: ["g", "r"],
+      data: getLegend(plotData),
       bottom: 0
     },
     toolbox: {
@@ -52,7 +52,7 @@ export default function folded(data) {
         // same as option.tooltip
         show: true,
         formatter: function (param) {
-          return "<div>param</div>"; // user-defined DOM structure
+          return `<div>`+ param.title +`</div>`; // user-defined DOM structure
         },
         backgroundColor: "#222",
         textStyle: {
@@ -69,51 +69,7 @@ export default function folded(data) {
           backgroundColor: "#505765"
         }
       },
-      formatter: function (params) {
-        var colorSpan = color =>
-          '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
-          color +
-          '"></span>';
-        var colorSpanError = color =>
-          ' <span style="display:inline-block;margin-right:5px;;margin-left:2px;border-radius:10px;width:6px;height:6px;background-color:' +
-          color +
-          '"></span>';
-        var rowTable = (col1, col2, col3) =>
-          "<tr> <td>" +
-          col1 +
-          "</td> <td>" +
-          col2 +
-          "</td> <td>" +
-          col3 +
-          "</td> </tr>";
-        var calendarIcon = color =>
-          "<i class='material-icons' style='font-size:13px;color:" +
-          color +
-          ";'>graphic_eq</i>";
-        let serie = params[0].seriesName;
-        let table =
-          "<table> <tr> <th></th> <th></th> <th></th></tr>";
-        if (serie == "r" || serie == "g") {
-          let mag = params[0].value[1].toFixed(3);
-          let err = params[0].value[3].toFixed(3);
-          table += rowTable(
-            "",
-            "candid: ",
-            params[0].value[2]
-          );
-          table += rowTable(
-            colorSpan(params[0].color),
-            params[0].seriesName + ": ",
-            mag + "±" + err
-          );
-          table += rowTable(
-            calendarIcon(params[0].color),
-            "Phase: ",
-            params[0].value[0]
-          );
-          return table + "</table>";
-        }
-      }
+      formatter: formatTooltip,
     },
     axisPointer: {
       link: { xAxisIndex: "all" },
@@ -146,47 +102,141 @@ export default function folded(data) {
       }
     },
     dataZoom: [],
-    series: [
-      {
-        name: "g",
-        data: [],
-        type: "scatter",
-        scale: true,
-        color: "#22d100",
-        symbolSize: 6,
-        encode: {
-          x: 0,
-          y: 1
-        }
-      },
-      {
-        name: "r",
-        data: [],
-        type: "scatter",
-        scale: true,
-        color: "#ff0000",
-        symbolSize: 6,
-        encode: {
-          x: 0,
-          y: 1
-        }
-      },
-      {
-        name: "g",
-        data: [],
-        type: "custom",
-        scale: true,
-        color: "#22d100",
-        renderItem: this.renderError
-      },
-      {
-        name: "r",
-        data: [],
-        type: "custom",
-        scale: true,
-        color: "#ff0000",
-        renderItem: this.renderError
-      }
-    ]
+    series: getSeries(plotData),
   }
 }
+
+function getSeries(data) {
+  let bands = [... new Set(data.detections.map(item => item.fid))];
+  let series = []
+  bands.forEach(band => {
+    let serie = {
+      name: bandMap[band].name,
+      type: "scatter",
+      scale: true,
+      color: bandMap[band].color,
+      symbolSize: 6,
+      encode: {
+        x: 0,
+        y: 1
+      }
+    }
+    serie.data = formatDetections(data.detections, band, data.period)
+    series.push(serie)
+  })
+  bands.forEach(band => {
+    let serie = {
+      name: bandMap[band].name,
+      type: "custom",
+      scale: true,
+      color: bandMap[band].color,
+      renderItem: renderError
+    }
+    serie.data = formatError(data.detections, band, data.period)
+    series.push(serie)
+  })
+  return series
+}
+
+function formatDetections(detections, band, period) {
+  let max = 0;
+  return detections
+    .filter(function (x) {
+      return x.fid == band && x.magpsf_corr != null;
+    })
+    .map(x => {
+      let phase = (x.mjd % period) / period;
+      if (phase > max) max = phase;
+      return [phase, x.magpsf_corr, x.candid_str, x.sigmapsf_corr]
+    })
+    .concat(
+      detections
+        .filter(function (x) {
+          return x.fid == band && x.magpsf_corr != null;
+        })
+        .map(function (x) {
+          let phase = (x.mjd % period) / period
+          phase += max;
+          return [phase, x.magpsf_corr, x.candid_str, x.sigmapsf_corr]
+        })
+    )
+}
+
+function formatError(detections, band, period) {
+  let max = 0;
+  return detections
+    .filter(function (x) {
+      return x.fid == band;
+    })
+    .map(function (x) {
+      if (x.sigmapsf_corr > 1) return [null, null, null]
+      let phase = (x.mjd % period) / period;
+      if (phase > max) max = phase;
+      return [phase, x.magpsf_corr - x.sigmapsf_corr, x.magpsf_corr + x.sigmapsf_corr]
+    })
+    .concat(
+      detections.filter(function (x) {
+        return x.fid == band;
+      })
+        .map(function (x) {
+          let phase = (x.mjd % period) / period;
+          phase += max;
+          return [phase, x.magpsf_corr - x.sigmapsf_corr, x.magpsf_corr + x.sigmapsf_corr]
+        })
+    )
+}
+
+function renderError(params, api) {
+  var xValue = api.value(0);
+  var highPoint = api.coord([xValue, api.value(1)]);
+  var lowPoint = api.coord([xValue, api.value(2)]);
+  var halfWidth = api.size([1, 0])[0] * 0.1;
+  var style = api.style({
+    stroke: api.visual("color"),
+    fill: null
+  });
+  return {
+    type: "group",
+    children: [
+      {
+        type: "line",
+        shape: {
+          x1: halfWidth,
+          y1: highPoint[1],
+          x2: halfWidth,
+          y2: highPoint[1]
+        },
+        style: style
+      },
+      {
+        type: "line",
+        shape: {
+          x1: highPoint[0],
+          y1: highPoint[1],
+          x2: lowPoint[0],
+          y2: lowPoint[1]
+        },
+        style: style
+      },
+      {
+        type: "line",
+        shape: {
+          x1: halfWidth,
+          y1: lowPoint[1],
+          x2: halfWidth,
+          y2: lowPoint[1]
+        },
+        style: style
+      }
+    ]
+  };
+}
+
+
+function getLegend(data) {
+  let bands = [... new Set(data.detections.map(item => item.fid))];
+  let legend = bands.map(band => bandMap[band].name)
+  legend = legend.concat(bands.map(band => bandMap[band].name + " detections"))
+  return legend
+}
+

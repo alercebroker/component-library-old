@@ -1,4 +1,4 @@
-import {renderError, formatTooltip, bandMap} from "./utils/light-curve-utils"
+import { renderError, formatTooltip, bandMap } from "./utils/light-curve-utils"
 export default function difference(plotData) {
   return {
     grid: {
@@ -56,9 +56,9 @@ export default function difference(plotData) {
       },
       tooltip: {
         // same as option.tooltip
-        show: true,
+        // show: true,
         formatter: function (param) {
-          return "<div>param</div>"; // user-defined DOM structure
+          return "<div>" + param.title + "</div>"; // user-defined DOM structure
         },
         backgroundColor: "#222",
         textStyle: {
@@ -126,6 +126,7 @@ function getSeries(data) {
       color: bandMap[band].color,
       renderItem: renderError
     }
+    serie.data = formatError(data.detections, band)
     series.push(serie)
   })
   bands.forEach(band => {
@@ -144,15 +145,15 @@ function getSeries(data) {
 }
 
 function hexToRGB(hex, alpha) {
-    var r = parseInt(hex.slice(1, 3), 16),
-        g = parseInt(hex.slice(3, 5), 16),
-        b = parseInt(hex.slice(5, 7), 16);
+  var r = parseInt(hex.slice(1, 3), 16),
+    g = parseInt(hex.slice(3, 5), 16),
+    b = parseInt(hex.slice(5, 7), 16);
 
-    if (alpha) {
-        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
-    } else {
-        return "rgb(" + r + ", " + g + ", " + b + ")";
-    }
+  if (alpha) {
+    return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+  } else {
+    return "rgb(" + r + ", " + g + ", " + b + ")";
+  }
 }
 
 function formatDetections(detections, band) {
@@ -175,13 +176,21 @@ function formatNonDetections(non_detections, band) {
     });
 }
 
-
+function formatError(detections, band) {
+  return detections
+    .filter(function (x) {
+      return x.fid == band;
+    })
+    .map(function (x) {
+      if (x.sigmapsf_corr > 1) return [null, null, null]
+      return [x.mjd, x.magpsf - x.sigmapsf, x.magpsf + x.sigmapsf]
+    })
+}
 
 
 function getLegend(data) {
   let bands = [... new Set(data.detections.map(item => item.fid))];
   let legend = bands.map(band => bandMap[band].name)
-  legend = legend.concat(bands.map(band => bandMap[band].name + " detections"))
   legend = legend.concat(bands.map(band => bandMap[band].name + " non-detections"))
   return legend
 }

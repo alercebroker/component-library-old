@@ -1,4 +1,4 @@
-import {renderError, formatTooltip, bandMap} from "./utils/light-curve-utils"
+import { renderError, formatTooltip, bandMap } from "./utils/light-curve-utils"
 export default function apparent(plotData) {
   return {
     grid: {
@@ -56,9 +56,9 @@ export default function apparent(plotData) {
       },
       tooltip: {
         // same as option.tooltip
-        show: true,
+        show: false,
         formatter: function (param) {
-          return "<div>param</div>"; // user-defined DOM structure
+          return "<div>"+param.title + "</div>"; // user-defined DOM structure
         },
         backgroundColor: "#222",
         textStyle: {
@@ -126,6 +126,7 @@ function getSeries(data) {
       color: bandMap[band].color,
       renderItem: renderError
     }
+    serie.data = formatError(data.detections, band)
     series.push(serie)
   })
   return series
@@ -141,10 +142,19 @@ function formatDetections(detections, band) {
     });
 }
 
+function formatError(detections, band) {
+  return detections
+    .filter(function (x) {
+      return x.fid == band;
+    })
+    .map(function (x) {
+      if (x.sigmapsf_corr > 1) return [null, null, null]
+      return [x.mjd, x.magpsf_corr - x.sigmapsf_corr, x.magpsf_corr + x.sigmapsf_corr]
+    })
+}
 
 function getLegend(data) {
   let bands = [... new Set(data.detections.map(item => item.fid))];
   let legend = bands.map(band => bandMap[band].name)
-  legend = legend.concat(bands.map(band => bandMap[band].name + " detections"))
   return legend
 }

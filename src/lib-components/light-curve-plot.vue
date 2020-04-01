@@ -17,29 +17,44 @@ import "echarts/lib/chart/custom";
  * Component for light curve visualization
  * @displayName LightCurvePlot
  * @example ../../docs/examples/light-curve-plot.example.md
-*/
+ */
 export default {
   name: "light-curve-plot",
   components: {
     "v-chart": Echarts
   },
   props: {
+    /**
+     * List of detections. Each detection should be an object containing at least
+     * `mjd` and `candid_str`
+     * Example detection object: [example](https://github.com/alercebroker/component-library/blob/master/tests/unit/detections.js)
+     */
     detections: {
       type: Array,
       default: function() {
         return [];
       }
     },
+    /**
+     * List of Non Detections. Should contain mjd, fid and diffmaglim
+     */
     nonDetections: {
       type: Array,
       default: function() {
         return [];
       }
     },
+    /**
+     * The period of the object. It is used only for folded light curve
+     */
     period: {
       type: Number,
       default: null
     },
+    /**
+     * The type of plot you want to show
+     * @values difference, apparent, folded
+     */
     type: {
       type: String,
       default: null
@@ -52,15 +67,20 @@ export default {
     };
   },
   mounted() {
-    this.generateOptions()
+    this.generateOptions();
   },
   methods: {
-    onClick() {
+    onClick(detection) {
       let date =
         jdToDate(detection.value[0])
           .toUTCString()
           .slice(0, -3) + "UT";
-      this.$emit("detectionClick", date);
+      let payload = {
+        mjd: detection.value[0],
+        date: date,
+        index: this.detections.findIndex(x => x.mjd == detection.value[0])
+      }
+      this.$emit("detectionClick", payload);
     },
     generateOptions() {
       let options = import("./plot-types/" + this.type + ".js")
@@ -80,13 +100,13 @@ export default {
   computed: {},
   watch: {
     type(newType) {
-      this.generateOptions()
+      this.generateOptions();
     },
-    detections(newDetections){
-      this.generateOptions()
+    detections(newDetections) {
+      this.generateOptions();
     },
-    nonDetections(newNonDetections){
-      this.generateOptions()
+    nonDetections(newNonDetections) {
+      this.generateOptions();
     }
   }
 };
