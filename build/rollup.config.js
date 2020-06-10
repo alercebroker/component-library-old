@@ -20,12 +20,9 @@ const argv = minimist(process.argv.slice(2));
 const projectRoot = path.resolve(__dirname, '..');
 
 const baseConfig = {
-  input: 'src/entry.js',
+  input: 'src/entry.ts',
   plugins: {
     preVue: [
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('production'),
-      }),
       alias({
         resolve: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
         entries: {
@@ -33,6 +30,10 @@ const baseConfig = {
         },
       }),
     ],
+    replace: {
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env.ES_BUILD': JSON.stringify('false'),
+    },
     vue: {
       css: true,
       template: {
@@ -52,10 +53,6 @@ const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
   'vue',
-  'vuetify',
-  'julian',
-  '@mdi/font',
-  'd3-celestial'
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -73,11 +70,15 @@ if (!argv.format || argv.format === 'es') {
     ...baseConfig,
     external,
     output: {
-      file: 'dist/components.esm.js',
+      file: 'dist/alerce-components.esm.js',
       format: 'esm',
       exports: 'named',
     },
     plugins: [
+      replace({
+        ...baseConfig.plugins.replace,
+        'process.env.ES_BUILD': JSON.stringify('true'),
+      }),
       ...baseConfig.plugins.preVue,
       vue(baseConfig.plugins.vue),
       babel({
@@ -103,13 +104,14 @@ if (!argv.format || argv.format === 'cjs') {
     external,
     output: {
       compact: true,
-      file: 'dist/components.ssr.js',
+      file: 'dist/alerce-components.ssr.js',
       format: 'cjs',
-      name: 'Components',
+      name: 'AlerceComponents',
       exports: 'named',
       globals,
     },
     plugins: [
+      replace(baseConfig.plugins.replace),
       ...baseConfig.plugins.preVue,
       vue({
         ...baseConfig.plugins.vue,
@@ -131,13 +133,14 @@ if (!argv.format || argv.format === 'iife') {
     external,
     output: {
       compact: true,
-      file: 'dist/components.min.js',
+      file: 'dist/alerce-components.min.js',
       format: 'iife',
-      name: 'Components',
+      name: 'AlerceComponents',
       exports: 'named',
       globals,
     },
     plugins: [
+      replace(baseConfig.plugins.replace),
       ...baseConfig.plugins.preVue,
       vue(baseConfig.plugins.vue),
       babel(baseConfig.plugins.babel),

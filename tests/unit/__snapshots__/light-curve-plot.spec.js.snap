@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`light-curve-plot.vue mounts echarts 1`] = `
-<div>
-  <v-chart-stub options="[object Object]" autoresize="true"></v-chart-stub>
-</div>
-`;
