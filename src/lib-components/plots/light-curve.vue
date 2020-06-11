@@ -6,7 +6,7 @@
 
 <style scoped>
 .vue-echarts {
-  min-height: 100px;
+  min-height: 300px;
   min-width: 100px;
 }
 
@@ -19,6 +19,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
+import plotOptions from '@/utils/format-light-curve'
 
 import * as echarts from 'echarts';
 import ECharts = echarts.ECharts;
@@ -26,13 +27,6 @@ import EChartOption = echarts.EChartOption;
 
 
 declare global { interface Window { attachEvent(type: string, callback: any): void; detachEvent(type: string, callback: any): void; } }
-
-interface Detection {
-  mjd: number;
-  magnitude: number;
-  upper_error: number;
-  lower_error: number;
-}
 
 interface EchartsInitOption {
   devicePixelRatio?: number;
@@ -45,19 +39,7 @@ interface EchartsInitOption {
 export default class LightCurve extends Vue {
   private echartsInstance!: ECharts;
   private ei!: ECharts;
-  private option = {
-      xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-          type: 'value'
-      },
-      series: [{
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
-          type: 'line'
-      }]
-  };
+  private option = plotOptions;
   private theme?: string;
   private initOption?: EchartsInitOption;
   @Prop({default: []}) detections!: any[];

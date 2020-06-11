@@ -10,7 +10,7 @@ interface NonDetection {
     magnitude: number;
 }
 
-interface PlotOptions {
+const plotOptions = {
     grid: {
         left: "7%",
         right: "5%"
@@ -81,3 +81,6 @@ interface PlotOptions {
         }
     },
 }
+
+
+export default plotOptions;
