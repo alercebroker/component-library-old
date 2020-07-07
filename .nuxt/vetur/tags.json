@@ -1,21 +1,15 @@
 {
-  "Logo": {
-    "description": "Auto imported from components/Logo.vue"
-  },
-  "LazyLogo": {
-    "description": "Auto imported from components/Logo.vue"
-  },
-  "VuetifyLogo": {
-    "description": "Auto imported from components/VuetifyLogo.vue"
-  },
-  "LazyVuetifyLogo": {
-    "description": "Auto imported from components/VuetifyLogo.vue"
-  },
   "CatalogsButtons": {
     "description": "Auto imported from components/buttons/CatalogsButtons.vue"
   },
   "LazyCatalogsButtons": {
     "description": "Auto imported from components/buttons/CatalogsButtons.vue"
+  },
+  "AAladin": {
+    "description": "Auto imported from components/misc/AAladin.vue"
+  },
+  "LazyAAladin": {
+    "description": "Auto imported from components/misc/AAladin.vue"
   },
   "AFooter": {
     "description": "Auto imported from components/misc/AFooter.vue"
@@ -35,10 +29,52 @@
   "LazyAHeader": {
     "description": "Auto imported from components/misc/AHeader.vue"
   },
+  "LightCurvePlot": {
+    "description": "Auto imported from components/plots/LightCurvePlot.vue"
+  },
+  "LazyLightCurvePlot": {
+    "description": "Auto imported from components/plots/LightCurvePlot.vue"
+  },
+  "RadarPlot": {
+    "description": "Auto imported from components/plots/RadarPlot.vue"
+  },
+  "LazyRadarPlot": {
+    "description": "Auto imported from components/plots/RadarPlot.vue"
+  },
   "TnsInformation": {
     "description": "Auto imported from components/tables/TnsInformation.vue"
   },
   "LazyTnsInformation": {
     "description": "Auto imported from components/tables/TnsInformation.vue"
+  },
+  "AstroDates": {
+    "description": "Auto imported from components/utils/AstroDates.js"
+  },
+  "LazyAstroDates": {
+    "description": "Auto imported from components/utils/AstroDates.js"
+  },
+  "Apparent": {
+    "description": "Auto imported from components/plots/plot-types/apparent.js"
+  },
+  "LazyApparent": {
+    "description": "Auto imported from components/plots/plot-types/apparent.js"
+  },
+  "Difference": {
+    "description": "Auto imported from components/plots/plot-types/difference.js"
+  },
+  "LazyDifference": {
+    "description": "Auto imported from components/plots/plot-types/difference.js"
+  },
+  "Folded": {
+    "description": "Auto imported from components/plots/plot-types/folded.js"
+  },
+  "LazyFolded": {
+    "description": "Auto imported from components/plots/plot-types/folded.js"
+  },
+  "LightCurveUtils": {
+    "description": "Auto imported from components/plots/plot-types/utils/light-curve-utils.js"
+  },
+  "LazyLightCurveUtils": {
+    "description": "Auto imported from components/plots/plot-types/utils/light-curve-utils.js"
   }
 }
