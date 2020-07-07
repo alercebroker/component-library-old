@@ -1,48 +1,20 @@
-# ALeRCE Frontend Components Library
+# component-library
 
-## Installation
+## Build Setup
 
-  `npm install --save @alerce/components`
-  
-### Requirements
+```bash
+# install dependencies
+$ npm install
 
-- This library uses Vuetify. Go to https://vuetifyjs.com/en/getting-started/quick-start to learn how to properly set it up
-- Celestial component depends on [d3-celestial](https://github.com/ofrohn/d3-celestial) library.
-  + Copy the following files from `data` folder *constellations.bounds.json*, *constellations.json*, *constellations.lines.json*, *dsos.bright.json*, *mw.json*, *planets.json*, *stars.6.json* and put them in your project's `public/celestial-data` folder.
+# serve with hot reload at localhost:3000
+$ npm run dev
 
-## Usage
+# build for production and launch server
+$ npm run build
+$ npm run start
 
-```javascript
-<template>
-  <component-name />
-</template>
-<script>
-import {ComponentName} from "@alerce/components"
-export default {
-  components: {
-    ComponentName
-  }
-  ...
-}
-</script>
+# generate static project
+$ npm run generate
 ```
 
-## Components
-
-### CardStamps
-Props: 
-- detections: Array with detections, where each detection must have `candid_str` field.
-- object: Text with the object id
-- dark: Boolean defining the style of the card. (Default is false)
-- flat: Boolean defining the style of the card. (Default is false)
-
-### Celestial
-Props:
-- candidates: (required) Object with the following structure.
-  ```json
-  "<object_id>": {
-    "pclassearly": "<float>",
-    "meanra": "<float>",
-    "meandec": "<float>"
-  }
-  ```
+For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
