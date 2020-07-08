@@ -5,12 +5,12 @@ export default {
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
   */
-  mode: 'universal',
+  mode: 'spa',
   /*
   ** Nuxt target
   ** See https://nuxtjs.org/api/configuration-target
   */
-  target: 'server',
+  target: 'static',
   /*
   ** Headers of the page
   ** See https://nuxtjs.org/api/configuration-head
@@ -37,6 +37,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    '@/plugins/echarts.js'
   ],
   /*
   ** Auto import components
@@ -47,13 +48,22 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
-    '@nuxtjs/vuetify',
+    // Doc: https://github.com/nuxt-community/eslint-module
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/vuetify'
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios'
   ],
+  /*
+  ** Axios module configuration
+  ** See https://axios.nuxtjs.org/options
+  */
+  axios: {},
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
@@ -80,5 +90,15 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
+    babel: {
+      presets({ isServer }) {
+        return [
+          [
+            "@nuxt/babel-preset-app", { loose: true }
+          ]
+        ]
+      }
+    },
+    transpile: ['vue-echarts', 'resize-detector']
   }
 }

@@ -13,6 +13,8 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 import nuxt_plugin_plugin_1b6f0f4e from 'nuxt_plugin_plugin_1b6f0f4e' // Source: ./components/plugin.js (mode: 'all')
 import nuxt_plugin_plugin_3ded2760 from 'nuxt_plugin_plugin_3ded2760' // Source: ./vuetify/plugin.js (mode: 'all')
+import nuxt_plugin_axios_6ba33f64 from 'nuxt_plugin_axios_6ba33f64' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_echarts_30712fb1 from 'nuxt_plugin_echarts_30712fb1' // Source: ../plugins/echarts.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -41,7 +43,7 @@ Vue.component(Nuxt.name, Nuxt)
 
 Vue.use(Meta, {"keyName":"head","attribute":"data-n-head","ssrAttribute":"data-n-head-ssr","tagIDKeyName":"hid"})
 
-const defaultTransition = {"name":"page","mode":"out-in","appear":false,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
+const defaultTransition = {"name":"page","mode":"out-in","appear":true,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
 
 async function createApp(ssrContext, config = {}) {
   const router = await createRouter(ssrContext)
@@ -171,6 +173,14 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_plugin_3ded2760 === 'function') {
     await nuxt_plugin_plugin_3ded2760(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_axios_6ba33f64 === 'function') {
+    await nuxt_plugin_axios_6ba33f64(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_echarts_30712fb1 === 'function') {
+    await nuxt_plugin_echarts_30712fb1(app.context, inject)
   }
 
   // Lock enablePreview in context

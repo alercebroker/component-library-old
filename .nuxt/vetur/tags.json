@@ -1,4 +1,16 @@
 {
+  "Logo": {
+    "description": "Auto imported from components/Logo.vue"
+  },
+  "LazyLogo": {
+    "description": "Auto imported from components/Logo.vue"
+  },
+  "VuetifyLogo": {
+    "description": "Auto imported from components/VuetifyLogo.vue"
+  },
+  "LazyVuetifyLogo": {
+    "description": "Auto imported from components/VuetifyLogo.vue"
+  },
   "CatalogsButtons": {
     "description": "Auto imported from components/buttons/CatalogsButtons.vue"
   },
@@ -11,12 +23,6 @@
   "LazyAAladin": {
     "description": "Auto imported from components/misc/AAladin.vue"
   },
-  "AFooter": {
-    "description": "Auto imported from components/misc/AFooter.vue"
-  },
-  "LazyAFooter": {
-    "description": "Auto imported from components/misc/AFooter.vue"
-  },
   "AFooterTns": {
     "description": "Auto imported from components/misc/AFooterTns.vue"
   },
@@ -28,6 +34,12 @@
   },
   "LazyAHeader": {
     "description": "Auto imported from components/misc/AHeader.vue"
+  },
+  "Footer": {
+    "description": "Auto imported from components/misc/Footer.vue"
+  },
+  "LazyFooter": {
+    "description": "Auto imported from components/misc/Footer.vue"
   },
   "LightCurvePlot": {
     "description": "Auto imported from components/plots/LightCurvePlot.vue"

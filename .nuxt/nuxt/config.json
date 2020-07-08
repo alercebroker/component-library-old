@@ -1,5 +1,5 @@
 {
   "isFullStatic": false,
-  "ssr": true,
-  "target": "server"
+  "ssr": false,
+  "target": "static"
 }
