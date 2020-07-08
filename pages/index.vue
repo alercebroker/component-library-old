@@ -4,6 +4,7 @@
     justify-center
     align-center
   >
+    <alerce-header title="ALeRCE Components" :items="[{title: 'ZTF Explorer', to: 'https://alerce.online/'}, {title: 'SN Hunter', to: 'https://snhunter.alerce.online/'}]" />
     <v-flex
       xs12
       sm8
@@ -12,19 +13,26 @@
       <v-card light>
         <radar-plot :probabilities="example.probabilities" :title="example.classifier_name" />
       </v-card>
+
+      <v-card>
+        <tns-information name="2018hzd" type="SN Ia" :redshift="0.05" />
+      </v-card>
     </v-flex>
-    <Footer social />
+    <alerce-footer social />
   </v-layout>
 </template>
 
 <script>
+import Header from '~/components/misc/Header.vue'
 import Footer from '~/components/misc/Footer.vue'
 import RadarPlot from '~/components/plots/RadarPlot.vue'
-
+import TnsInformation from '~/components/tables/TnsInformation.vue'
 export default {
   components: {
-    Footer,
-    RadarPlot
+    'alerce-header': Header,
+    'alerce-footer': Footer,
+    RadarPlot,
+    TnsInformation
   },
   /* eslint-disable */
   data() {

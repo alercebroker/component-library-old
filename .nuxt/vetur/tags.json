@@ -1,45 +1,33 @@
 {
-  "Logo": {
-    "description": "Auto imported from components/Logo.vue"
-  },
-  "LazyLogo": {
-    "description": "Auto imported from components/Logo.vue"
-  },
-  "VuetifyLogo": {
-    "description": "Auto imported from components/VuetifyLogo.vue"
-  },
-  "LazyVuetifyLogo": {
-    "description": "Auto imported from components/VuetifyLogo.vue"
-  },
   "CatalogsButtons": {
     "description": "Auto imported from components/buttons/CatalogsButtons.vue"
   },
   "LazyCatalogsButtons": {
     "description": "Auto imported from components/buttons/CatalogsButtons.vue"
   },
-  "AAladin": {
-    "description": "Auto imported from components/misc/AAladin.vue"
+  "Aladin": {
+    "description": "Auto imported from components/misc/Aladin.vue"
   },
-  "LazyAAladin": {
-    "description": "Auto imported from components/misc/AAladin.vue"
-  },
-  "AFooterTns": {
-    "description": "Auto imported from components/misc/AFooterTns.vue"
-  },
-  "LazyAFooterTns": {
-    "description": "Auto imported from components/misc/AFooterTns.vue"
-  },
-  "AHeader": {
-    "description": "Auto imported from components/misc/AHeader.vue"
-  },
-  "LazyAHeader": {
-    "description": "Auto imported from components/misc/AHeader.vue"
+  "LazyAladin": {
+    "description": "Auto imported from components/misc/Aladin.vue"
   },
   "Footer": {
     "description": "Auto imported from components/misc/Footer.vue"
   },
   "LazyFooter": {
     "description": "Auto imported from components/misc/Footer.vue"
+  },
+  "FooterTns": {
+    "description": "Auto imported from components/misc/FooterTns.vue"
+  },
+  "LazyFooterTns": {
+    "description": "Auto imported from components/misc/FooterTns.vue"
+  },
+  "Header": {
+    "description": "Auto imported from components/misc/Header.vue"
+  },
+  "LazyHeader": {
+    "description": "Auto imported from components/misc/Header.vue"
   },
   "LightCurvePlot": {
     "description": "Auto imported from components/plots/LightCurvePlot.vue"

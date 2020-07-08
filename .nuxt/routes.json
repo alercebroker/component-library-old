@@ -1,12 +1,5 @@
 [
   {
-    "name": "inspire",
-    "path": "/inspire",
-    "component": "/home/javier/Desktop/ALeRCE/component-library/pages/inspire.vue",
-    "chunkName": "pages/inspire",
-    "_name": "_5733df02"
-  },
-  {
     "name": "index",
     "path": "/",
     "component": "/home/javier/Desktop/ALeRCE/component-library/pages/index.vue",
