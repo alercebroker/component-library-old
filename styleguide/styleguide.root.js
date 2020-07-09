@@ -4,7 +4,15 @@ export default (previewComponent) => {
   return {
     vuetify,
     render (createElement) {
-      return createElement('v-app', [createElement(previewComponent)])
+      return createElement(
+        'v-app',
+        {
+          props: {
+            class: 'v-application'
+          }
+        },
+        [createElement(Object.assign(previewComponent))]
+      )
     }
   }
 }
