@@ -1,7 +1,4 @@
+.nuxt
 *.log
 node_modules/
-public/
-dist/
-package-lock.json
-build/
-styleguide/
+dist
