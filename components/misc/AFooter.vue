@@ -1,5 +1,5 @@
 <template>
-  <v-footer app padless>
+  <v-footer padless>
     <v-card flat tile width="100%" class="white--text text-center">
       <v-card-text v-if="social">
         <v-btn
@@ -25,10 +25,9 @@
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
-@Component({})
-export default class Footer extends Vue {
-  @Prop({ type: Boolean, default: false })
-  social;
+@Component
+export default class AFooter extends Vue {
+  @Prop({ type: Boolean, default: false }) social
 
   links = [
     {
