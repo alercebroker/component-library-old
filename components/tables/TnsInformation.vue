@@ -12,11 +12,8 @@
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
-import FooterTns from '~/components/misc/FooterTns.vue'
-@Component({
-  components: FooterTns
-})
-export default class Header extends Vue {
+@Component
+export default class TnsInformation extends Vue {
   @Prop({ type: String, default: '-' })
   type
 

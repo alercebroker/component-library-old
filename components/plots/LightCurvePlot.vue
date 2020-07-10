@@ -6,24 +6,14 @@
 
 <script>
 import { Vue, Component, Prop, Watch, Emit } from 'nuxt-property-decorator'
-import Echarts from 'vue-echarts'
+// import Echarts from 'vue-echarts'
 import { jdToDate } from '../utils/AstroDates.js'
 import { DifferenceLightCurveOptions } from './plot-types/difference'
 import { ApparentLightCurveOptions } from './plot-types/apparent'
 import { FoldedLightCurveOptions } from './plot-types/folded'
 import { LightCurveOptions } from './plot-types/utils/light-curve-utils'
-import 'echarts/lib/chart/scatter'
-import 'echarts/lib/component/toolbox'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/dataZoom'
-import 'echarts/lib/chart/custom'
 
-@Component({
-  components: {
-    'v-chart': Echarts
-  }
-})
+@Component
 export default class LightCurvePlot extends Vue {
   @Prop({ type: Array, default: () => [] }) detections;
   @Prop({ type: Array, default: () => [] }) nonDetections;

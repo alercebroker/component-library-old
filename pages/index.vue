@@ -4,7 +4,7 @@
     justify-center
     align-center
   >
-    <alerce-header title="ALeRCE Components" :items="[{title: 'ZTF Explorer', to: 'https://alerce.online/'}, {title: 'SN Hunter', to: 'https://snhunter.alerce.online/'}]" />
+    <a-header title="ALeRCE Components" :items="[{title: 'ZTF Explorer', to: 'https://alerce.online/'}, {title: 'SN Hunter', to: 'https://snhunter.alerce.online/'}]" />
     <v-flex
       xs12
       sm8
@@ -20,7 +20,7 @@
 
       <v-card>
         <default-search v-model="aiuda" :classifiers="classifiers" />
-        <coordinates-search v-model="aiuda"/>
+        <coordinates-search v-model="aiuda" />
         <date-search v-model="aiuda" />
       </v-card>
 
@@ -28,28 +28,13 @@
         BBB: {{ aiuda }}
       </v-card>
     </v-flex>
-    <alerce-footer social />
+    <a-footer social />
   </v-layout>
 </template>
 
 <script>
-import Header from '~/components/misc/Header.vue'
-import Footer from '~/components/misc/Footer.vue'
-import RadarPlot from '~/components/plots/RadarPlot.vue'
-import TnsInformation from '~/components/tables/TnsInformation.vue'
-import DefaultSearch from '~/components/inputs/DefaultSearch.vue'
-import CoordinatesSearch from '~/components/inputs/CoordinatesSearch.vue'
-import DateSearch from '~/components/inputs/DateSearch.vue'
+
 export default {
-  components: {
-    'alerce-header': Header,
-    'alerce-footer': Footer,
-    RadarPlot,
-    TnsInformation,
-    DefaultSearch,
-    CoordinatesSearch,
-    DateSearch
-  },
   /* eslint-disable */
   data() {
     return {

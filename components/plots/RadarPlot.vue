@@ -6,7 +6,7 @@
 
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
-@Component({})
+@Component
 export default class RadarPlot extends Vue {
   @Prop({ type: Object, default: {} })
   probabilities

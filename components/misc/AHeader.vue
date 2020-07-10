@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dense>
+  <v-app-bar dense>
     <a :to="{'path':'/'}">
       <v-img :src="_logo" max-width="40px" class="mr-4" />
     </a>
@@ -24,14 +24,14 @@
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 @Component({})
-export default class Header extends Vue {
+export default class AHeader extends Vue {
   @Prop({ type: String, default: 'ALeRCE Title' })
   title
 
   @Prop({ type: String, default: 'white' })
   logo
 
-  @Prop({ type: Array, default: [] })
+  @Prop({ type: Array, default: () => [] })
   items
 
   logoWhite = 'https://alerce-static.s3.amazonaws.com/logos/footerAlerceWhite.png'

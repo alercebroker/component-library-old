@@ -1,16 +1,16 @@
-import vuetify from '../plugins/vuetify'
+import Vuetify from 'vuetify/lib'
 export default (previewComponent) => {
   // https://vuejs.org/v2/guide/render-function.html
   return {
-    vuetify,
+    vuetify: new Vuetify(),
     render (createElement) {
       return createElement(
         'v-app',
-        {
-          props: {
-            class: 'v-application'
-          }
-        },
+        // {
+        //   props: {
+        //     class: 'v-application'
+        //   }
+        // },
         [createElement(Object.assign(previewComponent))]
       )
     }
