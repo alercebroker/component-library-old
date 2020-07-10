@@ -5,6 +5,24 @@
   "LazyCatalogsButtons": {
     "description": "Auto imported from components/buttons/CatalogsButtons.vue"
   },
+  "CoordinatesSearch": {
+    "description": "Auto imported from components/inputs/CoordinatesSearch.vue"
+  },
+  "LazyCoordinatesSearch": {
+    "description": "Auto imported from components/inputs/CoordinatesSearch.vue"
+  },
+  "DateSearch": {
+    "description": "Auto imported from components/inputs/DateSearch.vue"
+  },
+  "LazyDateSearch": {
+    "description": "Auto imported from components/inputs/DateSearch.vue"
+  },
+  "DefaultSearch": {
+    "description": "Auto imported from components/inputs/DefaultSearch.vue"
+  },
+  "LazyDefaultSearch": {
+    "description": "Auto imported from components/inputs/DefaultSearch.vue"
+  },
   "Aladin": {
     "description": "Auto imported from components/misc/Aladin.vue"
   },

@@ -13,7 +13,9 @@
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import FooterTns from '~/components/misc/FooterTns.vue'
-@Component({ components: FooterTns })
+@Component({
+  components: FooterTns
+})
 export default class Header extends Vue {
   @Prop({ type: String, default: '-' })
   type
