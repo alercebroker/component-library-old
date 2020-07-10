@@ -7,35 +7,39 @@
       dense
       hide-default-footer
     />
-    <alerce-a-footer-tns :tns_id="name" />
+    <footer-tns :tns_id="name" />
   </v-flex>
 </template>
 <script>
-export default {
-  props: {
-    type: String,
-    name: String,
-    redshift: Number
-  },
-  data () {
-    return {
-      headers: [
-        { text: 'Type', value: 'type', sortable: false, align: 'center' },
-        { text: 'Name', value: 'name', sortable: false, align: 'center' },
-        { text: 'Redshift', value: 'redshift', sortable: false, align: 'center' }
-      ]
-    }
-  },
-  computed: {
-    values () {
-      return [
-        {
-          type: this.type ? this.type : '-',
-          name: this.name ? this.name : '-',
-          redshift: this.redshift ? this.redshift : '-'
-        }
-      ]
-    }
+import { Vue, Component, Prop } from 'nuxt-property-decorator'
+import FooterTns from '~/components/misc/FooterTns.vue'
+@Component({
+  components: FooterTns
+})
+export default class Header extends Vue {
+  @Prop({ type: String, default: '-' })
+  type
+
+  @Prop({ type: String, default: '-' })
+  name
+
+  @Prop({ type: Number, default: 0 })
+  redshift
+
+  headers = [
+    { text: 'Type', value: 'type', sortable: false, align: 'center' },
+    { text: 'Name', value: 'name', sortable: false, align: 'center' },
+    { text: 'Redshift', value: 'redshift', sortable: false, align: 'center' }
+  ]
+
+  get values () {
+    return [
+      {
+        type: this.type,
+        name: this.name,
+        redshift: this.redshift
+      }
+    ]
   }
 }
 </script>

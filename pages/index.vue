@@ -4,6 +4,7 @@
     justify-center
     align-center
   >
+    <alerce-header title="ALeRCE Components" :items="[{title: 'ZTF Explorer', to: 'https://alerce.online/'}, {title: 'SN Hunter', to: 'https://snhunter.alerce.online/'}]" />
     <v-flex
       xs12
       sm8
@@ -12,23 +13,60 @@
       <v-card light>
         <radar-plot :probabilities="example.probabilities" :title="example.classifier_name" />
       </v-card>
+
+      <v-card>
+        <tns-information name="2018hzd" type="SN Ia" :redshift="0.05" />
+      </v-card>
+
+      <v-card>
+        <default-search v-model="aiuda" :classifiers="classifiers" />
+        <coordinates-search v-model="aiuda"/>
+        <date-search v-model="aiuda" />
+      </v-card>
+
+      <v-card>
+        BBB: {{ aiuda }}
+      </v-card>
     </v-flex>
-    <Footer social />
+    <alerce-footer social />
   </v-layout>
 </template>
 
 <script>
+import Header from '~/components/misc/Header.vue'
 import Footer from '~/components/misc/Footer.vue'
 import RadarPlot from '~/components/plots/RadarPlot.vue'
-
+import TnsInformation from '~/components/tables/TnsInformation.vue'
+import DefaultSearch from '~/components/inputs/DefaultSearch.vue'
+import CoordinatesSearch from '~/components/inputs/CoordinatesSearch.vue'
+import DateSearch from '~/components/inputs/DateSearch.vue'
 export default {
   components: {
-    Footer,
-    RadarPlot
+    'alerce-header': Header,
+    'alerce-footer': Footer,
+    RadarPlot,
+    TnsInformation,
+    DefaultSearch,
+    CoordinatesSearch,
+    DateSearch
   },
   /* eslint-disable */
   data() {
     return {
+      aiuda: {
+        ndet: [null, null],
+        oid: null
+      },
+      classifiers: [
+        {
+          name: "Late Classifier",
+          values: ["AGN", "SNe", "Asteroide", "Pluto", "Example"]
+        },
+        {
+          name: "Early Classifier",
+          values: ["A", "B", "C", "D", "E"]
+        }
+      ],
       example: {
         'classifier_name': 'Late',
         'class_name': 'EBSD/D',
