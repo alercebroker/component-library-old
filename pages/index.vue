@@ -11,7 +11,9 @@
       md6
     >
       <v-card light>
-        <radar-plot :probabilities="example.probabilities" :title="example.classifier_name" />
+        <h1>Hi dklasjdklas </h1>
+        <h2>jahjdklsadjkl</h2>
+        <basic-information :information="example_object"/>
       </v-card>
 
       <v-card>
@@ -28,14 +30,12 @@
         BBB: {{ aiuda }}
       </v-card>
     </v-flex>
-    <alerce-footer social />
   </v-layout>
 </template>
 
 <script>
 import Header from '~/components/misc/Header.vue'
-import Footer from '~/components/misc/Footer.vue'
-import RadarPlot from '~/components/plots/RadarPlot.vue'
+import BasicInformation from '~/components/tables/BasicInformation.vue'
 import TnsInformation from '~/components/tables/TnsInformation.vue'
 import DefaultSearch from '~/components/inputs/DefaultSearch.vue'
 import CoordinatesSearch from '~/components/inputs/CoordinatesSearch.vue'
@@ -43,12 +43,11 @@ import DateSearch from '~/components/inputs/DateSearch.vue'
 export default {
   components: {
     'alerce-header': Header,
-    'alerce-footer': Footer,
-    RadarPlot,
     TnsInformation,
     DefaultSearch,
     CoordinatesSearch,
-    DateSearch
+    DateSearch,
+    BasicInformation
   },
   /* eslint-disable */
   data() {
@@ -89,6 +88,23 @@ export default {
           'SNIa': 0.00196,
           'SNIbc': 0.00252
         }
+      },
+      example_object: {
+        "oid": "ZTF17aaaajjv",
+        "ndethist": "1045",
+        "ncovhist": 1768,
+        "jdstarthist": null,
+        "jdendhist": null,
+        "corrected": true,
+        "stellar": true,
+        "ndet": 397,
+        "firstmjd": 58279.4494906999,
+        "lastmjd": 59010.4779977002,
+        "deltamjd": 731.028507000301,
+        "meanra": 321.297601901511,
+        "meandec": 47.3457661989925,
+        "sigmara": 0.0000983016954640438,
+        "sigmadec": 0.0000546554774116514
       }
     }
   }
