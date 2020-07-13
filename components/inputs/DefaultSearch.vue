@@ -22,6 +22,7 @@
         <v-select
           v-model="forms.class"
           :items="_class"
+          :disabled="!forms.classifier"
           label="Class"
         />
       </v-flex>
@@ -85,7 +86,7 @@ export default class DefaultSearch extends Vue {
   }
 
   get _class () {
-    return this.forms.classifiers ? this.classifiers.filter(x => x.name === this.forms.classifier)[0].values : null
+    return this.forms.classifier ? this.classifiers.filter(x => x.name === this.forms.classifier)[0].values : null
   }
 
   get ndet () {
