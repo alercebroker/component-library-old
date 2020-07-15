@@ -1,83 +1,56 @@
 <template>
-  <v-container>
-    <v-layout wrap align-center>
-      <!--Object ID-->
-      <v-flex xs12 sm12 md12>
-        <v-text-field
-          v-model="forms.oid"
-          label="Object ID"
-        />
-      </v-flex>
-      <!--Classifier-->
-      <v-flex xs12 sm12 md6>
-        <v-select
-          v-model="forms.classifier"
-          :items="_classifiers"
-          label="Classifier"
-          hide-no-data
-        />
-      </v-flex>
-      <!--Class-->
-      <v-flex xs12 sm12 md6>
-        <v-select
-          v-model="forms.class"
-          :items="_class"
-          label="Class"
-        />
-      </v-flex>
-      <!--Probabilities-->
-      <v-flex xs12 sm12 md12>
-        <v-slider
-          v-model="forms.probability_class"
-          :label="probLabel"
-          :max="1"
-          :step="0.01"
-        />
-      </v-flex>
-      <!--Detections-->
-      <v-flex xs12>
-        Number of detections range
-      </v-flex>
-      <v-flex xs3 sm3 md3>
-        <v-text-field
-          v-model="forms.ndet[0]"
-          type="number"
-          label="min"
-        />
-      </v-flex>
-      <v-flex xs6 sm6 md6 pl-3 pr-3>
-        <v-range-slider
-          v-model="ndet"
-          :max="maxNobs"
-          :min="minNobs"
-          :step="1"
-        />
-      </v-flex>
-      <v-flex xs3 sm3 md3>
-        <v-text-field
-          v-model="forms.ndet[1]"
-          type="number"
-          label="max"
-        />
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <v-layout wrap align-center>
+    <!--Object ID-->
+    <v-flex xs12 sm12 md12>
+      <v-text-field v-model="localValue.oid" label="Object ID" />
+    </v-flex>
+    <!--Classifier-->
+    <v-flex xs12 sm12 md6>
+      <v-select
+        v-model="localValue.selectedClassifier"
+        :items="_classifiers"
+        label="Classifier"
+        hide-no-data
+      />
+    </v-flex>
+    <!--Class-->
+    <v-flex xs12 sm12 md6>
+      <v-select
+        v-model="localValue.selectedClass"
+        :items="_class"
+        label="Class"
+      />
+    </v-flex>
+    <!--Probabilities-->
+    <v-flex xs12 sm12 md12>
+      <v-slider
+        v-model="localValue.probability"
+        :label="probLabel"
+        :max="1"
+        :step="0.01"
+      />
+    </v-flex>
+    <!--Detections-->
+    <v-flex xs12>
+      Number of detections range
+    </v-flex>
+    <alerce-slider-range v-model="localValue.ndet" />
+  </v-layout>
 </template>
 <script>
-import { Vue, Component, Model, Prop } from 'nuxt-property-decorator'
-@Component({ })
+import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
+@Component({})
 export default class DefaultSearch extends Vue {
-  @Model({ type: Object, default: { } })
-  forms
+  @Prop({ type: Object, required: true }) value
 
-  @Prop({ type: Array, default: [] })
-  classifiers
+  @Prop({ type: Array, default: () => [] }) classifiers
 
-  minNobs = 0
-  maxNobs = 1000
+  localValue = {}
 
   get probLabel () {
-    return this.forms.probability_class ? 'Probability ≥' + this.forms.probability_class : 'Probability ≥ 0.00'
+    return this.value.probability
+      ? 'Probability ≥' + this.value.probability
+      : 'Probability ≥ 0.00'
   }
 
   get _classifiers () {
@@ -85,18 +58,20 @@ export default class DefaultSearch extends Vue {
   }
 
   get _class () {
-    return this.forms.classifiers ? this.classifiers.filter(x => x.name === this.forms.classifier)[0].values : null
+    return this.value.classifiers
+      ? this.classifiers.filter(x => x.name === this.value.classifier)[0]
+        .values
+      : []
   }
 
-  get ndet () {
-    if (this.forms.ndet[0] == null || this.forms.ndet[1] == null) {
-      return [0, 1000]
-    }
-    return this.forms.ndet
+  @Watch('value', { immediate: true, deep: true })
+  onValueChange (newVal, oldVal) {
+    this.localValue = { ...this.localValue, ...newVal }
   }
 
-  set ndet (val) {
-    this.forms.ndet = val
+  @Watch('localValue', { immediate: true, deep: true })
+  onLocalValueChange (newVal, oldVal) {
+    this.$emit('input', newVal)
   }
 }
 </script>
