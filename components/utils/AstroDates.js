@@ -41,4 +41,25 @@ function jdToDate (mjd) {
   return new Date(date)
 }
 
-export { gregorianToJd, jdToGregorian, jdToDate }
+/* Based in: http://www.bdnyc.org/2012/10/decimal-deg-to-hms/ */
+function raDectoHMS (ra, dec) {
+  if (dec) {
+    const sign = dec < 0 ? '-' : '+'
+    dec = Math.abs(dec)
+    const deg = Math.floor(dec)
+    const decM = Math.abs(Math.floor((dec - deg) * 60))
+    const decS = ((Math.abs((dec - deg) * 60) - decM) * 60).toFixed(2)
+    dec = `${sign}${deg}:${decM}:${decS}`
+  }
+  if (ra) {
+    const sign = ra < 0 ? '-' : '\xA0'
+    ra = Math.abs(ra)
+    const raH = Math.floor(ra / 15)
+    const raM = Math.floor(((ra / 15) - raH) * 60)
+    const raS = (((((ra / 15) - raH) * 60) - raM) * 60).toFixed(3)
+    ra = `${sign}${raH}:${raM}:${raS}`
+  }
+  return `${ra} ${dec}`
+}
+
+export { gregorianToJd, jdToGregorian, jdToDate, raDectoHMS }
