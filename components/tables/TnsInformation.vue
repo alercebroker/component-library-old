@@ -12,8 +12,8 @@
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
-@Component({})
-export default class Header extends Vue {
+@Component
+export default class TnsInformation extends Vue {
   @Prop({ type: String, default: '-' })
   type
 

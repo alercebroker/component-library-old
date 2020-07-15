@@ -9,7 +9,7 @@
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 @Component({ })
-export default class Header extends Vue {
+export default class FooterTns extends Vue {
   @Prop({ type: String, default: null })
   tnsId
 

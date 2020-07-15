@@ -21,8 +21,7 @@
     "julian": "^0.2.0",
     "nuxt": "^2.13.0",
     "nuxt-property-decorator": "^2.7.2",
-    "vue-echarts": "^5.0.0-beta.0",
-    "vuetify": "^2.3.4"
+    "vue-echarts": "^5.0.0-beta.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

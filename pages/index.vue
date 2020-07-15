@@ -4,32 +4,38 @@
     justify-center
     align-center
   >
-    <alerce-header title="ALeRCE Components" :items="[{title: 'ZTF Explorer', to: 'https://alerce.online/'}, {title: 'SN Hunter', to: 'https://snhunter.alerce.online/'}]" />
-    <v-container>
-      <v-card>
-        <result-table :page.sync="page" :perPage="perPage" :result="result" :loading="loading" :selected.sync="selected"/>
+    <a-header title="ALeRCE Components" :items="[{title: 'ZTF Explorer', to: 'https://alerce.online/'}, {title: 'SN Hunter', to: 'https://snhunter.alerce.online/'}]" />
+    <v-flex
+      xs12
+      sm8
+      md6
+    >
+      <v-card light>
+        <radar-plot :probabilities="example.probabilities" :title="example.classifier_name" />
       </v-card>
-    </v-container>
+
+      <v-card>
+        <tns-information name="2018hzd" type="SN Ia" :redshift="0.05" />
+      </v-card>
+
+      <v-card>
+        <default-search v-model="aiuda" :classifiers="classifiers" />
+        <coordinates-search v-model="aiuda" />
+        <date-search v-model="aiuda" />
+      </v-card>
+
+      <v-card>
+        BBB: {{ aiuda }}
+      </v-card>
+    </v-flex>
+    <a-footer social />
   </v-layout>
 </template>
 
 <script>
-/* eslint-disable */
-import Header from '~/components/misc/Header.vue'
-import TnsInformation from '~/components/tables/TnsInformation.vue'
-import DefaultSearch from '~/components/inputs/DefaultSearch.vue'
-import CoordinatesSearch from '~/components/inputs/CoordinatesSearch.vue'
-import DateSearch from '~/components/inputs/DateSearch.vue'
-import ResultTable from '~/components/tables/ResultTable.vue'
+
 export default {
-  components: {
-    'alerce-header': Header,
-    TnsInformation,
-    DefaultSearch,
-    CoordinatesSearch,
-    DateSearch,
-    ResultTable
-  },
+  /* eslint-disable */
   data() {
     return {
       result: {},

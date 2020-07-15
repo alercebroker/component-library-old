@@ -1,119 +1,110 @@
 <template>
-  <v-container>
-    <v-layout wrap align-center>
-      <!-- input for min modified julian dates-->
-      <v-flex xs6 pr-3>
-        <v-text-field
-          v-model="forms.min_mjd"
-          label="Min MJD"
-          min="0"
-          type="number"
-          step="0.01"
-        />
-      </v-flex>
-      <!-- calendar for min modified julian dates-->
-      <v-flex xs6 pl-3>
-        <v-menu
-          v-model="menuMin"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          offset-y
-          min-width="290px"
-        >
-          <template v-slot:activator="{ on }">
-            <v-text-field
-              v-model="displayedMinFirstGreg"
-              label="Min first greg date"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-on="on"
-            />
-          </template>
-          <v-card>
-            <v-date-picker
-              v-model="minFirstGreg"
-              scrollable
-              first-day-of-week="1"
-              :allowed-dates="minDates"
-            />
-            <v-time-picker
-              v-model="minFirstTime"
-              format="24hr"
-            />
-            <v-card-actions>
-              <v-spacer />
-              <v-btn text color="error" @click="clearMin">
-                Clear
-              </v-btn>
-              <v-btn text color="primary" @click="saveMin">
-                Save
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
-      </v-flex>
+  <v-layout wrap align-center>
+    <!-- input for min modified julian dates-->
+    <v-flex xs6 pr-3>
+      <v-text-field
+        v-model="localValue.minMjd"
+        label="Min MJD"
+        min="0"
+        type="number"
+        step="0.01"
+      />
+    </v-flex>
+    <!-- calendar for min modified julian dates-->
+    <v-flex xs6 pl-3>
+      <v-menu
+        v-model="menuMin"
+        :close-on-content-click="false"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="displayedMinFirstGreg"
+            label="Min first greg date"
+            prepend-icon="mdi-calendar"
+            readonly
+            v-on="on"
+          />
+        </template>
+        <v-card>
+          <v-date-picker
+            v-model="minFirstGreg"
+            scrollable
+            first-day-of-week="1"
+            :allowed-dates="minDates"
+          />
+          <v-time-picker v-model="minFirstTime" format="24hr" />
+          <v-card-actions>
+            <v-spacer />
+            <v-btn text color="error" @click="clearMin">
+              Clear
+            </v-btn>
+            <v-btn text color="primary" @click="saveMin">
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-menu>
+    </v-flex>
 
-      <v-flex xs6 pr-3>
-        <v-text-field
-          v-model="forms.max_mjd"
-          label="Max MJD"
-          min="0"
-          type="number"
-          step="0.01"
-        />
-      </v-flex>
+    <v-flex xs6 pr-3>
+      <v-text-field
+        v-model="localValue.maxMjd"
+        label="Max MJD"
+        min="0"
+        type="number"
+        step="0.01"
+      />
+    </v-flex>
 
-      <v-flex xs6 pl-3>
-        <v-menu
-          v-model="menuMax"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          offset-y
-          min-width="290px"
-        >
-          <template v-slot:activator="{ on }">
-            <v-text-field
-              v-model="displayedMaxFirstGreg"
-              label="Max first greg date"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-on="on"
-            />
-          </template>
-          <v-card>
-            <v-date-picker
-              v-model="maxFirstGreg"
-              scrollable
-              actions
-              first-day-of-week="1"
-              :allowed-dates="maxDates"
-            />
-            <v-time-picker
-              v-model="maxFirstTime"
-              format="24hr"
-            />
-            <v-card-actions>
-              <v-spacer />
-              <v-btn text color="primary" @click="clearMax">
-                Clear
-              </v-btn>
-              <v-btn text color="primary" @click="saveMax">
-                Save
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
-      </v-flex>
-    </v-layout>
-  </v-container>
+    <v-flex xs6 pl-3>
+      <v-menu
+        v-model="menuMax"
+        :close-on-content-click="false"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="displayedMaxFirstGreg"
+            label="Max first greg date"
+            prepend-icon="mdi-calendar"
+            readonly
+            v-on="on"
+          />
+        </template>
+        <v-card>
+          <v-date-picker
+            v-model="maxFirstGreg"
+            scrollable
+            actions
+            first-day-of-week="1"
+            :allowed-dates="maxDates"
+          />
+          <v-time-picker v-model="maxFirstTime" format="24hr" />
+          <v-card-actions>
+            <v-spacer />
+            <v-btn text color="primary" @click="clearMax">
+              Clear
+            </v-btn>
+            <v-btn text color="primary" @click="saveMax">
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-menu>
+    </v-flex>
+  </v-layout>
 </template>
 <script>
-import { Vue, Component, Model, Watch } from 'nuxt-property-decorator'
-import { jdToDate, gregorianToJd } from '../utils/AstroDates.js'
+import { Vue, Component, Watch, Prop } from 'nuxt-property-decorator'
+import { jdToDate, gregorianToJd } from '../utils/AstroDates'
 @Component({})
 export default class DateSearch extends Vue {
-  @Model({ type: Object, default: {} })
-  forms
+  @Prop({ type: Object, required: true }) value
 
   menuMin = false
   menuMax = false
@@ -125,6 +116,19 @@ export default class DateSearch extends Vue {
 
   displayedMinFirstGreg = null
   displayedMaxFirstGreg = null
+
+  localValue = {
+    minMjd: null,
+    maxMjd: null
+  }
+
+  get maxMjd () {
+    return this.value.maxMjd
+  }
+
+  set maxMjd (val) {
+    this.$emit('input', { ...this.value, maxMjd: val })
+  }
 
   minDates (val) {
     if (this.maxFirstGreg != null) {
@@ -155,7 +159,7 @@ export default class DateSearch extends Vue {
   saveMin () {
     const stringDateTime = `${this.minFirstGreg} ${this.minFirstTime}`
     const dateTime = new Date(stringDateTime)
-    this.forms.min_mjd = gregorianToJd(dateTime)
+    this.minMjd = gregorianToJd(dateTime)
     this.displayedMinFirstGreg = stringDateTime
     this.menuMin = false
   }
@@ -163,25 +167,25 @@ export default class DateSearch extends Vue {
   saveMax () {
     const stringDateTime = `${this.maxFirstGreg} ${this.maxFirstTime}`
     const dateTime = new Date(stringDateTime)
-    this.forms.max_mjd = gregorianToJd(dateTime)
+    this.maxMjd = gregorianToJd(dateTime)
     this.displayedMaxFirstGreg = stringDateTime
     this.menuMax = false
   }
 
-  @Watch('forms.min_mjd')
-  onChangeMinFirstMjd (val, oldVal) {
-    if (val != null) {
-      this.displayedMinFirstGreg = jdToDate(val).toString().split(' GMT')[0]
-      this.forms.min_mjd = val
+  @Watch('value', { immediate: true, deep: true })
+  onValueChange (val) {
+    if (val.minMjd != null) {
+      this.displayedMinFirstGreg = jdToDate(val.minMjd).toString().split(' GMT')[0]
     }
+    if (val.maxMjd != null) {
+      this.displayedMaxFirstGreg = jdToDate(val.maxMjd).toString().split(' GMT')[0]
+    }
+    this.localValue = { ...this.localValue, ...val }
   }
 
-  @Watch('forms.max_mjd')
-  onChangeMaxFirstMjd (val, oldVal) {
-    if (val != null) {
-      this.displayedMaxFirstGreg = jdToDate(val).toString().split(' GMT')[0]
-      this.forms.max_mjd = val
-    }
+  @Watch('localValue', { immediate: true, deep: true })
+  onLocalValueChange (val) {
+    this.$emit('input', val)
   }
 
   get minFirstGreg () {
