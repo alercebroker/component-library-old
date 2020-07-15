@@ -1,11 +1,11 @@
 <template>
   <v-footer padless>
-    <v-card flat tile width="100%" class="white--text text-center">
+    <v-card tile width="100%" class="text-center">
       <v-card-text v-if="social">
         <v-btn
           v-for="link in links"
           :key="link.icon"
-          class="mx-4 white--text"
+          class="mx-4"
           icon
           :href="link.to"
           target="_blank"
@@ -16,7 +16,7 @@
         </v-btn>
       </v-card-text>
       <v-divider v-if="social" />
-      <v-card-text class="white--text">
+      <v-card-text>
         {{ new Date().getFullYear() }} —
         <strong>ALeRCE</strong>
       </v-card-text>
