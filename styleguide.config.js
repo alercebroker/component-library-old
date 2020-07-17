@@ -92,6 +92,18 @@ module.exports = {
           components: './components/buttons/*.vue'
         },
         {
+          name: 'Cards',
+          components: './components/cards/*.vue'
+        },
+        {
+          name: 'Inputs',
+          components: './components/inputs/*.vue'
+        },
+        {
+          name: 'Images',
+          components: './components/images/*.vue'
+        },
+        {
           name: 'Miscelaneous',
           components: './components/misc/*.vue'
         },
@@ -99,6 +111,7 @@ module.exports = {
           name: 'Tables',
           components: './components/tables/*.vue'
         },
+
         {
           name: 'Plots',
           components: './components/plots/*.vue'

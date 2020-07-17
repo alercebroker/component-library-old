@@ -12,8 +12,8 @@
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
-@Component({})
-export default class Header extends Vue {
+@Component
+export default class TnsInformation extends Vue {
   @Prop({ type: String, default: '-' })
   type
 
@@ -40,3 +40,12 @@ export default class Header extends Vue {
   }
 }
 </script>
+<docs>
+```vue
+<template>
+  <v-card>
+    <tns-information name="2018hzd" :redshift="0.054" type="SN Ia"/>
+  </v-card>
+</template>
+```
+</docs>

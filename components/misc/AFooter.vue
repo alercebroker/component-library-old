@@ -1,11 +1,11 @@
 <template>
-  <v-footer app padless>
-    <v-card flat tile width="100%" class="white--text text-center">
+  <v-footer padless>
+    <v-card tile width="100%" class="text-center">
       <v-card-text v-if="social">
         <v-btn
           v-for="link in links"
           :key="link.icon"
-          class="mx-4 white--text"
+          class="mx-4"
           icon
           :href="link.to"
           target="_blank"
@@ -16,7 +16,7 @@
         </v-btn>
       </v-card-text>
       <v-divider v-if="social" />
-      <v-card-text class="white--text">
+      <v-card-text>
         {{ new Date().getFullYear() }} —
         <strong>ALeRCE</strong>
       </v-card-text>
@@ -25,10 +25,9 @@
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
-@Component({})
-export default class Footer extends Vue {
-  @Prop({ type: Boolean, default: false })
-  social;
+@Component
+export default class AFooter extends Vue {
+  @Prop({ type: Boolean, default: false }) social
 
   links = [
     {
@@ -50,3 +49,37 @@ export default class Footer extends Vue {
   ]
 }
 </script>
+<docs>
+```vue
+<template>
+  <div>
+
+    <v-container>
+      <v-row color="primary">
+        <v-col cols="12" sm="6" md="3">
+          <v-switch
+            v-model="social"
+            label="Social"
+          />
+        </v-col>
+
+      </v-row>
+    </v-container>
+
+    <v-container>
+      <a-footer :social="social"/>
+    </v-container>
+
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      social: false,
+    }
+  }
+}
+</script>
+```
+</docs>

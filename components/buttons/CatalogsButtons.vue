@@ -19,8 +19,8 @@
 <script>
 export default {
     props: {
-        ra: Number,
-        dec: Number
+        ra: Number | String,
+        dec: Number | String
     },
     components: {
     },
@@ -72,3 +72,40 @@ export default {
     }
 }
 </script>
+<docs>
+```vue
+<template>
+  <v-container>
+    <v-row>
+      <v-col cols="12" sm="6" md="3">
+        <v-text-field
+          v-model="ra"
+          label="RA"
+        />
+      </v-col>
+
+      <v-col cols="12" sm="6" md="3">
+        <v-text-field
+          v-model="dec"
+          label="DEC"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <catalogs-buttons :ra="ra" :dec="dec" />
+    </v-row>
+  </v-container>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      ra: 0,
+      dec: 0
+    }
+  }
+}
+</script>
+
+```
+</docs>
