@@ -170,3 +170,37 @@ export default class BasicInformation extends Vue {
   }
 }
 </script>
+<docs>
+```vue
+<template>
+  <v-container>
+    <basic-information :information="example"/>
+  </v-container>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      example: {
+        "oid": "ZTF17aaaajjv",
+        "ndethist": "1045",
+        "ncovhist": 1768,
+        "jdstarthist": null,
+        "jdendhist": null,
+        "corrected": true,
+        "stellar": true,
+        "ndet": 397,
+        "firstmjd": 58279.4494906999,
+        "lastmjd": 59010.4779977002,
+        "deltamjd": 731.028507000301,
+        "meanra": 321.297601901511,
+        "meandec": 47.3457661989925,
+        "sigmara": 0.0000983016954640438,
+        "sigmadec": 0.0000546554774116514
+      }
+    }
+  }
+}
+</script>
+```
+</docs>

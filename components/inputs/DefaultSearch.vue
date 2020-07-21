@@ -74,3 +74,34 @@ export default class DefaultSearch extends Vue {
   }
 }
 </script>
+<docs>
+```vue
+<template>
+  <div>
+    <v-container>
+      <v-row>
+        {{ search }}
+      </v-row>
+    </v-container>
+    <v-container>
+      <default-search :value="search"/>
+    </v-container>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      search: {
+        oid: null,
+        class: null,
+        classifier: null,
+        probability: 0,
+        ndet: [0, 1000],
+      }
+    }
+  }
+}
+</script>
+```
+</docs>

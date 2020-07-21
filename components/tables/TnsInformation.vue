@@ -40,3 +40,12 @@ export default class TnsInformation extends Vue {
   }
 }
 </script>
+<docs>
+```vue
+<template>
+  <v-card>
+    <tns-information name="2018hzd" :redshift="0.054" type="SN Ia"/>
+  </v-card>
+</template>
+```
+</docs>
