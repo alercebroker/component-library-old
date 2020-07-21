@@ -19,7 +19,7 @@
         {{ item.title }}
       </v-btn>
     </v-toolbar-items>
-    <bar-options :title="title" />
+    <alerce-bar-options :title="title" />
   </v-app-bar>
 </template>
 <script>
@@ -44,55 +44,10 @@ export default class AHeader extends Vue {
   }
 }
 </script>
-<docs>
-```vue
-<template>
-  <div>
 
-    <v-container>
-      <v-row color="primary">
-        <v-col cols="12" sm="6" md="3">
-          <v-text-field
-            v-model="title"
-            label="Title"
-          />
-        </v-col>
-        <v-col cols="12" sm="6" md="3">
-          <v-btn @click="items.push({title: 'Example', to: '/'})">
-            Add item
-          </v-btn>
-        </v-col>
-        <v-col cols="12" sm="6" md="3">
-          <v-btn @click="items = []; title = 'my title'">
-            Clear
-          </v-btn>
-        </v-col>
-      </v-row>
-      <v-row>
-        {{ items }}
-      </v-row>
-    </v-container>
+<style scoped>
 
-    <v-container>
-      <a-header :title="title" :items="items"/>
-    </v-container>
-
-  </div>
-</template>
-<script>
-export default {
-  data() {
-    return {
-      title: 'my title',
-      items: [
-        {
-          title: 'Example',
-          to: '/'
-        }
-      ]
-    }
-  }
+.v-toolbar {
+  flex: 0 0 auto;
 }
-</script>
-```
-</docs>
+</style>

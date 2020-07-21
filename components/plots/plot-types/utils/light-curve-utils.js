@@ -118,10 +118,6 @@ export class LightCurveOptions {
       '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' +
       color +
       '"></span>'
-    const colorSpanError = color =>
-      ' <span style="display:inline-block;margin-right:5px;;margin-left:2px;border-radius:10px;width:6px;height:6px;background-color:' +
-      color +
-      '"></span>'
     const rowTable = (col1, col2, col3) =>
       '<tr> <td>' +
       col1 +
@@ -136,7 +132,7 @@ export class LightCurveOptions {
       ";'>alarm</i>"
     const serie = params[0].seriesName
     let table = '<table> <tr> <th></th> <th></th> <th></th></tr>'
-    if (serie == 'r non-detections' || serie == 'g non-detections') {
+    if (serie === 'r non-detections' || serie === 'g non-detections') {
       table += rowTable(
         colorSpan(params[0].color),
         params[0].seriesName + ':',
@@ -155,7 +151,7 @@ export class LightCurveOptions {
           .slice(0, -3) + 'UT'
       )
       return table + '</table>'
-    } else if (serie == 'r' || serie == 'g') {
+    } else if (serie === 'r' || serie === 'g') {
       const mag = params[0].value[1].toFixed(3)
       const err = params[0].value[3].toFixed(3)
       table += rowTable('', 'candid: ', params[0].value[2])

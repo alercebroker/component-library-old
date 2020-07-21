@@ -17,7 +17,7 @@
     <v-flex xs12 sm12 md6>
       <v-select
         v-model="localValue.selectedClass"
-        :items="_class"
+        :items="classItems"
         label="Class"
       />
     </v-flex>
@@ -34,7 +34,7 @@
     <v-flex xs12>
       Number of detections range
     </v-flex>
-    <slider-range v-model="localValue.ndet" />
+    <alerce-slider-range v-model="localValue.ndet" />
   </v-layout>
 </template>
 <script>
@@ -44,6 +44,8 @@ export default class DefaultSearch extends Vue {
   @Prop({ type: Object, required: true }) value
 
   @Prop({ type: Array, default: () => [] }) classifiers
+
+  @Prop({ type: Array, default: () => [] }) classes
 
   localValue = {}
 
@@ -57,11 +59,8 @@ export default class DefaultSearch extends Vue {
     return this.classifiers.map(x => x.name)
   }
 
-  get _class () {
-    return this.value.classifiers
-      ? this.classifiers.filter(x => x.name === this.value.classifier)[0]
-        .values
-      : []
+  get classItems () {
+    return this.classes.map(x => x.acronym)
   }
 
   @Watch('value', { immediate: true, deep: true })
