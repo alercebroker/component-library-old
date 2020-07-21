@@ -44,3 +44,10 @@ export default class AHeader extends Vue {
   }
 }
 </script>
+
+<style scoped>
+
+.v-toolbar {
+  flex: 0 0 auto;
+}
+</style>
