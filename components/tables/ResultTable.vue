@@ -22,10 +22,9 @@
     <v-row>
       <v-data-table
         :headers="header"
-        :items="items"
+        :items="tableItems"
         :items-per-page="perPage"
         :loading="loading"
-        class="elevation-0"
         hide-default-footer
         dense
         @click:row="onRowClicked"
@@ -34,23 +33,25 @@
   </v-container>
 </template>
 <script>
-import { Vue, Component, Prop, PropSync, Emit } from 'nuxt-property-decorator'
+import { Vue, Component, Prop, PropSync, Emit, Watch } from 'nuxt-property-decorator'
 @Component({})
 export default class ResultTable extends Vue {
-  @PropSync('page', { type: Number, default: 0 }) pageSync;
+  @PropSync('page', { type: Number, default: 1 }) pageSync;
 
   @Prop('selected', { type: Object, default: () => {} }) selected;
 
   @Prop({ type: Array, default: () => [] }) items;
 
-  @Prop({ type: Number, default: 1 }) perPage;
+  @Prop({ type: Number, default: 10 }) perPage;
 
   @Prop({ type: Boolean, default: false }) loading;
 
   @Prop({ type: Number, default: 0 }) total;
 
+  message = 'Your results will appear here'
+
   get numPages () {
-    return this.total / this.perPage
+    return Math.round(this.total / this.perPage) + 1
   }
 
   get header () {
@@ -59,22 +60,23 @@ export default class ResultTable extends Vue {
     })
   }
 
-  // get tableItems() {
-  //   if (this.items) {
-  //     const keys = Object.keys(this.items[0])
-  //     return this.items.map((obj) => {
-  //       keys.forEach((key) => {
-  //         if (typeof obj[key] === 'number' && !Number.isInteger(obj[key])) {
-  //           obj[key] = obj[key].toFixed(3)
-  //         }
-  //       })
-  //       obj.radec =
-  //         obj.meanra && obj.meandec ? `${obj.meanra},\t ${obj.meandec}` : ''
-  //       return obj
-  //     })
-  //   }
-  //   return []
-  // }
+  get tableItems () {
+    if (this.items && this.items.length) {
+      const keys = Object.keys(this.items[0])
+      return this.items.map((obj) => {
+        const objCopy = Object.assign({}, obj)
+        keys.forEach((key) => {
+          if (typeof obj[key] === 'number' && !Number.isInteger(obj[key])) {
+            objCopy[key] = objCopy[key].toFixed(3)
+          }
+        })
+        objCopy.radec =
+          objCopy.meanra && objCopy.meandec ? `${objCopy.meanra},\t ${objCopy.meandec}` : ''
+        return objCopy
+      })
+    }
+    return []
+  }
 
   @Emit('rowClicked')
   onRowClicked (item) {
@@ -91,8 +93,44 @@ export default class ResultTable extends Vue {
     {
       value: 'ndet',
       sortable: true,
-      text: 'Observations',
+      text: 'Number of detections',
       show: true
+    },
+    {
+      value: 'ndethist',
+      sortable: true,
+      text: 'Number of detections history',
+      show: false
+    },
+    {
+      value: 'ncovhist',
+      sortable: true,
+      text: 'ncovhist',
+      show: false
+    },
+    {
+      value: 'jdstarthist',
+      sortable: true,
+      text: 'jdstarthist',
+      show: false
+    },
+    {
+      value: 'jdendhist',
+      sortable: true,
+      text: 'jdendhist',
+      show: false
+    },
+    {
+      value: 'corrected',
+      sortable: true,
+      text: 'jdendhist',
+      show: false
+    },
+    {
+      value: 'stellar',
+      sortable: true,
+      text: 'stellar',
+      show: false
     },
     {
       value: 'firstmjd',
@@ -113,39 +151,21 @@ export default class ResultTable extends Vue {
       show: true
     },
     {
-      value: 'classxmatch',
+      value: 'class',
       sortable: false,
-      text: 'Crossmatch',
+      text: 'Highest Probability Class',
       show: true
     },
     {
-      value: 'classearly',
-      sortable: false,
-      text: 'Stamp Classifier Class',
-      show: true
-    },
-    {
-      value: 'pclassearly',
+      value: 'probability',
       sortable: true,
-      text: 'Stamp Classifier Probability',
+      text: 'Highest Probability',
       show: true
     },
     {
-      value: 'classrf',
-      sortable: false,
-      text: 'Light Curve Classifier Class',
-      show: true
-    },
-    {
-      value: 'pclassrf',
-      sortable: true,
-      text: 'Light Curve Classifier Probability',
-      show: true
-    },
-    {
-      value: 'deltajd',
+      value: 'deltamjd',
       text: 'DeltaMJD (days)',
-      show: false
+      show: true
     },
     {
       value: 'meandec',
@@ -160,71 +180,24 @@ export default class ResultTable extends Vue {
       show: false
     },
     {
-      value: 'first_magpsf_g',
-      text: 'FirstMagG',
+      value: 'sigmara',
+      text: 'Sigma RA',
+      sortable: false,
       show: false
     },
     {
-      value: 'last_magpsf_g',
-      text: 'LastMagG',
-      show: false
-    },
-    {
-      value: 'min_magpsf_g',
-      text: 'MinG',
-      sortable: true,
-      show: false
-    },
-    {
-      value: 'max_magpsf_g',
-      text: 'MaxG',
-      show: false
-    },
-    {
-      value: 'mean_magpsf_g',
-      text: 'MeanG',
-      show: false
-    },
-    {
-      value: 'median_magpsf_g',
-      text: 'MedianG',
-      show: false
-    },
-    {
-      value: 'last_magpsf_r',
-      text: 'LastMagR',
-      show: false
-    },
-    {
-      value: 'first_magpsf_r',
-      text: 'FirstMagR',
-      show: false
-    },
-    {
-      value: 'min_magpsf_r',
-      text: 'MinR',
-      sortable: true,
-      show: false
-    },
-    {
-      value: 'max_magpsf_r',
-      text: 'MaxR',
-      show: false
-    },
-    {
-      value: 'mean_magpsf_r',
-      text: 'MeanR',
-      show: false
-    },
-    {
-      value: 'median_magpsf_r',
-      text: 'MedianR',
+      value: 'sigmadec',
+      text: 'Sigma DEC',
+      sortable: false,
       show: false
     }
+
   ];
 
-  get message () {
-    return this.items.length
+  @Watch('items')
+  onItemsChange (val) {
+    console.log('onItemsChange')
+    this.message = val.length
       ? `Found ${this.total.toLocaleString()} results`
       : 'No results found'
   }
