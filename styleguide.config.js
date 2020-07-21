@@ -15,7 +15,6 @@ module.exports = {
     text: 'Visit Github',
     url: `${docSiteUrl}`
   },
-  webpackConfig: require('./webpack.config'),
   styleguideDir: 'dist',
   require: [
     path.resolve(__dirname, 'docs/config/global.requires.js'),
