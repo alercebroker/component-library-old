@@ -16,7 +16,7 @@
 import {
   Vue,
   Component,
-  Prop
+  Prop,
   // Model,
   // Watch,
   // Emit,
@@ -31,27 +31,27 @@ export default class SliderRange extends Vue {
 
   @Prop({ type: Number, default: 1 }) step
 
-  get minRange () {
+  get minRange() {
     return this.value[0]
   }
 
-  set minRange (val) {
+  set minRange(val) {
     this.$emit('input', [val, this.maxRange])
   }
 
-  get maxRange () {
+  get maxRange() {
     return this.value[1]
   }
 
-  set maxRange (val) {
+  set maxRange(val) {
     this.$emit('input', [this.minRange, val])
   }
 
-  get range () {
+  get range() {
     return this.value
   }
 
-  set range (val) {
+  set range(val) {
     this.$emit('input', val)
   }
 }

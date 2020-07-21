@@ -33,34 +33,41 @@
   </v-container>
 </template>
 <script>
-import { Vue, Component, Prop, PropSync, Emit, Watch } from 'nuxt-property-decorator'
+import {
+  Vue,
+  Component,
+  Prop,
+  PropSync,
+  Emit,
+  Watch,
+} from 'nuxt-property-decorator'
 @Component({})
 export default class ResultTable extends Vue {
-  @PropSync('page', { type: Number, default: 1 }) pageSync;
+  @PropSync('page', { type: Number, default: 1 }) pageSync
 
-  @Prop('selected', { type: Object, default: () => {} }) selected;
+  @Prop('selected', { type: Object, default: () => {} }) selected
 
-  @Prop({ type: Array, default: () => [] }) items;
+  @Prop({ type: Array, default: () => [] }) items
 
-  @Prop({ type: Number, default: 10 }) perPage;
+  @Prop({ type: Number, default: 10 }) perPage
 
-  @Prop({ type: Boolean, default: false }) loading;
+  @Prop({ type: Boolean, default: false }) loading
 
-  @Prop({ type: Number, default: 0 }) total;
+  @Prop({ type: Number, default: 0 }) total
 
   message = 'Your results will appear here'
 
-  get numPages () {
+  get numPages() {
     return Math.round(this.total / this.perPage) + 1
   }
 
-  get header () {
+  get header() {
     return this.selectedColumnOptions.filter((x) => {
       return x.show
     })
   }
 
-  get tableItems () {
+  get tableItems() {
     if (this.items && this.items.length) {
       const keys = Object.keys(this.items[0])
       return this.items.map((obj) => {
@@ -71,7 +78,9 @@ export default class ResultTable extends Vue {
           }
         })
         objCopy.radec =
-          objCopy.meanra && objCopy.meandec ? `${objCopy.meanra},\t ${objCopy.meandec}` : ''
+          objCopy.meanra && objCopy.meandec
+            ? `${objCopy.meanra},\t ${objCopy.meandec}`
+            : ''
         return objCopy
       })
     }
@@ -79,7 +88,7 @@ export default class ResultTable extends Vue {
   }
 
   @Emit('rowClicked')
-  onRowClicked (item) {
+  onRowClicked(item) {
     return item
   }
 
@@ -88,114 +97,113 @@ export default class ResultTable extends Vue {
       value: 'oid',
       sortable: false,
       text: 'Object ID',
-      show: true
+      show: true,
     },
     {
       value: 'ndet',
       sortable: true,
       text: 'Number of detections',
-      show: true
+      show: true,
     },
     {
       value: 'ndethist',
       sortable: true,
       text: 'Number of detections history',
-      show: false
+      show: false,
     },
     {
       value: 'ncovhist',
       sortable: true,
       text: 'ncovhist',
-      show: false
+      show: false,
     },
     {
       value: 'jdstarthist',
       sortable: true,
       text: 'jdstarthist',
-      show: false
+      show: false,
     },
     {
       value: 'jdendhist',
       sortable: true,
       text: 'jdendhist',
-      show: false
+      show: false,
     },
     {
       value: 'corrected',
       sortable: true,
       text: 'jdendhist',
-      show: false
+      show: false,
     },
     {
       value: 'stellar',
       sortable: true,
       text: 'stellar',
-      show: false
+      show: false,
     },
     {
       value: 'firstmjd',
       text: 'FirstMJD',
       sortable: true,
-      show: true
+      show: true,
     },
     {
       value: 'lastmjd',
       sortable: true,
       text: 'LastMJD',
-      show: true
+      show: true,
     },
     {
       value: 'radec',
       text: 'RA/Dec (degrees)',
       sortable: false,
-      show: true
+      show: true,
     },
     {
       value: 'class',
       sortable: false,
       text: 'Highest Probability Class',
-      show: true
+      show: true,
     },
     {
       value: 'probability',
       sortable: true,
       text: 'Highest Probability',
-      show: true
+      show: true,
     },
     {
       value: 'deltamjd',
       text: 'DeltaMJD (days)',
-      show: true
+      show: true,
     },
     {
       value: 'meandec',
       text: 'Dec (degrees)',
       sortable: false,
-      show: false
+      show: false,
     },
     {
       value: 'meanra',
       text: 'RA (degrees)',
       sortable: false,
-      show: false
+      show: false,
     },
     {
       value: 'sigmara',
       text: 'Sigma RA',
       sortable: false,
-      show: false
+      show: false,
     },
     {
       value: 'sigmadec',
       text: 'Sigma DEC',
       sortable: false,
-      show: false
-    }
-
-  ];
+      show: false,
+    },
+  ]
 
   @Watch('items')
-  onItemsChange (val) {
+  onItemsChange(val) {
     console.log('onItemsChange')
     this.message = val.length
       ? `Found ${this.total.toLocaleString()} results`

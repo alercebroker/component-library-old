@@ -49,59 +49,28 @@ export default class DefaultSearch extends Vue {
 
   localValue = {}
 
-  get probLabel () {
+  get probLabel() {
     return this.value.probability
       ? 'Probability ≥' + this.value.probability
       : 'Probability ≥ 0.00'
   }
 
-  get _classifiers () {
-    return this.classifiers.map(x => x.name)
+  get _classifiers() {
+    return this.classifiers.map((x) => x.name)
   }
 
-  get classItems () {
-    return this.classes.map(x => x.acronym)
+  get classItems() {
+    return this.classes.map((x) => x.acronym)
   }
 
   @Watch('value', { immediate: true, deep: true })
-  onValueChange (newVal, oldVal) {
+  onValueChange(newVal, oldVal) {
     this.localValue = { ...this.localValue, ...newVal }
   }
 
   @Watch('localValue', { immediate: true, deep: true })
-  onLocalValueChange (newVal, oldVal) {
+  onLocalValueChange(newVal, oldVal) {
     this.$emit('input', newVal)
   }
 }
 </script>
-<docs>
-```vue
-<template>
-  <div>
-    <v-container>
-      <v-row>
-        {{ search }}
-      </v-row>
-    </v-container>
-    <v-container>
-      <default-search :value="search"/>
-    </v-container>
-  </div>
-</template>
-<script>
-export default {
-  data() {
-    return {
-      search: {
-        oid: null,
-        class: null,
-        classifier: null,
-        probability: 0,
-        ndet: [0, 1000],
-      }
-    }
-  }
-}
-</script>
-```
-</docs>
