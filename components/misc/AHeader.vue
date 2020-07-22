@@ -1,6 +1,6 @@
 <template>
   <v-app-bar dense>
-    <a :to="{'path':'/'}">
+    <a :to="{ path: '/' }">
       <v-img :src="_logo" max-width="40px" class="mr-4" />
     </a>
     <v-toolbar-title class="mr-4">
@@ -32,10 +32,12 @@ export default class AHeader extends Vue {
   @Prop({ type: Array, default: () => [] })
   items
 
-  logoWhite = 'https://alerce-static.s3.amazonaws.com/logos/footerAlerceWhite.png'
+  logoWhite =
+    'https://alerce-static.s3.amazonaws.com/logos/footerAlerceWhite.png'
+
   logoBlue = 'https://alerce-static.s3.amazonaws.com/logos/footerAlerce.png'
 
-  get _logo () {
+  get _logo() {
     if (this.$vuetify.theme.isDark) {
       return this.logoWhite
     } else {
@@ -46,7 +48,6 @@ export default class AHeader extends Vue {
 </script>
 
 <style scoped>
-
 .v-toolbar {
   flex: 0 0 auto;
 }

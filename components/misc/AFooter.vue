@@ -49,3 +49,37 @@ export default class AFooter extends Vue {
   ]
 }
 </script>
+<docs>
+```vue
+<template>
+  <div>
+
+    <v-container>
+      <v-row color="primary">
+        <v-col cols="12" sm="6" md="3">
+          <v-switch
+            v-model="social"
+            label="Social"
+          />
+        </v-col>
+
+      </v-row>
+    </v-container>
+
+    <v-container>
+      <a-footer :social="social"/>
+    </v-container>
+
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      social: false,
+    }
+  }
+}
+</script>
+```
+</docs>

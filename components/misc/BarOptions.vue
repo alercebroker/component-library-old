@@ -1,19 +1,12 @@
 <template>
-  <v-menu
-    offset-y
-    right
-    bottom
-    :close-on-content-click="false"
-  >
+  <v-menu offset-y right bottom :close-on-content-click="false">
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-bind="attrs" v-on="on">
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </template>
 
-    <v-card
-      class="mx-auto"
-    >
+    <v-card class="mx-auto">
       <v-list>
         <v-subheader>{{ _title }}</v-subheader>
         <v-list-item>
@@ -40,15 +33,15 @@ export default class BarOptions extends Vue {
   @Prop({ type: String, default: '' })
   title
 
-  get isDark () {
+  get isDark() {
     return this.$vuetify.theme.isDark
   }
 
-  set isDark (val) {
+  set isDark(val) {
     this.$vuetify.theme.isDark = val
   }
 
-  get _title () {
+  get _title() {
     return `${this.title} Options`
   }
 }

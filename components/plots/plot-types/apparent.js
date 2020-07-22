@@ -9,7 +9,7 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
     this.addErrorBars(this.detections, bands)
   }
 
-  addDetections (detections, bands) {
+  addDetections(detections, bands) {
     bands.forEach((band) => {
       const serie = {
         name: this.bandMap[band].name,
@@ -19,29 +19,29 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
         symbolSize: 6,
         encode: {
           x: 0,
-          y: 1
-        }
+          y: 1,
+        },
       }
       serie.data = this.formatDetections(detections, band)
       this.options.series.push(serie)
     })
   }
 
-  addErrorBars (detections, bands) {
+  addErrorBars(detections, bands) {
     bands.forEach((band) => {
       const serie = {
         name: this.bandMap[band].name,
         type: 'custom',
         scale: true,
         color: this.bandMap[band].color,
-        renderItem: this.renderError
+        renderItem: this.renderError,
       }
       serie.data = this.formatError(detections, band)
       this.options.series.push(serie)
     })
   }
 
-  formatError (detections, band) {
+  formatError(detections, band) {
     return detections
       .filter(function (x) {
         return x.fid === band
@@ -53,12 +53,12 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
         return [
           x.mjd,
           x.magpsf_corr - x.sigmapsf_corr,
-          x.magpsf_corr + x.sigmapsf_corr
+          x.magpsf_corr + x.sigmapsf_corr,
         ]
       })
   }
 
-  formatDetections (detections, band) {
+  formatDetections(detections, band) {
     return detections
       .filter(function (x) {
         return x.fid === band

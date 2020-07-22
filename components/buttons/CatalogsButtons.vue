@@ -1,23 +1,7 @@
 <template>
-  <v-layout v-if="ra != null && dec != null" wrap justify-center>
-    <v-flex
-      v-for="item in links"
-      :key="item.name"
-      xs12
-      sm4
-      pl-1
-      pr-1
-      pt-2
-      class="text-md-center"
-    >
-      <v-btn
-        :href="item.link"
-        target="_blank"
-        color="primary"
-        block
-        small
-        depressed
-      >
+  <v-layout wrap justify-center v-if="ra != null && dec != null">
+    <v-flex xs12 sm4 pl-1 pr-1 pt-2 class="text-md-center" v-for="item in links" :key="item.name">
+      <v-btn color="primary" block small depressed :href="item.link" target="_blank">
         <div class="text-capitalize">{{ item.name }}</div>
       </v-btn>
     </v-flex>
@@ -25,15 +9,15 @@
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
-@Component
-export default class TnsInformation extends Vue {
+@Component({})
+export default class ColumnsoptionsButton extends Vue {
   @Prop({ type: Number, default: 0 })
   ra
 
   @Prop({ type: Number, default: 0 })
   dec
 
-  get links () {
+  get links() {
     return [
       {
         name: 'NED',

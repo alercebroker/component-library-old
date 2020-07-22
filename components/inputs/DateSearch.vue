@@ -119,18 +119,18 @@ export default class DateSearch extends Vue {
 
   localValue = {
     minMjd: null,
-    maxMjd: null
+    maxMjd: null,
   }
 
-  get maxMjd () {
+  get maxMjd() {
     return this.value.maxMjd
   }
 
-  set maxMjd (val) {
+  set maxMjd(val) {
     this.$emit('input', { ...this.value, maxMjd: val })
   }
 
-  minDates (val) {
+  minDates(val) {
     if (this.maxFirstGreg != null) {
       return val <= this.maxFirstGreg
     } else {
@@ -138,7 +138,7 @@ export default class DateSearch extends Vue {
     }
   }
 
-  maxDates (val) {
+  maxDates(val) {
     if (this.minFirstGreg != null) {
       return val >= this.minFirstGreg
     } else {
@@ -146,17 +146,17 @@ export default class DateSearch extends Vue {
     }
   }
 
-  clearMin () {
+  clearMin() {
     this.minFirstGreg = null
     this.minFirstTime = '00:00'
   }
 
-  clearMax () {
+  clearMax() {
     this.maxFirstGreg = null
     this.maxFirstTime = '00:00'
   }
 
-  saveMin () {
+  saveMin() {
     const stringDateTime = `${this.minFirstGreg} ${this.minFirstTime}`
     const dateTime = new Date(stringDateTime)
     this.minMjd = gregorianToJd(dateTime)
@@ -164,7 +164,7 @@ export default class DateSearch extends Vue {
     this.menuMin = false
   }
 
-  saveMax () {
+  saveMax() {
     const stringDateTime = `${this.maxFirstGreg} ${this.maxFirstTime}`
     const dateTime = new Date(stringDateTime)
     this.maxMjd = gregorianToJd(dateTime)
@@ -173,22 +173,26 @@ export default class DateSearch extends Vue {
   }
 
   @Watch('value', { immediate: true, deep: true })
-  onValueChange (val) {
+  onValueChange(val) {
     if (val.minMjd != null) {
-      this.displayedMinFirstGreg = jdToDate(val.minMjd).toString().split(' GMT')[0]
+      this.displayedMinFirstGreg = jdToDate(val.minMjd)
+        .toString()
+        .split(' GMT')[0]
     }
     if (val.maxMjd != null) {
-      this.displayedMaxFirstGreg = jdToDate(val.maxMjd).toString().split(' GMT')[0]
+      this.displayedMaxFirstGreg = jdToDate(val.maxMjd)
+        .toString()
+        .split(' GMT')[0]
     }
     this.localValue = { ...this.localValue, ...val }
   }
 
   @Watch('localValue', { immediate: true, deep: true })
-  onLocalValueChange (val) {
+  onLocalValueChange(val) {
     this.$emit('input', val)
   }
 
-  get minFirstGreg () {
+  get minFirstGreg() {
     if (!this.minGregDate) {
       return null
     }
@@ -203,7 +207,7 @@ export default class DateSearch extends Vue {
     return year + '-' + month + '-' + day
   }
 
-  set minFirstGreg (value) {
+  set minFirstGreg(value) {
     let date = null
     if (value) {
       const [year, month, day] = value.split('-')
@@ -215,7 +219,7 @@ export default class DateSearch extends Vue {
     this.minGregDate = date ? new Date(date.getTime()) : null
   }
 
-  get maxFirstGreg () {
+  get maxFirstGreg() {
     if (!this.maxGregDate) {
       return null
     }
@@ -230,7 +234,7 @@ export default class DateSearch extends Vue {
     return year + '-' + month + '-' + day
   }
 
-  set maxFirstGreg (value) {
+  set maxFirstGreg(value) {
     let date = null
     if (value) {
       const [year, month, day] = value.split('-')

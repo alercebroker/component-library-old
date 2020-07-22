@@ -1,11 +1,11 @@
 const julian = require('julian')
 
 /**
-* receives date in julian format and convert in gregorian format
-* @param MJD:date in julian format
-* @returns {string} : date in gregorian format
-*/
-function jdToGregorian (mjd) {
+ * receives date in julian format and convert in gregorian format
+ * @param MJD:date in julian format
+ * @returns {string} : date in gregorian format
+ */
+function jdToGregorian(mjd) {
   if (mjd === undefined || mjd === null) {
     return null
   }
@@ -25,7 +25,7 @@ function jdToGregorian (mjd) {
  * @param dateObj:date Object
  * @returns {number} : date in jualian format
  */
-function gregorianToJd (dateObj) {
+function gregorianToJd(dateObj) {
   if (dateObj === null) {
     return null
   }
@@ -33,7 +33,7 @@ function gregorianToJd (dateObj) {
   return mjulianDate
 }
 
-function jdToDate (mjd) {
+function jdToDate(mjd) {
   if (mjd === undefined || mjd === null || mjd === '') {
     return null
   }
@@ -42,7 +42,7 @@ function jdToDate (mjd) {
 }
 
 /* Based in: http://www.bdnyc.org/2012/10/decimal-deg-to-hms/ */
-function raDectoHMS (ra, dec) {
+function raDectoHMS(ra, dec) {
   if (dec) {
     const sign = dec < 0 ? '-' : '+'
     dec = Math.abs(dec)
@@ -55,8 +55,8 @@ function raDectoHMS (ra, dec) {
     const sign = ra < 0 ? '-' : '\xA0'
     ra = Math.abs(ra)
     const raH = Math.floor(ra / 15)
-    const raM = Math.floor(((ra / 15) - raH) * 60)
-    const raS = (((((ra / 15) - raH) * 60) - raM) * 60).toFixed(3)
+    const raM = Math.floor((ra / 15 - raH) * 60)
+    const raS = (((ra / 15 - raH) * 60 - raM) * 60).toFixed(3)
     ra = `${sign}${raH}:${raM}:${raS}`
   }
   return `${ra} ${dec}`

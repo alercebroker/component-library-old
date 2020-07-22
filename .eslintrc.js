@@ -7,13 +7,17 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint',
     ecmaFeatures: {
-      legacyDecorators: true
-    }
+      legacyDecorators: true,
+    },
   },
   extends: [
     '@nuxtjs',
+    'prettier',
+    'prettier/vue',
+    'plugin:prettier/recommended',
     'plugin:nuxt/recommended',
   ],
+  plugins: ['prettier'],
   // add your custom rules here
   rules: {},
 }

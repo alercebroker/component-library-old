@@ -34,15 +34,15 @@ import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
 export default class CoordinatesSearch extends Vue {
   @Prop({ type: Object, required: true }) value
 
-  localValue = { }
+  localValue = {}
 
   @Watch('value', { immediate: true, deep: true })
-  onValueChange (val) {
+  onValueChange(val) {
     this.localValue = { ...this.localValue, ...val }
   }
 
   @Watch('localValue', { immediate: true, deep: true })
-  onLocalValueChange (val) {
+  onLocalValueChange(val) {
     this.$emit('input', val)
   }
 }

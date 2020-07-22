@@ -23,10 +23,30 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
-      }
+        content: process.env.npm_package_description || '',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    script: [
+      {
+        type: 'text/javascript',
+        src: 'https://code.jquery.com/jquery-1.12.1.min.js',
+        charset: 'utf-8',
+      },
+      {
+        type: 'text/javascript',
+        src:
+          'https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.js',
+        charset: 'utf-8',
+      },
+    ],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.css',
+      },
+    ],
   },
   /*
    ** Global CSS
@@ -48,7 +68,9 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    // Doc https://github.com/nuxt-community/stylelint-module
+    // '@nuxtjs/stylelint-module',
+    '@nuxtjs/vuetify',
   ],
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
@@ -62,7 +84,7 @@ export default {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          success: colors.green.accent3,
         },
         light: {
           primary: colors.blue.darken2,
@@ -71,17 +93,17 @@ export default {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
-    }
+          success: colors.green.accent3,
+        },
+      },
+    },
   },
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
   ],
   /*
    ** Axios module configuration
@@ -94,10 +116,10 @@ export default {
    */
   build: {
     babel: {
-      presets ({ isServer }) {
+      presets({ isServer }) {
         return [['@nuxt/babel-preset-app', { loose: true }]]
-      }
+      },
     },
-    transpile: ['vue-echarts', 'resize-detector']
-  }
+    transpile: ['vue-echarts', 'resize-detector'],
+  },
 }
