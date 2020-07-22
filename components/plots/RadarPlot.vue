@@ -29,10 +29,6 @@ export default class RadarPlot extends Vue {
   @Prop({ type: String, default: 'red' })
   filled
 
-  mounted() {
-    console.log(this.data)
-  }
-
   get polar () {
     return {
       title: {
