@@ -1,13 +1,13 @@
 import { LightCurveOptions } from './utils/light-curve-utils'
 
 export class FoldedLightCurveOptions extends LightCurveOptions {
-  constructor(detections, nonDetections, period) {
-    super(detections, nonDetections)
+  constructor(detections, nonDetections, fontColor, period) {
+    super(detections, nonDetections, fontColor)
     this.period = period
   }
 
   getSeries(data) {
-    const bands = [...new Set(this.detections.map(item => item.fid))]
+    const bands = Array.from(new Set(this.detections.map(item => item.fid)))
     this.addDetections(this.detections, bands, this.period)
     this.addErrorBars(this.detections, bands, this.period)
   }
@@ -100,7 +100,7 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
   }
 
   getLegend() {
-    const bands = [...new Set(this.detections.map(item => item.fid))]
+    const bands = Array.from(new Set(this.detections.map(item => item.fid)))
     let legend = bands.map(band => this.bandMap[band].name)
     legend = legend.concat(
       bands.map(band => this.bandMap[band].name + ' detections')

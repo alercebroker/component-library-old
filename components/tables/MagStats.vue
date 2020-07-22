@@ -1,0 +1,41 @@
+<template>
+  <v-data-table :headers="headers" :items="stats" hide-default-footer />
+</template>
+
+<script>
+import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
+@Component
+export default class MagStats extends Vue {
+  /**
+   * The statistics to show
+   * The elements of the array should be ordered by columns
+   * @example
+   * {col1: 'val1', col2: 'val2'}
+   */
+  @Prop({ type: Array, required: true }) stats
+
+  headers = []
+
+  setHeaders(stats) {
+    if (stats.length) {
+      Object.keys(stats[0]).forEach(k => {
+        this.headers.push({
+          text: k,
+          value: k
+        })
+      })
+    }
+  }
+
+  mounted() {
+    this.setHeaders(this.stats)
+  }
+
+  @Watch('stats')
+  onStatsChanged(newVal) {
+    this.setHeaders(newVal)
+  }
+}
+</script>
+
+<style></style>

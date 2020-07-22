@@ -19,12 +19,19 @@ export default class LightCurvePlot extends Vue {
   @Prop({ type: Array, default: () => [] }) nonDetections
   @Prop({ type: Number, default: 0 }) period
   @Prop({ type: String }) type
+  @Prop({ type: Boolean, default: false }) dark
 
   showHelp = false
   chartOptions = new LightCurveOptions()
 
   mounted() {
-    this.generateOptions()
+    this.generateOptions(
+      this.type,
+      this.detections,
+      this.nonDetections,
+      this.period,
+      this.fontColor
+    )
   }
 
   @Emit('detectionClick')
@@ -44,7 +51,8 @@ export default class LightCurvePlot extends Vue {
     if (type === 'difference') {
       const differenceLightCurveOptions = new DifferenceLightCurveOptions(
         detections,
-        nonDetections
+        nonDetections,
+        this.fontColor
       )
       differenceLightCurveOptions.getSeries()
       differenceLightCurveOptions.getLegend()
@@ -53,7 +61,8 @@ export default class LightCurvePlot extends Vue {
     if (type === 'apparent') {
       const apparentLightCurveOptions = new ApparentLightCurveOptions(
         detections,
-        nonDetections
+        nonDetections,
+        this.fontColor
       )
       apparentLightCurveOptions.getSeries()
       apparentLightCurveOptions.getLegend()
@@ -63,12 +72,17 @@ export default class LightCurvePlot extends Vue {
       const foldedLightCurveOptions = new FoldedLightCurveOptions(
         detections,
         nonDetections,
+        this.fontColor,
         period
       )
       foldedLightCurveOptions.getSeries()
       foldedLightCurveOptions.getLegend()
       this.chartOptions = foldedLightCurveOptions
     }
+  }
+
+  get fontColor() {
+    return this.dark ? '#fff' : '#000'
   }
 
   @Watch('type')
@@ -99,6 +113,25 @@ export default class LightCurvePlot extends Vue {
       newNonDetections,
       this.period
     )
+  }
+
+  @Watch('dark')
+  onDark(newDark) {
+    this.swapFieldValueInJSON(this.chartOptions, 'textStyle', this.fontColor)
+  }
+
+  swapFieldValueInJSON(json, field, value) {
+    function f(obj) {
+      if (!obj || typeof obj !== 'object') {
+        return
+      }
+      if (field in obj) {
+        obj[field].color = value
+      }
+      Object.keys(obj).forEach(k => f(obj[k]))
+    }
+    f(json)
+    return field
   }
 }
 </script>

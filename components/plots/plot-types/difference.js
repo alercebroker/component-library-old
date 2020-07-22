@@ -2,7 +2,7 @@ import { LightCurveOptions } from './utils/light-curve-utils'
 
 export class DifferenceLightCurveOptions extends LightCurveOptions {
   getSeries() {
-    const bands = [...new Set(this.detections.map(item => item.fid))]
+    const bands = new Set(this.detections.map(item => item.fid))
 
     this.addDetections(this.detections, bands)
 
@@ -93,7 +93,7 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
   }
 
   getLegend() {
-    const bands = [...new Set(this.detections.map(item => item.fid))]
+    const bands = Array.from(new Set(this.detections.map(item => item.fid)))
     let legend = bands.map(band => this.bandMap[band].name)
     legend = legend.concat(
       bands.map(band => this.bandMap[band].name + ' non-detections')
