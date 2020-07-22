@@ -1,7 +1,7 @@
 import { LightCurveOptions } from './utils/light-curve-utils'
 
 export class DifferenceLightCurveOptions extends LightCurveOptions {
-  getSeries () {
+  getSeries() {
     const bands = [...new Set(this.detections.map(item => item.fid))]
 
     this.addDetections(this.detections, bands)
@@ -11,8 +11,8 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
     this.addNonDetections(this.nonDetections, bands)
   }
 
-  addDetections (detections, bands) {
-    bands.forEach((band) => {
+  addDetections(detections, bands) {
+    bands.forEach(band => {
       const serie = {
         name: this.bandMap[band].name,
         type: 'scatter',
@@ -29,8 +29,8 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
     })
   }
 
-  addErrorBars (detections, bands) {
-    bands.forEach((band) => {
+  addErrorBars(detections, bands) {
+    bands.forEach(band => {
       const serie = {
         name: this.bandMap[band].name,
         type: 'custom',
@@ -43,8 +43,8 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
     })
   }
 
-  addNonDetections (nonDetections, bands) {
-    bands.forEach((band) => {
+  addNonDetections(nonDetections, bands) {
+    bands.forEach(band => {
       const serie = {
         name: this.bandMap[band].name + ' non-detections',
         type: 'scatter',
@@ -59,12 +59,12 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
     })
   }
 
-  formatError (detections, band) {
+  formatError(detections, band) {
     return detections
-      .filter(function (x) {
+      .filter(function(x) {
         return x.fid === band
       })
-      .map(function (x) {
+      .map(function(x) {
         if (x.sigmapsf_corr > 1) {
           return [null, null, null]
         }
@@ -72,27 +72,27 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
       })
   }
 
-  formatDetections (detections, band) {
+  formatDetections(detections, band) {
     return detections
-      .filter(function (x) {
+      .filter(function(x) {
         return x.fid === band
       })
-      .map(function (x) {
+      .map(function(x) {
         return [x.mjd, x.magpsf, x.candid_str, x.sigmapsf]
       })
   }
 
-  formatNonDetections (nonDetections, band) {
+  formatNonDetections(nonDetections, band) {
     return nonDetections
-      .filter(function (x) {
+      .filter(function(x) {
         return x.fid === band && x.diffmaglim > 10
       })
-      .map(function (x) {
+      .map(function(x) {
         return [x.mjd, x.diffmaglim]
       })
   }
 
-  getLegend () {
+  getLegend() {
     const bands = [...new Set(this.detections.map(item => item.fid))]
     let legend = bands.map(band => this.bandMap[band].name)
     legend = legend.concat(

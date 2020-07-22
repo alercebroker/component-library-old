@@ -10,7 +10,7 @@
         <v-radio-group v-model="selected" row>
           <v-radio
             v-for="option in options"
-            :key="'radio-'+option.value"
+            :key="'radio-' + option.value"
             :label="option.text"
             :value="option.value"
           />
@@ -25,13 +25,13 @@ import { Vue, Component, Prop } from 'nuxt-property-decorator'
 @Component
 export default class SelectDisplay extends Vue {
   /**
-     * The options for radio buttons. Each option should have
-     * text and value properties.
-     *
-     * Text: is the displayed label for the radio button
-     * value: is the identifier for buttons and defines selected value.
-     * It should match the slot name
-     */
+   * The options for radio buttons. Each option should have
+   * text and value properties.
+   *
+   * Text: is the displayed label for the radio button
+   * value: is the identifier for buttons and defines selected value.
+   * It should match the slot name
+   */
   @Prop({ type: Array, required: true }) options
 
   selected = null

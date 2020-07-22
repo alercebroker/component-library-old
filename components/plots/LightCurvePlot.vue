@@ -15,20 +15,20 @@ import { LightCurveOptions } from './plot-types/utils/light-curve-utils'
 
 @Component
 export default class LightCurvePlot extends Vue {
-  @Prop({ type: Array, default: () => [] }) detections;
-  @Prop({ type: Array, default: () => [] }) nonDetections;
-  @Prop({ type: Number, default: 0 }) period;
-  @Prop({ type: String }) type;
+  @Prop({ type: Array, default: () => [] }) detections
+  @Prop({ type: Array, default: () => [] }) nonDetections
+  @Prop({ type: Number, default: 0 }) period
+  @Prop({ type: String }) type
 
-  showHelp = false;
-  chartOptions = new LightCurveOptions();
+  showHelp = false
+  chartOptions = new LightCurveOptions()
 
-  mounted () {
+  mounted() {
     this.generateOptions()
   }
 
   @Emit('detectionClick')
-  onClick (detection) {
+  onClick(detection) {
     const date =
       jdToDate(detection.value[0])
         .toUTCString()
@@ -40,21 +40,31 @@ export default class LightCurvePlot extends Vue {
     }
   }
 
-  generateOptions (type, detections, nonDetections, period) {
+  generateOptions(type, detections, nonDetections, period) {
     if (type === 'difference') {
-      const differenceLightCurveOptions = new DifferenceLightCurveOptions(detections, nonDetections)
+      const differenceLightCurveOptions = new DifferenceLightCurveOptions(
+        detections,
+        nonDetections
+      )
       differenceLightCurveOptions.getSeries()
       differenceLightCurveOptions.getLegend()
       this.chartOptions = differenceLightCurveOptions
     }
     if (type === 'apparent') {
-      const apparentLightCurveOptions = new ApparentLightCurveOptions(detections, nonDetections)
+      const apparentLightCurveOptions = new ApparentLightCurveOptions(
+        detections,
+        nonDetections
+      )
       apparentLightCurveOptions.getSeries()
       apparentLightCurveOptions.getLegend()
       this.chartOptions = apparentLightCurveOptions
     }
     if (type === 'folded') {
-      const foldedLightCurveOptions = new FoldedLightCurveOptions(detections, nonDetections, period)
+      const foldedLightCurveOptions = new FoldedLightCurveOptions(
+        detections,
+        nonDetections,
+        period
+      )
       foldedLightCurveOptions.getSeries()
       foldedLightCurveOptions.getLegend()
       this.chartOptions = foldedLightCurveOptions
@@ -62,18 +72,33 @@ export default class LightCurvePlot extends Vue {
   }
 
   @Watch('type')
-  onTypeChange (newType) {
-    this.generateOptions(newType, this.detections, this.nonDetections, this.period)
+  onTypeChange(newType) {
+    this.generateOptions(
+      newType,
+      this.detections,
+      this.nonDetections,
+      this.period
+    )
   }
 
   @Watch('detections')
-  onDetectionsChange (newDetections) {
-    this.generateOptions(this.type, newDetections, this.nonDetections, this.period)
+  onDetectionsChange(newDetections) {
+    this.generateOptions(
+      this.type,
+      newDetections,
+      this.nonDetections,
+      this.period
+    )
   }
 
   @Watch('nonDetections')
-  onNonDetectionsChange (newNonDetections) {
-    this.generateOptions(this.type, this.detections, newNonDetections, this.period)
+  onNonDetectionsChange(newNonDetections) {
+    this.generateOptions(
+      this.type,
+      this.detections,
+      newNonDetections,
+      this.period
+    )
   }
 }
 </script>

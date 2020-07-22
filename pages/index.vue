@@ -2,11 +2,7 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
       <v-card>
-        <stamps-card
-          v-model="detection"
-          :detections="detections"
-          :object="oid"
-        />
+        <mag-stats :stats="stats" />
       </v-card>
     </v-flex>
   </v-layout>
@@ -19,14 +15,20 @@ export default {
       detections: [],
       oid: 'ZTF20aaophpu',
       detection: 1,
+      stats: [
+        {
+          stat: 'mean',
+          g: 1,
+          b: 2,
+        },
+        {
+          stat: 'max',
+          g: 1,
+          b: 2,
+        },
+      ],
     }
   },
-  mounted() {
-    this.$axios
-      .post('https://ztf.alerce.online/get_detections', { oid: this.oid })
-      .then((response) => {
-        this.detections = response.data.result.detections
-      })
-  },
+  mounted() {},
 }
 </script>

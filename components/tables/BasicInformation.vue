@@ -5,7 +5,7 @@
         <v-data-table
           :headers="header"
           :items="values"
-          :items-per-page="values.length "
+          :items-per-page="values.length"
           :mobile-breakpoint="250"
           hide-default-header
           hide-default-footer
@@ -35,12 +35,7 @@
         </v-btn>
       </v-flex>
       <v-flex xs12>
-        <v-btn
-          small
-          tile
-          block
-          color="cyan darken-2"
-        >
+        <v-btn small tile block color="cyan darken-2">
           <v-icon left>
             mdi-file-document-outline
           </v-icon>
@@ -65,47 +60,72 @@ export default class BasicInformation extends Vue {
 
   values = []
 
-  whatShow = ['Object', 'RA Dec', 'Number', 'Detections', 'Discovery date', 'Last detection', 'Corrected', 'Stellar']
+  whatShow = [
+    'Object',
+    'RA Dec',
+    'Number',
+    'Detections',
+    'Discovery date',
+    'Last detection',
+    'Corrected',
+    'Stellar'
+  ]
 
   mjdButtonText = 'View date'
   hmsButtonText = 'View H:M:S'
 
-  changeMjdButtonText () {
+  changeMjdButtonText() {
     if (this.mjdButtonText === 'View date') {
       this.mjdButtonText = 'View MJD'
-      this.values = this.values.map((x) => { x.value = x.date ? x.date : x.value; return x })
+      this.values = this.values.map(x => {
+        x.value = x.date ? x.date : x.value
+        return x
+      })
     } else {
       this.mjdButtonText = 'View date'
-      this.values = this.values.map((x) => { x.value = x.mjd ? x.mjd : x.value; return x })
+      this.values = this.values.map(x => {
+        x.value = x.mjd ? x.mjd : x.value
+        return x
+      })
     }
   }
 
-  changeHmsButtonText () {
+  changeHmsButtonText() {
     if (this.hmsButtonText === 'View H:M:S') {
       this.hmsButtonText = 'View RA Dec'
-      this.values = this.values.map((x) => { x.value = x.hms ? x.hms : x.value; return x })
+      this.values = this.values.map(x => {
+        x.value = x.hms ? x.hms : x.value
+        return x
+      })
     } else {
       this.hmsButtonText = 'View H:M:S'
-      this.values = this.values.map((x) => { x.value = x.radec ? x.radec : x.value; return x })
+      this.values = this.values.map(x => {
+        x.value = x.radec ? x.radec : x.value
+        return x
+      })
     }
   }
 
   /* based in https://stackoverflow.com/a/2970667 */
-  camelize (str) {
-    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
-      return index === 0 ? word.toLowerCase() : word.toUpperCase()
-    }).replace(/\s+/g, '')
+  camelize(str) {
+    return str
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+        return index === 0 ? word.toLowerCase() : word.toUpperCase()
+      })
+      .replace(/\s+/g, '')
   }
 
-  capitalize (str) {
+  capitalize(str) {
     return str.replace(/^\w/, c => c.toUpperCase())
   }
 
-  formatDate (val) {
-    return jdToDate(val).toString().split('GMT')[0]
+  formatDate(val) {
+    return jdToDate(val)
+      .toString()
+      .split('GMT')[0]
   }
 
-  infoMapper (key, value) {
+  infoMapper(key, value) {
     const res = {}
     switch (key) {
       case 'oid':
@@ -157,15 +177,17 @@ export default class BasicInformation extends Vue {
     return res
   }
 
-  formatInformation () {
+  formatInformation() {
     const aux = this.information
     aux.raDec = { ra: this.information.meanra, dec: this.information.meandec }
     const keys = Object.keys(this.information)
-    const toDisplay = keys.map((k) => { return this.infoMapper(k, this.information[k]) })
+    const toDisplay = keys.map(k => {
+      return this.infoMapper(k, this.information[k])
+    })
     return toDisplay.filter(x => this.whatShow.includes(x.column))
   }
 
-  mounted () {
+  mounted() {
     this.values = this.formatInformation()
   }
 }

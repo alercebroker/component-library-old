@@ -29,7 +29,7 @@ export default class TnsInformation extends Vue {
     { text: 'Redshift', value: 'redshift', sortable: false, align: 'center' }
   ]
 
-  get values () {
+  get values() {
     return [
       {
         type: this.type,

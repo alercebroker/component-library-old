@@ -56,11 +56,11 @@ export default class DefaultSearch extends Vue {
   }
 
   get _classifiers() {
-    return this.classifiers.map((x) => x.name)
+    return this.classifiers.map(x => x.name)
   }
 
   get classItems() {
-    return this.classes.map((x) => x.acronym)
+    return this.classes.map(x => x.acronym)
   }
 
   @Watch('value', { immediate: true, deep: true })

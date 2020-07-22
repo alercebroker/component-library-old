@@ -1,19 +1,19 @@
 import { LightCurveOptions } from './utils/light-curve-utils'
 
 export class FoldedLightCurveOptions extends LightCurveOptions {
-  constructor (detections, nonDetections, period) {
+  constructor(detections, nonDetections, period) {
     super(detections, nonDetections)
     this.period = period
   }
 
-  getSeries (data) {
+  getSeries(data) {
     const bands = [...new Set(this.detections.map(item => item.fid))]
     this.addDetections(this.detections, bands, this.period)
     this.addErrorBars(this.detections, bands, this.period)
   }
 
-  addDetections (detections, bands, period) {
-    bands.forEach((band) => {
+  addDetections(detections, bands, period) {
+    bands.forEach(band => {
       const serie = {
         name: this.bandMap[band].name,
         type: 'scatter',
@@ -30,8 +30,8 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
     })
   }
 
-  addErrorBars (detections, bands, period) {
-    bands.forEach((band) => {
+  addErrorBars(detections, bands, period) {
+    bands.forEach(band => {
       const serie = {
         name: this.bandMap[band].name,
         type: 'custom',
@@ -44,21 +44,21 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
     })
   }
 
-  formatDetections (detections, band, period) {
+  formatDetections(detections, band, period) {
     return detections
-      .filter(function (x) {
+      .filter(function(x) {
         return x.fid === band && x.magpsf_corr != null
       })
-      .map((x) => {
+      .map(x => {
         const phase = (x.mjd % period) / period
         return [phase, x.magpsf_corr, x.candid_str, x.sigmapsf_corr]
       })
       .concat(
         detections
-          .filter(function (x) {
+          .filter(function(x) {
             return x.fid === band && x.magpsf_corr != null
           })
-          .map(function (x) {
+          .map(function(x) {
             let phase = (x.mjd % period) / period
             phase += 1
             return [phase, x.magpsf_corr, x.candid_str, x.sigmapsf_corr]
@@ -66,12 +66,12 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
       )
   }
 
-  formatError (detections, band, period) {
+  formatError(detections, band, period) {
     return detections
-      .filter(function (x) {
+      .filter(function(x) {
         return x.fid === band
       })
-      .map(function (x) {
+      .map(function(x) {
         if (x.sigmapsf_corr > 1) {
           return [null, null, null]
         }
@@ -84,10 +84,10 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
       })
       .concat(
         detections
-          .filter(function (x) {
+          .filter(function(x) {
             return x.fid === band
           })
-          .map(function (x) {
+          .map(function(x) {
             let phase = (x.mjd % period) / period
             phase += 1
             return [
@@ -99,7 +99,7 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
       )
   }
 
-  getLegend () {
+  getLegend() {
     const bands = [...new Set(this.detections.map(item => item.fid))]
     let legend = bands.map(band => this.bandMap[band].name)
     legend = legend.concat(

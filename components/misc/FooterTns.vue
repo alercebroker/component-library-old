@@ -2,13 +2,19 @@
   <v-footer class="caption transparent">
     <v-spacer />
     <p class="mb-0">
-      Provided by <a :href="url" target="_blank">TNS <img src="https://wis-tns.weizmann.ac.il/sites/default/files/favicon.png" alt="TNS icon"></a>
+      Provided by
+      <a :href="url" target="_blank"
+        >TNS
+        <img
+          src="https://wis-tns.weizmann.ac.il/sites/default/files/favicon.png"
+          alt="TNS icon"
+      /></a>
     </p>
   </v-footer>
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
-@Component({ })
+@Component({})
 export default class FooterTns extends Vue {
   @Prop({ type: String, default: null })
   tnsId
@@ -16,7 +22,7 @@ export default class FooterTns extends Vue {
   @Prop({ type: Boolean, default: false })
   classified
 
-  get url () {
+  get url() {
     if (this.tns_id) {
       return 'https://wis-tns.weizmann.ac.il/object/' + this.tns_id
     } else if (this.classified) {

@@ -119,7 +119,7 @@ export default class DateSearch extends Vue {
 
   localValue = {
     minMjd: null,
-    maxMjd: null,
+    maxMjd: null
   }
 
   get maxMjd() {
