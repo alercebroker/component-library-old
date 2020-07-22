@@ -6,14 +6,21 @@
 /* global A */
 /* eslint no-undef: "error" */
 
-import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
+import {
+  Vue,
+  Component,
+  Prop,
+  Watch,
+  Model,
+  Emit,
+} from 'nuxt-property-decorator'
 /**
  * Description of aladin
  * @version 0.0.1
  */
 @Component
 export default class Aladin extends Vue {
-  @Prop({ type: Object, default: null }) selectedObject
+  @Model('objectSelected', { type: Object, default: null }) selectedObject
 
   @Prop({ type: Array, default: () => [] }) objects
 
@@ -37,13 +44,14 @@ export default class Aladin extends Vue {
     }
   }
 
+  @Emit('objectSelected')
   onClick(object) {
     if (object) {
-      this.$emit('objectSelected', this.findZTFObject(object))
+      return this.findZTFObject(object)
       // this.aladinObject = object;
     } else {
       this.aladinObject = null
-      this.$emit('objectSelected', null)
+      return null
     }
   }
 
@@ -147,7 +155,7 @@ export default class Aladin extends Vue {
   }
 
   @Watch('aladinObject')
-  onaAladinObjectChange(newObject, oldObject) {
+  onAladinObjectChange(newObject, oldObject) {
     if (newObject) newObject.select()
     if (oldObject) oldObject.deselect()
   }
