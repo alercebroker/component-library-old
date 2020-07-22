@@ -20,7 +20,7 @@ export default class TnsInformation extends Vue {
   @Prop({ type: String, default: '-' })
   name
 
-  @Prop({ type: Number, default: 0 })
+  @Prop({ type: Number | String, default: null })
   redshift
 
   headers = [
@@ -40,12 +40,3 @@ export default class TnsInformation extends Vue {
   }
 }
 </script>
-<docs>
-```vue
-<template>
-  <v-card>
-    <tns-information name="2018hzd" :redshift="0.054" type="SN Ia"/>
-  </v-card>
-</template>
-```
-</docs>

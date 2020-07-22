@@ -1,13 +1,14 @@
 import { jdToDate } from '../../../utils/AstroDates'
 
 export class LightCurveOptions {
-  constructor(detections = [], nonDetections = []) {
+  constructor (detections = [], nonDetections = [], fontColor = 'fff') {
     this.bandMap = {
-      1: { name: 'g', color: '#22d100' },
-      2: { name: 'r', color: '#ff0000' },
+      1: { name: 'g', color: '#56E03A' },
+      2: { name: 'r', color: '#D42F4B' }
     }
     this.detections = detections
     this.nonDetections = nonDetections
+    this.fontColor = fontColor
     this.options = {
       grid: {
         left: '7%',
@@ -18,7 +19,8 @@ export class LightCurveOptions {
         left: 'center',
         textStyle: {
           fontWeight: 'lighter',
-        },
+          color: this.fontColor
+        }
       },
       tooltip: {
         show: true,
@@ -69,6 +71,11 @@ export class LightCurveOptions {
       legend: {
         data: [], // ["g", "r", "g non-detections", "r non-detections"],
         bottom: 0,
+        textStyle: {
+          fontWeight: 'lighter',
+          color: this.fontColor
+
+        }
       },
       xAxis: {
         name: 'Modified Julian Dates',
@@ -95,7 +102,11 @@ export class LightCurveOptions {
           padding: 25,
         },
       },
-      series: [],
+      textStyle: {
+        color: this.fontColor,
+        fontWeight: 'lighter'
+      },
+      series: []
     }
   }
 
