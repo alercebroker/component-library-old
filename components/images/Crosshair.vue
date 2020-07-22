@@ -1,7 +1,10 @@
 <template>
-  <v-row class="pa-0" justify="center" align="center" style="height:100%;">
-    <v-col class="pa-0" sm="4" v-for="(image,index) in images" :key="index">
-      <canvas :ref="'canvas_'+index" style="width:100%; height:100%;"></canvas>
+  <v-row class="pa-0" justify="center" align="center" style="height: 100%;">
+    <v-col v-for="(image, index) in images" :key="index" class="pa-0" cols="4">
+      <canvas
+        :ref="'canvas_' + index"
+        style="width: 100%; height: 100%;"
+      ></canvas>
     </v-col>
   </v-row>
 </template>
@@ -9,23 +12,21 @@
 <script>
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
 @Component({})
-export default class StampCards extends Vue {
+export default class Crosshair extends Vue {
   @Prop({
     type: Array,
-    default: () => []
+    default: () => [],
   })
   images
 
   @Prop({ type: Boolean, default: false })
   fullscreen
 
-  debounced = null
-
-  mounted () {
+  mounted() {
     this.drawImage()
   }
 
-  drawCrosshair (x, y, w, h, ctx) {
+  drawCrosshair(x, y, w, h, ctx) {
     ctx.lineWidth = 10
     ctx.strokeStyle = 'rgba(255,0,0,0.3)'
     ctx.beginPath()
@@ -40,7 +41,7 @@ export default class StampCards extends Vue {
     ctx.stroke()
   }
 
-  drawImage () {
+  drawImage() {
     for (let i = 0; i < this.images.length; i++) {
       const canvas = this.$refs['canvas_' + i][0]
       const ctx = canvas.getContext('2d')
@@ -51,6 +52,7 @@ export default class StampCards extends Vue {
         canvas.height = img.height
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+        this.error = false
         if (!this.error) {
           drawCrosshair(
             canvas.width / 2,
@@ -71,7 +73,7 @@ export default class StampCards extends Vue {
   }
 
   @Watch('images')
-  onImages () {
+  onImages() {
     this.drawImage()
   }
 }

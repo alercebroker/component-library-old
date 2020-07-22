@@ -1,6 +1,6 @@
 <template>
-  <v-row class="pa-0" justify="center" align="center" style="height:100%;">
-    <v-col class="pa-0" sm="4" v-for="(image, index) in images" :key="image">
+  <v-row class="pa-0" justify="center" align="center" style="height: 100%;">
+    <v-col v-for="(image, index) in images" :key="image" class="pa-0" sm="4">
       <div
         class="zoom-on-hover"
         @mousemove="move($event, index)"
@@ -8,15 +8,15 @@
         @mouseleave="unzoom"
       >
         <img
+          :ref="'normal_' + index"
           class="normal"
           :class="customClasses"
-          :ref="'normal_'+index"
           :src="image"
           onerror="this.src='https://via.placeholder.com/300'"
         />
         <img
+          :ref="'zoom_' + index"
           class="zoom"
-          :ref="'zoom_'+index"
           :src="image"
           onerror="this.src='https://via.placeholder.com/300'"
         />
@@ -25,7 +25,6 @@
   </v-row>
 </template>
 <script>
-
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 @Component({})
 export default class ZoomOnHover extends Vue {
@@ -44,16 +43,17 @@ export default class ZoomOnHover extends Vue {
   scaleFactor = 1
   resizeCheckIntervals = []
 
-  mounted () {
+  mounted() {
     if (this.$props.scale) {
       this.scaleFactor = parseInt(this.$props.scale)
       for (let i = 0; i < this.images.length; i++) {
-        this.$refs['zoom_' + i][0].style.transform = 'scale(' + this.scaleFactor + ')'
+        this.$refs['zoom_' + i][0].style.transform =
+          'scale(' + this.scaleFactor + ')'
       }
     }
   }
 
-  zoom () {
+  zoom() {
     if (this.disabled) {
       return
     }
@@ -63,7 +63,7 @@ export default class ZoomOnHover extends Vue {
     }
   }
 
-  unzoom () {
+  unzoom() {
     if (this.disabled) {
       return
     }
@@ -73,7 +73,7 @@ export default class ZoomOnHover extends Vue {
     }
   }
 
-  move (event, index) {
+  move(event, index) {
     if (this.disabled) {
       return
     }
@@ -85,8 +85,7 @@ export default class ZoomOnHover extends Vue {
     const normalFactorX = relativeX / normal.offsetWidth
     const normalFactorY = relativeY / normal.offsetHeight
     const x =
-      normalFactorX *
-      (zoom.offsetWidth * this.scaleFactor - normal.offsetWidth)
+      normalFactorX * (zoom.offsetWidth * this.scaleFactor - normal.offsetWidth)
     const y =
       normalFactorY *
       (zoom.offsetHeight * this.scaleFactor - normal.offsetHeight)
@@ -97,7 +96,7 @@ export default class ZoomOnHover extends Vue {
     }
   }
 
-  pageOffset (el) {
+  pageOffset(el) {
     // -> {x: number, y: number}
     // get the left and top offset of a dom block element
     const rect = el.getBoundingClientRect()
@@ -105,11 +104,11 @@ export default class ZoomOnHover extends Vue {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop
     return {
       y: rect.top + scrollTop,
-      x: rect.left + scrollLeft
+      x: rect.left + scrollLeft,
     }
   }
 
-  onImageError (e) {
+  onImageError(e) {
     console.log('ERROR', e)
   }
 }
