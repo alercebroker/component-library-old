@@ -29,16 +29,15 @@ export default class RadarPlot extends Vue {
   @Prop({ type: String, default: 'red' })
   filled
 
-  get polar () {
+  get polar() {
     return {
       title: {
-        text: this.title
+        text: this.title,
       },
-      tooltip: {
-      },
+      tooltip: {},
       legend: {
         data: [this.title],
-        show: this.legend
+        show: this.legend,
       },
       radar: {
         shape: this.shape,
@@ -49,32 +48,40 @@ export default class RadarPlot extends Vue {
             color: '#fff',
             backgroundColor: '#999',
             borderRadius: 3,
-            padding: [3, 5]
-          }
+            padding: [3, 5],
+          },
         },
-        indicator: this.formatIndicator(this.data)
+        indicator: this.formatIndicator(this.data),
       },
-      series: [{
-        name: 'Probabilities (Score)',
-        type: 'radar',
-        areaStyle: {},
-        data: [
-          this.formatData(this.data)
-        ]
-      }]
+      series: [
+        {
+          name: 'Probabilities (Score)',
+          type: 'radar',
+          areaStyle: {},
+          data: [this.formatData(this.data)],
+        },
+      ],
     }
   }
 
-  formatData (probs) {
+  formatData(probs) {
     return {
-      value: probs.map(k => k.value),
+      value: probs.map((k) => k.value),
     }
   }
 
-  formatIndicator (probs) {
-    const indicator = probs.map((k) => { return { name: k.name, max: 1 } })
-    const maxVal = Math.max.apply(Math, probs.map((k) => k.value))
-    return indicator.map((x) => { x.max = maxVal; return x })
+  formatIndicator(probs) {
+    const indicator = probs.map((k) => {
+      return { name: k.name, max: 1 }
+    })
+    const maxVal = Math.max.apply(
+      Math,
+      probs.map((k) => k.value)
+    )
+    return indicator.map((x) => {
+      x.max = maxVal
+      return x
+    })
   }
 }
 </script>
