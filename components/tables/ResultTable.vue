@@ -39,7 +39,7 @@ import {
   Prop,
   PropSync,
   Emit,
-  Watch
+  Watch,
 } from 'nuxt-property-decorator'
 @Component({})
 export default class ResultTable extends Vue {
@@ -62,7 +62,7 @@ export default class ResultTable extends Vue {
   }
 
   get header() {
-    return this.selectedColumnOptions.filter(x => {
+    return this.selectedColumnOptions.filter((x) => {
       return x.show
     })
   }
@@ -70,9 +70,9 @@ export default class ResultTable extends Vue {
   get tableItems() {
     if (this.items && this.items.length) {
       const keys = Object.keys(this.items[0])
-      return this.items.map(obj => {
+      return this.items.map((obj) => {
         const objCopy = Object.assign({}, obj)
-        keys.forEach(key => {
+        keys.forEach((key) => {
           if (typeof obj[key] === 'number' && !Number.isInteger(obj[key])) {
             objCopy[key] = objCopy[key].toFixed(3)
           }
@@ -97,109 +97,109 @@ export default class ResultTable extends Vue {
       value: 'oid',
       sortable: false,
       text: 'Object ID',
-      show: true
+      show: true,
     },
     {
       value: 'ndet',
       sortable: true,
       text: 'Number of detections',
-      show: true
+      show: true,
     },
     {
       value: 'ndethist',
       sortable: true,
       text: 'Number of detections history',
-      show: false
+      show: false,
     },
     {
       value: 'ncovhist',
       sortable: true,
       text: 'ncovhist',
-      show: false
+      show: false,
     },
     {
       value: 'jdstarthist',
       sortable: true,
       text: 'jdstarthist',
-      show: false
+      show: false,
     },
     {
       value: 'jdendhist',
       sortable: true,
       text: 'jdendhist',
-      show: false
+      show: false,
     },
     {
       value: 'corrected',
       sortable: true,
       text: 'jdendhist',
-      show: false
+      show: false,
     },
     {
       value: 'stellar',
       sortable: true,
       text: 'stellar',
-      show: false
+      show: false,
     },
     {
       value: 'firstmjd',
       text: 'FirstMJD',
       sortable: true,
-      show: true
+      show: true,
     },
     {
       value: 'lastmjd',
       sortable: true,
       text: 'LastMJD',
-      show: true
+      show: true,
     },
     {
       value: 'radec',
       text: 'RA/Dec (degrees)',
       sortable: false,
-      show: true
+      show: true,
     },
     {
       value: 'class',
       sortable: false,
       text: 'Highest Probability Class',
-      show: true
+      show: true,
     },
     {
       value: 'probability',
       sortable: true,
       text: 'Highest Probability',
-      show: true
+      show: true,
     },
     {
       value: 'deltamjd',
       text: 'DeltaMJD (days)',
-      show: true
+      show: true,
     },
     {
       value: 'meandec',
       text: 'Dec (degrees)',
       sortable: false,
-      show: false
+      show: false,
     },
     {
       value: 'meanra',
       text: 'RA (degrees)',
       sortable: false,
-      show: false
+      show: false,
     },
     {
       value: 'sigmara',
       text: 'Sigma RA',
       sortable: false,
-      show: false
+      show: false,
     },
     {
       value: 'sigmadec',
       text: 'Sigma DEC',
       sortable: false,
-      show: false
-    }
+      show: false,
+    },
   ]
 
   @Watch('items')

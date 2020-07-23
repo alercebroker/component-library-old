@@ -55,7 +55,7 @@ export default class BasicInformation extends Vue {
 
   header = [
     { text: 'Column', value: 'column', align: 'start' },
-    { text: 'Value', value: 'value', align: 'end' }
+    { text: 'Value', value: 'value', align: 'end' },
   ]
 
   values = []
@@ -68,7 +68,7 @@ export default class BasicInformation extends Vue {
     'Discovery date',
     'Last detection',
     'Corrected',
-    'Stellar'
+    'Stellar',
   ]
 
   mjdButtonText = 'View date'
@@ -77,13 +77,13 @@ export default class BasicInformation extends Vue {
   changeMjdButtonText() {
     if (this.mjdButtonText === 'View date') {
       this.mjdButtonText = 'View MJD'
-      this.values = this.values.map(x => {
+      this.values = this.values.map((x) => {
         x.value = x.date ? x.date : x.value
         return x
       })
     } else {
       this.mjdButtonText = 'View date'
-      this.values = this.values.map(x => {
+      this.values = this.values.map((x) => {
         x.value = x.mjd ? x.mjd : x.value
         return x
       })
@@ -93,13 +93,13 @@ export default class BasicInformation extends Vue {
   changeHmsButtonText() {
     if (this.hmsButtonText === 'View H:M:S') {
       this.hmsButtonText = 'View RA Dec'
-      this.values = this.values.map(x => {
+      this.values = this.values.map((x) => {
         x.value = x.hms ? x.hms : x.value
         return x
       })
     } else {
       this.hmsButtonText = 'View H:M:S'
-      this.values = this.values.map(x => {
+      this.values = this.values.map((x) => {
         x.value = x.radec ? x.radec : x.value
         return x
       })
@@ -109,20 +109,18 @@ export default class BasicInformation extends Vue {
   /* based in https://stackoverflow.com/a/2970667 */
   camelize(str) {
     return str
-      .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
         return index === 0 ? word.toLowerCase() : word.toUpperCase()
       })
       .replace(/\s+/g, '')
   }
 
   capitalize(str) {
-    return str.replace(/^\w/, c => c.toUpperCase())
+    return str.replace(/^\w/, (c) => c.toUpperCase())
   }
 
   formatDate(val) {
-    return jdToDate(val)
-      .toString()
-      .split('GMT')[0]
+    return jdToDate(val).toString().split('GMT')[0]
   }
 
   infoMapper(key, value) {
@@ -181,10 +179,10 @@ export default class BasicInformation extends Vue {
     const aux = this.information
     aux.raDec = { ra: this.information.meanra, dec: this.information.meandec }
     const keys = Object.keys(this.information)
-    const toDisplay = keys.map(k => {
+    const toDisplay = keys.map((k) => {
       return this.infoMapper(k, this.information[k])
     })
-    return toDisplay.filter(x => this.whatShow.includes(x.column))
+    return toDisplay.filter((x) => this.whatShow.includes(x.column))
   }
 
   mounted() {

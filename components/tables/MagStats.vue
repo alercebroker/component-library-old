@@ -1,5 +1,11 @@
 <template>
-  <v-data-table :headers="headers" :items="stats" hide-default-footer />
+  <v-data-table
+    :headers="headers"
+    :items="stats"
+    :hide-default-footer="hideDefaultFooter"
+    :items-per-page="itemsPerPage"
+    :dense="dense"
+  />
 </template>
 
 <script>
@@ -14,14 +20,19 @@ export default class MagStats extends Vue {
    */
   @Prop({ type: Array, required: true }) stats
 
+  @Prop({ type: Boolean, default: true }) dense
+
+  @Prop({ type: Boolean, default: true }) hideDefaultFooter
+  @Prop({ type: Number, default: 15 }) itemsPerPage
+
   headers = []
 
   setHeaders(stats) {
     if (stats.length) {
-      Object.keys(stats[0]).forEach(k => {
+      Object.keys(stats[0]).forEach((k) => {
         this.headers.push({
           text: k,
-          value: k
+          value: k,
         })
       })
     }

@@ -2,7 +2,7 @@ import { LightCurveOptions } from './utils/light-curve-utils'
 
 export class DifferenceLightCurveOptions extends LightCurveOptions {
   getSeries() {
-    const bands = new Set(this.detections.map(item => item.fid))
+    const bands = new Set(this.detections.map((item) => item.fid))
 
     this.addDetections(this.detections, bands)
 
@@ -12,7 +12,7 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
   }
 
   addDetections(detections, bands) {
-    bands.forEach(band => {
+    bands.forEach((band) => {
       const serie = {
         name: this.bandMap[band].name,
         type: 'scatter',
@@ -21,8 +21,8 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
         symbolSize: 6,
         encode: {
           x: 0,
-          y: 1
-        }
+          y: 1,
+        },
       }
       serie.data = this.formatDetections(detections, band)
       this.options.series.push(serie)
@@ -30,13 +30,13 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
   }
 
   addErrorBars(detections, bands) {
-    bands.forEach(band => {
+    bands.forEach((band) => {
       const serie = {
         name: this.bandMap[band].name,
         type: 'custom',
         scale: true,
         color: this.bandMap[band].color,
-        renderItem: this.renderError
+        renderItem: this.renderError,
       }
       serie.data = this.formatError(detections, band)
       this.options.series.push(serie)
@@ -44,7 +44,7 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
   }
 
   addNonDetections(nonDetections, bands) {
-    bands.forEach(band => {
+    bands.forEach((band) => {
       const serie = {
         name: this.bandMap[band].name + ' non-detections',
         type: 'scatter',
@@ -52,7 +52,7 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
         color: this.hexToRGB(this.bandMap[band].color, 0.5),
         symbolSize: 6,
         symbol:
-          'path://M0,49.017c0-13.824,11.207-25.03,25.03-25.03h438.017c13.824,0,25.029,11.207,25.029,25.03L262.81,455.745c0,0-18.772,18.773-37.545,0C206.494,436.973,0,49.017,0,49.017z'
+          'path://M0,49.017c0-13.824,11.207-25.03,25.03-25.03h438.017c13.824,0,25.029,11.207,25.029,25.03L262.81,455.745c0,0-18.772,18.773-37.545,0C206.494,436.973,0,49.017,0,49.017z',
       }
       serie.data = this.formatNonDetections(nonDetections, band)
       this.options.series.push(serie)
@@ -61,10 +61,10 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
 
   formatError(detections, band) {
     return detections
-      .filter(function(x) {
+      .filter(function (x) {
         return x.fid === band
       })
-      .map(function(x) {
+      .map(function (x) {
         if (x.sigmapsf_corr > 1) {
           return [null, null, null]
         }
@@ -74,29 +74,29 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
 
   formatDetections(detections, band) {
     return detections
-      .filter(function(x) {
+      .filter(function (x) {
         return x.fid === band
       })
-      .map(function(x) {
+      .map(function (x) {
         return [x.mjd, x.magpsf, x.candid_str, x.sigmapsf]
       })
   }
 
   formatNonDetections(nonDetections, band) {
     return nonDetections
-      .filter(function(x) {
+      .filter(function (x) {
         return x.fid === band && x.diffmaglim > 10
       })
-      .map(function(x) {
+      .map(function (x) {
         return [x.mjd, x.diffmaglim]
       })
   }
 
   getLegend() {
-    const bands = Array.from(new Set(this.detections.map(item => item.fid)))
-    let legend = bands.map(band => this.bandMap[band].name)
+    const bands = Array.from(new Set(this.detections.map((item) => item.fid)))
+    let legend = bands.map((band) => this.bandMap[band].name)
     legend = legend.concat(
-      bands.map(band => this.bandMap[band].name + ' non-detections')
+      bands.map((band) => this.bandMap[band].name + ' non-detections')
     )
     this.options.legend.data = legend
   }

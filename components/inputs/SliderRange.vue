@@ -16,7 +16,7 @@
 import {
   Vue,
   Component,
-  Prop
+  Prop,
   // Model,
   // Watch,
   // Emit,

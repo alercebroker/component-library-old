@@ -26,7 +26,7 @@ export default class TnsInformation extends Vue {
   headers = [
     { text: 'Type', value: 'type', sortable: false, align: 'center' },
     { text: 'Name', value: 'name', sortable: false, align: 'center' },
-    { text: 'Redshift', value: 'redshift', sortable: false, align: 'center' }
+    { text: 'Redshift', value: 'redshift', sortable: false, align: 'center' },
   ]
 
   get values() {
@@ -34,8 +34,8 @@ export default class TnsInformation extends Vue {
       {
         type: this.type,
         name: this.name,
-        redshift: this.redshift
-      }
+        redshift: this.redshift,
+      },
     ]
   }
 }
