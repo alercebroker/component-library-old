@@ -59,7 +59,6 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
   }
 
   formatDetections(detections, band) {
-    console.log(detections)
     return detections
       .filter(function (x) {
         return x.fid === band

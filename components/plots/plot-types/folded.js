@@ -61,7 +61,13 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
           .map(function (x) {
             let phase = (x.mjd % period) / period
             phase += 1
-            return [phase, x.magpsf_corr, x.candid, x.sigmapsf_corr, x.isdiffpos]
+            return [
+              phase,
+              x.magpsf_corr,
+              x.candid,
+              x.sigmapsf_corr,
+              x.isdiffpos,
+            ]
           })
       )
   }
