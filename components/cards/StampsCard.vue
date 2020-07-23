@@ -167,7 +167,7 @@ export default class StampCard extends Vue {
        * @arg {number} index of the selected detection
        */
       this.stateSelectedDetection -= 1
-      return this.selectedDetection - 1
+      return this.stateSelectedDetection
     }
   }
 
@@ -179,7 +179,7 @@ export default class StampCard extends Vue {
        * @arg {number} index of the selected detection
        */
       this.stateSelectedDetection += 1
-      return this.selectedDetection + 1
+      return this.stateSelectedDetection
     }
   }
 
@@ -196,7 +196,7 @@ export default class StampCard extends Vue {
       'http://avro.alerce.online/get_stamp?oid=' +
       this.object +
       '&candid=' +
-      this.getCandid(this.selectedDetection) +
+      this.getCandid(this.stateSelectedDetection) +
       '&type=' +
       type +
       '&format=fits'
