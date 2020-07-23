@@ -22,21 +22,23 @@ export default class Crosshair extends Vue {
   @Prop({ type: Boolean, default: false })
   fullscreen
 
+  @Prop({ type: Number, default: 20 }) crossHairSpace
+
   mounted() {
     this.drawImage()
   }
 
-  drawCrosshair(x, y, w, h, ctx) {
+  drawCrosshair(x, y, w, h, ctx, sp) {
     ctx.lineWidth = 10
     ctx.strokeStyle = 'rgba(255,0,0,0.3)'
     ctx.beginPath()
     ctx.moveTo(x, h / 4)
-    ctx.lineTo(x, y - 10)
-    ctx.moveTo(x, y + 10)
+    ctx.lineTo(x, y - sp)
+    ctx.moveTo(x, y + sp)
     ctx.lineTo(x, h - h / 4)
     ctx.moveTo(w / 4, y)
-    ctx.lineTo(x - 10, y)
-    ctx.moveTo(x + 10, y)
+    ctx.lineTo(x - sp, y)
+    ctx.moveTo(x + sp, y)
     ctx.lineTo(w - w / 4, y)
     ctx.stroke()
   }
@@ -47,19 +49,20 @@ export default class Crosshair extends Vue {
       const ctx = canvas.getContext('2d')
       const img = new Image()
       const drawCrosshair = this.drawCrosshair
+      const sp = this.crossHairSpace
       img.onload = () => {
         canvas.width = img.width
         canvas.height = img.height
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-        this.error = false
-        if (!this.error) {
+        if (!this.error && !img.src.includes('placeholder')) {
           drawCrosshair(
             canvas.width / 2,
             canvas.height / 2,
             canvas.width,
             canvas.height,
-            ctx
+            ctx,
+            sp
           )
           this.error = false
         }

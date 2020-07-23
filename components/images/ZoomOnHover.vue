@@ -109,7 +109,7 @@ export default class ZoomOnHover extends Vue {
   }
 
   onImageError(e) {
-    console.log('ERROR', e)
+    // console.log('ERROR', e)
   }
 }
 </script>

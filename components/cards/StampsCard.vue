@@ -80,16 +80,17 @@
       </v-row>
       <v-row class="pa-0">
         <v-col v-if="stampComponent === 'zoom'" cols="12">
-          <zoom-on-hover
+          <alerce-zoom-on-hover
             :images="[science, template, difference]"
             :disabled="isFullscreen"
-          ></zoom-on-hover>
+          ></alerce-zoom-on-hover>
         </v-col>
         <v-col v-if="stampComponent === 'crosshair'" cols="12">
-          <crosshair
+          <alerce-crosshair
             :images="[science, template, difference]"
             :fullscreen="isFullscreen"
-          ></crosshair>
+            :cross-hair-space="crossHairSpace"
+          ></alerce-crosshair>
         </v-col>
       </v-row>
       <v-row
@@ -124,7 +125,7 @@ import {
 } from 'nuxt-property-decorator'
 import { jdToDate } from '../utils/AstroDates.js'
 @Component
-export default class StampCards extends Vue {
+export default class StampCard extends Vue {
   @Prop({ type: Array, default: () => [] }) detections
 
   @Prop({ type: String, default: '' }) object
@@ -147,6 +148,8 @@ export default class StampCards extends Vue {
     ],
   })
   tools
+
+  @Prop({ type: Number }) crossHairSpace
 
   isFullscreen = false
   stampComponent = 'crosshair'
@@ -182,7 +185,7 @@ export default class StampCards extends Vue {
 
   getCandid(index) {
     if (this.detections && this.detections.length) {
-      return this.detections[index].candid_str
+      return this.detections[index].candid
     } else {
       return ''
     }
@@ -219,6 +222,9 @@ export default class StampCards extends Vue {
   }
 
   getScienceURL(object, candid) {
+    if (!candid) {
+      return 'https://via.placeholder.com/300'
+    }
     return (
       'https://avro.alerce.online/get_stamp?oid=' +
       object +
@@ -229,6 +235,9 @@ export default class StampCards extends Vue {
   }
 
   getTemplateURL(object, candid) {
+    if (!candid) {
+      return 'https://via.placeholder.com/300'
+    }
     return (
       'https://avro.alerce.online/get_stamp?oid=' +
       object +
@@ -239,6 +248,9 @@ export default class StampCards extends Vue {
   }
 
   getDifferenceURL(object, candid) {
+    if (!candid) {
+      return 'https://via.placeholder.com/300'
+    }
     return (
       'https://avro.alerce.online/get_stamp?oid=' +
       object +
