@@ -13,7 +13,7 @@
               :min="0"
               :max="20"
               step="0.1"
-              style="width: 175px"
+              style="width: 175px;"
               suffix="arcsec"
             ></v-text-field>
           </template>
@@ -22,19 +22,24 @@
     </v-row>
     <v-row>
       <v-expansion-panels>
-        <v-expansion-panel v-for="(item,idx) in filtered" :key="idx">
+        <v-expansion-panel v-for="(item, idx) in filtered" :key="idx">
           <v-expansion-panel-header>
             <v-row>
               <v-col align-center>
                 <h6 class="title">
-                  {{item.name}}
-                  <span class="ml-1 caption grey--text text--lighten-1">({{ Object.keys(item.values).length }} attributes)</span>
+                  {{ item.name }}
+                  <span class="ml-1 caption grey--text text--lighten-1"
+                    >({{ Object.keys(item.values).length }} attributes)</span
+                  >
                 </h6>
               </v-col>
               <v-col xs6 class="text--secondary">
-                <p
-                  class="text-sm-right"
-                >Distance: {{ item.distance.value.toFixed(3) + " " + item.distance.unit }}</p>
+                <p class="text-sm-right">
+                  Distance:
+                  {{
+                    item.distance.value.toFixed(3) + ' ' + item.distance.unit
+                  }}
+                </p>
               </v-col>
             </v-row>
           </v-expansion-panel-header>
@@ -72,19 +77,20 @@ export default class CrossMatches extends Vue {
     {
       text: 'Attribute',
       value: 'field',
-      sortable: false
+      sortable: false,
     },
     {
       text: 'Value',
       value: 'value',
-      sortable: false
+      sortable: false,
     },
     {
       text: 'Unit',
       value: 'unit',
-      sortable: false
-    }
+      sortable: false,
+    },
   ]
+
   @Prop({ type: Array, required: true, default: () => [] })
   catalogs
 
@@ -92,7 +98,7 @@ export default class CrossMatches extends Vue {
     if (this.distance == null) {
       return this.catalogs
     } else {
-      return this.catalogs.filter(x => this.distance >= x.distance.value)
+      return this.catalogs.filter((x) => this.distance >= x.distance.value)
     }
   }
 }
