@@ -31,9 +31,19 @@ export default class SelectDisplay extends Vue {
    * Text: is the displayed label for the radio button
    * value: is the identifier for buttons and defines selected value.
    * It should match the slot name
+   *
+   * Optionally provide the default option true for starting with a value selected
    */
   @Prop({ type: Array, required: true }) options
 
   selected = null
+
+  mounted() {
+    this.selected = this.options.find((x) => {
+      if ('default' in x) {
+        return x.default
+      }
+    }).value
+  }
 }
 </script>
