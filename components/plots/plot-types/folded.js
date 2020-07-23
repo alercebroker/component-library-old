@@ -51,7 +51,7 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
       })
       .map((x) => {
         const phase = (x.mjd % period) / period
-        return [phase, x.magpsf_corr, x.candid_str, x.sigmapsf_corr]
+        return [phase, x.magpsf_corr, x.candid, x.sigmapsf_corr, x.isdiffpos]
       })
       .concat(
         detections
@@ -61,7 +61,7 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
           .map(function (x) {
             let phase = (x.mjd % period) / period
             phase += 1
-            return [phase, x.magpsf_corr, x.candid_str, x.sigmapsf_corr]
+            return [phase, x.magpsf_corr, x.candid, x.sigmapsf_corr, x.isdiffpos]
           })
       )
   }
@@ -88,6 +88,9 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
             return x.fid === band
           })
           .map(function (x) {
+            if (x.sigmapsf_corr > 1) {
+              return [null, null, null]
+            }
             let phase = (x.mjd % period) / period
             phase += 1
             return [

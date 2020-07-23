@@ -78,7 +78,7 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
         return x.fid === band
       })
       .map(function (x) {
-        return [x.mjd, x.magpsf, x.candid_str, x.sigmapsf]
+        return [x.mjd, x.magpsf, x.candid, x.sigmapsf, x.isdiffpos]
       })
   }
 

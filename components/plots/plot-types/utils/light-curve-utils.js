@@ -160,13 +160,14 @@ export class LightCurveOptions {
       )
       return table + '</table>'
     } else if (serie === 'r' || serie === 'g') {
+      const isdiffpos = params[0].value[4] === 1? '(+)' : '(-)'
       const mag = params[0].value[1].toFixed(3)
       const err = params[0].value[3].toFixed(3)
       table += rowTable('', 'candid: ', params[0].value[2])
       table += rowTable(
         colorSpan(params[0].color),
         params[0].seriesName + ': ',
-        mag + '±' + err
+        `${isdiffpos} ${mag} ± ${err}`
       )
       table += rowTable(
         calendarIcon(params[0].color),
@@ -187,7 +188,7 @@ export class LightCurveOptions {
     const xValue = api.value(0)
     const highPoint = api.coord([xValue, api.value(1)])
     const lowPoint = api.coord([xValue, api.value(2)])
-    const halfWidth = api.size([1, 0])[0] * 0.1
+    const halfWidth = 1.9 //api.size([1, 0])[0] * 0.1
     const style = api.style({
       stroke: api.visual('color'),
       fill: null,

@@ -8,8 +8,8 @@
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 @Component
 export default class RadarPlot extends Vue {
-  @Prop({ type: Object, default: {} })
-  probabilities
+  @Prop({ type: Array, default: () => [] })
+  data
 
   @Prop({ type: String, default: '' })
   title
@@ -52,14 +52,14 @@ export default class RadarPlot extends Vue {
             padding: [3, 5]
           }
         },
-        indicator: this.formatIndicator(this.probabilities)
+        indicator: this.formatIndicator(this.data)
       },
       series: [{
         name: 'Probabilities (Score)',
         type: 'radar',
         areaStyle: {},
         data: [
-          this.formatData(this.probabilities)
+          this.formatData(this.data)
         ]
       }]
     }
@@ -67,14 +67,13 @@ export default class RadarPlot extends Vue {
 
   formatData (probs) {
     return {
-      value: Object.keys(probs).map(k => probs[k]),
-      name: 'Probabilities (score)'
+      value: probs.map(k => k.value),
     }
   }
 
   formatIndicator (probs) {
-    const indicator = Object.keys(probs).map((k) => { return { name: k, max: 1 } })
-    const maxVal = Math.max.apply(Math, Object.keys(probs).map(k => probs[k]))
+    const indicator = probs.map((k) => { return { name: k.name, max: 1 } })
+    const maxVal = Math.max.apply(Math, probs.map((k) => k.value))
     return indicator.map((x) => { x.max = maxVal; return x })
   }
 }
