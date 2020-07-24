@@ -167,8 +167,8 @@ export default class StampCard extends Vue {
        * @arg {number} index of the selected detection
        */
       this.stateSelectedDetection -= 1
-      return this.stateSelectedDetection
     }
+    return this.stateSelectedDetection
   }
 
   @Emit('selectDetection')
@@ -179,8 +179,8 @@ export default class StampCard extends Vue {
        * @arg {number} index of the selected detection
        */
       this.stateSelectedDetection += 1
-      return this.stateSelectedDetection
     }
+    return this.stateSelectedDetection
   }
 
   getCandid(index) {
