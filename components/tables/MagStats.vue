@@ -28,6 +28,7 @@ export default class MagStats extends Vue {
   headers = []
 
   setHeaders(stats) {
+    this.headers = []
     if (stats.length) {
       Object.keys(stats[0]).forEach((k) => {
         this.headers.push({
