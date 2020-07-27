@@ -58,8 +58,6 @@ export default class BasicInformation extends Vue {
     { text: 'Value', value: 'value', align: 'end' },
   ]
 
-  values = []
-
   whatShow = [
     'Object',
     'RA Dec',
@@ -104,19 +102,6 @@ export default class BasicInformation extends Vue {
         return x
       })
     }
-  }
-
-  /* based in https://stackoverflow.com/a/2970667 */
-  camelize(str) {
-    return str
-      .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
-        return index === 0 ? word.toLowerCase() : word.toUpperCase()
-      })
-      .replace(/\s+/g, '')
-  }
-
-  capitalize(str) {
-    return str.replace(/^\w/, (c) => c.toUpperCase())
   }
 
   formatDate(val) {
@@ -175,7 +160,7 @@ export default class BasicInformation extends Vue {
     return res
   }
 
-  formatInformation() {
+  get values() {
     const aux = this.information
     aux.raDec = { ra: this.information.meanra, dec: this.information.meandec }
     const keys = Object.keys(this.information)
@@ -183,10 +168,6 @@ export default class BasicInformation extends Vue {
       return this.infoMapper(k, this.information[k])
     })
     return toDisplay.filter((x) => this.whatShow.includes(x.column))
-  }
-
-  mounted() {
-    this.values = this.formatInformation()
   }
 }
 </script>
