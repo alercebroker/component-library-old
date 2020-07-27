@@ -16,12 +16,7 @@
                   <span v-if="option.tooltip">
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                          align="center"
-                          color="primary"
-                          dark
-                          v-bind="attrs"
-                          v-on="on"
+                        <v-icon align="center" v-bind="attrs" v-on="on"
                           >help</v-icon
                         >
                       </template>
