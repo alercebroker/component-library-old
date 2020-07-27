@@ -8,12 +8,30 @@
     <v-row>
       <v-col>
         <v-radio-group v-model="selected" row>
-          <v-radio
-            v-for="option in options"
-            :key="'radio-' + option.value"
-            :label="option.text"
-            :value="option.value"
-          />
+          <div v-for="option in options" :key="'radio-' + option.value">
+            <v-radio :value="option.value">
+              <template v-slot:label>
+                <div>
+                  {{ option.text }}
+                  <span v-if="option.tooltip">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon
+                          align="center"
+                          color="primary"
+                          dark
+                          v-bind="attrs"
+                          v-on="on"
+                          >help</v-icon
+                        >
+                      </template>
+                      <span>{{ option.tooltip }}</span>
+                    </v-tooltip>
+                  </span>
+                </div>
+              </template>
+            </v-radio>
+          </div>
         </v-radio-group>
       </v-col>
     </v-row>
