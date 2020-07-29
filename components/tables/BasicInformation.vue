@@ -62,7 +62,7 @@ export default class BasicInformation extends Vue {
 
   whatShow = [
     'Object',
-    'RA Dec',
+    'RA(J2000) Dec(J2000)',
     'Number',
     'Detections',
     'Discovery date',
@@ -92,7 +92,7 @@ export default class BasicInformation extends Vue {
 
   changeHmsButtonText() {
     if (this.hmsButtonText === 'View H:M:S') {
-      this.hmsButtonText = 'View RA Dec'
+      this.hmsButtonText = 'View Degrees'
       this.values = this.values.map((x) => {
         x.value = x.hms ? x.hms : x.value
         return x
@@ -163,7 +163,7 @@ export default class BasicInformation extends Vue {
         res.value = value ? 'yes' : 'no'
         break
       case 'raDec':
-        res.column = 'RA Dec'
+        res.column = 'RA(J2000) Dec(J2000)'
         res.value = `${value.ra} ${value.dec}`
         res.radec = `${value.ra} ${value.dec}`
         res.hms = raDectoHMS(value.ra, value.dec)

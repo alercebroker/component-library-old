@@ -1,26 +1,23 @@
 <template>
   <v-layout v-if="ra != null && dec != null" wrap justify-center>
-    <v-flex
-      v-for="item in links"
-      :key="item.name"
-      xs12
-      sm4
-      pl-1
-      pr-1
-      pt-2
-      class="text-md-center"
-    >
-      <v-btn
-        color="primary"
-        block
-        small
-        depressed
-        :href="item.link"
-        target="_blank"
-      >
-        <div class="text-capitalize">{{ item.name }}</div>
-      </v-btn>
-    </v-flex>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn color="primary" dark v-bind="attrs" v-on="on">
+          {{ title }}
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          v-for="item in links"
+          :key="item.name"
+          @click="openPage(item.link)"
+        >
+          <v-list-item-title>
+            {{ item.name }}
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-layout>
 </template>
 <script>
@@ -32,6 +29,9 @@ export default class ColumnsoptionsButton extends Vue {
 
   @Prop({ type: Number, default: 0 })
   dec
+
+  @Prop({ type: String, default: 'External Catalogs' })
+  title
 
   get links() {
     return [
@@ -79,6 +79,11 @@ export default class ColumnsoptionsButton extends Vue {
           this.dec,
       },
     ]
+  }
+
+  openPage(url) {
+    const win = window.open(url, '_blank')
+    win.focus()
   }
 }
 </script>
