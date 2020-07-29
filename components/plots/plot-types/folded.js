@@ -45,7 +45,7 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
   }
 
   formatDetections(detections, band, period) {
-    return detections
+    const folded_1 = detections
       .filter(function (x) {
         return x.fid === band && x.magpsf_corr != null && x.corrected
       })
@@ -53,29 +53,16 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
         const phase = (x.mjd % period) / period
         return [phase, x.magpsf_corr, x.candid, x.sigmapsf_corr, x.isdiffpos]
       })
-      .concat(
-        detections
-          .filter(function (x) {
-            return x.fid === band && x.magpsf_corr != null && x.corrected
-          })
-          .map(function (x) {
-            let phase = (x.mjd % period) / period
-            phase += 1
-            return [
-              phase,
-              x.magpsf_corr,
-              x.candid,
-              x.sigmapsf_corr,
-              x.isdiffpos,
-            ]
-          })
-      )
+    const folded_2 = folded_1.map((x) => {
+      return [x[0] + 1, x[1], x[2], x[3], x[4]]
+    })
+    return folded_1.concat(folded_2)
   }
 
   formatError(detections, band, period) {
-    return detections
+    const errors_1 = detections
       .filter(function (x) {
-        return x.fid === band && x.corrected
+        return x.fid === band && x.corrected && x.magpsf_corr != null
       })
       .map(function (x) {
         if (x.sigmapsf_corr > 1) {
@@ -88,24 +75,14 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
           x.magpsf_corr + x.sigmapsf_corr,
         ]
       })
-      .concat(
-        detections
-          .filter(function (x) {
-            return x.fid === band && x.corrected
-          })
-          .map(function (x) {
-            if (x.sigmapsf_corr > 1) {
-              return [null, null, null]
-            }
-            let phase = (x.mjd % period) / period
-            phase += 1
-            return [
-              phase,
-              x.magpsf_corr - x.sigmapsf_corr,
-              x.magpsf_corr + x.sigmapsf_corr,
-            ]
-          })
-      )
+    
+      const errors_2 = errors_1.map((x) => {
+        if (x[0] === null) {
+          return x
+        }
+        return [x[0] + 1, x[1], x[2]]
+      })
+      return errors_1.concat(errors_2)
   }
 
   getLegend() {
