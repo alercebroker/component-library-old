@@ -96,7 +96,7 @@ export default class Aladin extends Vue {
     canvasCtx.fillText(source.data.class, source.x + 2 + xShift, source.y + 10)
   }
 
-  @Watch('objects')
+  // @Watch('objects')
   addObjects(aladin, objects) {
     aladin.removeLayers()
     const sources = []
