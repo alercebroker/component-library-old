@@ -8,26 +8,18 @@
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 @Component
 export default class RadarPlot extends Vue {
-  @Prop({ type: Array, default: () => [] })
-  data
+  @Prop({ type: Array, default: () => [] }) data
+  @Prop({ type: String, default: '' }) title
+  @Prop({ type: String, default: 'polygon' }) shape
+  @Prop({ type: Boolean, default: false }) tooltip
+  @Prop({ type: Boolean, default: false }) legend
+  @Prop({ type: Number, default: 3 }) splitNumber
+  @Prop({ type: String, default: 'red' }) filled
+  @Prop({ type: Boolean, default: false }) dark
 
-  @Prop({ type: String, default: '' })
-  title
-
-  @Prop({ type: String, default: 'polygon' })
-  shape
-
-  @Prop({ type: Boolean, default: false })
-  tooltip
-
-  @Prop({ type: Boolean, default: false })
-  legend
-
-  @Prop({ type: Number, default: 3 })
-  splitNumber
-
-  @Prop({ type: String, default: 'red' })
-  filled
+  get fontColor() {
+    return this.$vuetify.theme.isDark ? '#fff' : '#000'
+  }
 
   get polar() {
     return {
@@ -45,8 +37,7 @@ export default class RadarPlot extends Vue {
         backgroundColor: this.filled,
         name: {
           textStyle: {
-            color: '#fff',
-            backgroundColor: '#999',
+            color: this.fontColor,
             borderRadius: 3,
             padding: [3, 5],
           },
