@@ -90,16 +90,16 @@ export class LightCurveOptions {
       },
       yAxis: {
         name: 'Magnitude',
-        nameLocation: 'center',
+        nameLocation: 'start',
         type: 'value',
         scale: true,
         splitLine: {
           show: false,
         },
         inverse: true,
-        nameTextStyle: {
+        /* nameTextStyle: {
           padding: 25,
-        },
+        }, */
       },
       textStyle: {
         color: this.fontColor,

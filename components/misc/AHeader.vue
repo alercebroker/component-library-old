@@ -1,6 +1,6 @@
 <template>
-  <v-app-bar dense>
-    <a :to="{ path: '/' }">
+  <v-app-bar app dense>
+    <a @click="$router.push('/')">
       <v-img :src="_logo" max-width="40px" class="mr-4" />
     </a>
     <v-toolbar-title class="mr-4">
