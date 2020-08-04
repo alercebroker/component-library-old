@@ -32,6 +32,11 @@ module.exports = {
         {
           test: /\.vue$/,
           loader: 'vue-loader',
+          options: {
+            loaders: {
+              scss: ['vue-style-loader', 'css-loader', 'sass-loader'],
+            },
+          },
         },
         {
           test: /\.js?$/,
@@ -67,10 +72,11 @@ module.exports = {
             {
               loader: 'sass-loader',
               options: {
-                implementation: require('sass'),
-                sassOptions: {
-                  fiber: require('fibers'),
-                },
+                // implementation: require('sass'),
+                // sassOptions: {
+                //   fiber: require('fibers'),
+                // }
+                // ,
               },
             },
           ],
