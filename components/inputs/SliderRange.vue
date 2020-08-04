@@ -13,14 +13,7 @@
 </template>
 
 <script>
-import {
-  Vue,
-  Component,
-  Prop,
-  // Model,
-  // Watch,
-  // Emit,
-} from 'nuxt-property-decorator'
+import { Vue, Component, Prop } from 'nuxt-property-decorator'
 @Component
 export default class SliderRange extends Vue {
   @Prop({ type: Array, default: () => [0, 1000] }) value
@@ -56,5 +49,3 @@ export default class SliderRange extends Vue {
   }
 }
 </script>
-
-<style></style>

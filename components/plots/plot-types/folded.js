@@ -45,7 +45,7 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
   }
 
   formatDetections(detections, band, period) {
-    const folded_1 = detections
+    const folded1 = detections
       .filter(function (x) {
         return x.fid === band && x.magpsf_corr != null && x.corrected
       })
@@ -53,14 +53,14 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
         const phase = (x.mjd % period) / period
         return [phase, x.magpsf_corr, x.candid, x.sigmapsf_corr, x.isdiffpos]
       })
-    const folded_2 = folded_1.map((x) => {
+    const folded2 = folded1.map((x) => {
       return [x[0] + 1, x[1], x[2], x[3], x[4]]
     })
-    return folded_1.concat(folded_2)
+    return folded1.concat(folded2)
   }
 
   formatError(detections, band, period) {
-    const errors_1 = detections
+    const errors1 = detections
       .filter(function (x) {
         return x.fid === band && x.corrected && x.magpsf_corr != null
       })
@@ -75,14 +75,14 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
           x.magpsf_corr + x.sigmapsf_corr,
         ]
       })
-    
-      const errors_2 = errors_1.map((x) => {
-        if (x[0] === null) {
-          return x
-        }
-        return [x[0] + 1, x[1], x[2]]
-      })
-      return errors_1.concat(errors_2)
+
+    const errors2 = errors1.map((x) => {
+      if (x[0] === null) {
+        return x
+      }
+      return [x[0] + 1, x[1], x[2]]
+    })
+    return errors1.concat(errors2)
   }
 
   getLegend() {

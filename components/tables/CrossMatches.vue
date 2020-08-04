@@ -103,5 +103,3 @@ export default class CrossMatches extends Vue {
   }
 }
 </script>
-
-<style></style>
