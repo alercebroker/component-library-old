@@ -61,7 +61,7 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
   formatDetections(detections, band) {
     return detections
       .filter(function (x) {
-        return x.fid === band && x.corrected
+        return x.fid === band && x.corrected && x.magpsf_corr < 100
       })
       .map(function (x) {
         if (x.magpsf_corr < 6 || x.magpsf_corr === null) {

@@ -16,9 +16,9 @@
                   <span v-if="option.tooltip">
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on, attrs }">
-                        <v-icon align="center" v-bind="attrs" v-on="on"
-                          >help</v-icon
-                        >
+                        <v-icon align="center" v-bind="attrs" v-on="on">
+                          help
+                        </v-icon>
                       </template>
                       <span>{{ option.tooltip }}</span>
                     </v-tooltip>
@@ -35,6 +35,7 @@
 
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
+import { download } from '../utils/DownloadData'
 @Component
 export default class SelectDisplay extends Vue {
   /**

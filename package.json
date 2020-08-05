@@ -17,9 +17,11 @@
     "styleguide:build": "vue-styleguidist build"
   },
   "dependencies": {
-    "@nuxtjs/vuetify": "^1.11.2",
     "@mdi/font": "^4.9.95",
+    "@nuxtjs/vuetify": "^1.11.2",
     "echarts": "^4.8.0",
+    "file-saver": "^2.0.2",
+    "jszip": "^3.5.0",
     "julian": "^0.2.0",
     "nuxt": "^2.13.0",
     "nuxt-property-decorator": "^2.7.2",
