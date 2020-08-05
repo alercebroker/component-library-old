@@ -2,7 +2,7 @@
   <v-layout v-if="ra != null && dec != null" wrap justify-center>
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
+        <v-btn small tile block color="blue" v-bind="attrs" v-on="on">
           {{ title }}
         </v-btn>
       </template>

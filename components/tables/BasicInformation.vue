@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pb-0">
     <v-layout row wrap>
       <v-flex xs12>
         <v-data-table
@@ -32,14 +32,6 @@
           @click="changeHmsButtonText"
         >
           {{ hmsButtonText }}
-        </v-btn>
-      </v-flex>
-      <v-flex xs12>
-        <v-btn small tile block color="cyan darken-2">
-          <v-icon left>
-            mdi-file-document-outline
-          </v-icon>
-          Finding Chart
         </v-btn>
       </v-flex>
     </v-layout>
