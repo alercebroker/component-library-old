@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="8">
+      <v-col>
         <v-radio-group v-model="selected" row>
           <div v-for="option in options" :key="'radio-' + option.value">
             <v-radio :value="option.value">
@@ -29,12 +29,6 @@
           </div>
         </v-radio-group>
       </v-col>
-      <v-col v-if="isDownloable" cols="4" align-self="center">
-        <v-btn @click="downloadLightcurve" outlined small>
-          <v-icon left small>cloud_download</v-icon>
-          Download
-        </v-btn>
-      </v-col>
     </v-row>
   </div>
 </template>
@@ -55,8 +49,6 @@ export default class SelectDisplay extends Vue {
    * Optionally provide the default option true for starting with a value selected
    */
   @Prop({ type: Array, required: true }) options
-  @Prop({ type: Object }) lightcurve
-  @Prop({ type: String }) oid
 
   selected = null
 
@@ -66,14 +58,6 @@ export default class SelectDisplay extends Vue {
         return x.default
       }
     }).value
-  }
-
-  get isDownloable() {
-    return this.lightcurve !== undefined && this.oid != null
-  }
-
-  downloadLightcurve() {
-    download(this.oid, this.lightcurve)
   }
 }
 </script>
