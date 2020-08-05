@@ -8,7 +8,7 @@
     <v-flex xs12 sm12 md6>
       <v-select
         v-model="localValue.selectedClassifier"
-        :items="_classifiers"
+        :items="classifiers"
         label="Classifier"
         hide-no-data
       />
@@ -17,7 +17,7 @@
     <v-flex xs12 sm12 md6>
       <v-select
         v-model="localValue.selectedClass"
-        :items="classItems"
+        :items="classes"
         label="Class"
       />
     </v-flex>
@@ -53,14 +53,6 @@ export default class DefaultSearch extends Vue {
     return this.value.probability
       ? 'Probability ≥' + this.value.probability
       : 'Probability ≥ 0.00'
-  }
-
-  get _classifiers() {
-    return this.classifiers.map((x) => x.name)
-  }
-
-  get classItems() {
-    return this.classes.map((x) => x.acronym)
   }
 
   @Watch('value', { immediate: true, deep: true })

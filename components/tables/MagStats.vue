@@ -49,5 +49,3 @@ export default class MagStats extends Vue {
   }
 }
 </script>
-
-<style></style>
