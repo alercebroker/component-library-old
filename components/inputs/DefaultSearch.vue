@@ -5,7 +5,7 @@
       <v-text-field v-model="localValue.oid" label="Object ID" />
     </v-flex>
     <!--Classifier-->
-    <v-flex xs12 sm12 md6>
+    <v-flex xs12 sm12 md6 lg5>
       <v-select
         v-model="localValue.selectedClassifier"
         :items="classifiers"
@@ -14,12 +14,15 @@
       />
     </v-flex>
     <!--Class-->
-    <v-flex xs12 sm12 md6>
+    <v-flex xs12 sm12 md6 lg5>
       <v-select
         v-model="localValue.selectedClass"
         :items="classes"
         label="Class"
       />
+    </v-flex>
+    <v-flex xs12 sm12 md12 lg2>
+      <v-text-field v-model="localValue.ranking" label="Rank" type="number" />
     </v-flex>
     <!--Probabilities-->
     <v-flex xs12 sm12 md12>
