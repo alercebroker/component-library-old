@@ -42,6 +42,7 @@ export default class Aladin extends Vue {
     if (this.objects) {
       this.catalog = this.addObjects(this.aladin, this.objects)
     }
+    this.onSelectedObjectChange(this.selectedObject)
   }
 
   @Emit('objectSelected')
