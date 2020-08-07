@@ -18,9 +18,9 @@ import { Vue, Component, Prop } from 'nuxt-property-decorator'
 export default class SliderRange extends Vue {
   @Prop({ type: Array, default: () => [0, 1000] }) value
 
-  @Prop({ type: Number, default: 2000 }) max
+  @Prop({ type: Number, default: null }) max
 
-  @Prop({ type: Number, default: 1 }) min
+  @Prop({ type: Number, default: null }) min
 
   @Prop({ type: Number, default: 1 }) step
 
@@ -29,7 +29,8 @@ export default class SliderRange extends Vue {
   }
 
   set minRange(val) {
-    this.$emit('input', [val, this.maxRange])
+    const maxRange = Math.min(this.maxRange, this.max) || this.max
+    this.$emit('input', [val, maxRange])
   }
 
   get maxRange() {
@@ -37,7 +38,8 @@ export default class SliderRange extends Vue {
   }
 
   set maxRange(val) {
-    this.$emit('input', [this.minRange, val])
+    const minRange = Math.max(this.min, this.minRange) || this.min
+    this.$emit('input', [minRange, val])
   }
 
   get range() {
