@@ -37,7 +37,7 @@
     <v-flex xs12>
       Number of detections range
     </v-flex>
-    <alerce-slider-range v-model="localValue.ndet" />
+    <alerce-slider-range v-model="localValue.ndet" :max="limitNdet[1]" />
   </v-layout>
 </template>
 <script>
@@ -49,6 +49,8 @@ export default class DefaultSearch extends Vue {
   @Prop({ type: Array, default: () => [] }) classifiers
 
   @Prop({ type: Array, default: () => [] }) classes
+
+  @Prop({ type: Array, default: () => [1, 2000] }) limitNdet
 
   localValue = {}
 
