@@ -1,7 +1,7 @@
 <template>
   <v-radio-group v-model="localValue" row>
     <div v-for="option in options" :key="'radio-' + option.value">
-      <v-radio v-if="option.show" :value="option.value">
+      <v-radio :disabled="!option.show" :value="option.value">
         <template v-slot:label>
           <div>
             {{ option.text }}

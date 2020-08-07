@@ -44,9 +44,12 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
   formatError(detections, band) {
     return detections
       .filter(function (x) {
-        return x.fid === band && x.corrected
+        return x.fid === band && x.corrected && x.magpsf_corr < 100
       })
       .map(function (x) {
+        if (x.sigmapsf_corr_ext > 2) {
+          return [null, null, null]
+        }
         return [
           x.mjd,
           x.magpsf_corr - x.sigmapsf_corr_ext,
@@ -58,7 +61,7 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
   formatDetections(detections, band) {
     return detections
       .filter(function (x) {
-        return x.fid === band && x.corrected
+        return x.fid === band && x.corrected && x.magpsf_corr < 100
       })
       .map(function (x) {
         return [
