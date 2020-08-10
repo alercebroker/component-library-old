@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pb-0">
+  <v-container class="py-0">
     <v-layout row wrap>
       <v-flex xs12>
         <v-data-table
@@ -7,10 +7,23 @@
           :items="values"
           :items-per-page="values.length"
           :mobile-breakpoint="250"
-          hide-default-header
-          hide-default-footer
           dense
-        />
+          disable-sort
+          hide-default-footer
+        >
+          <template v-slot:[`item.tooltip`]="{ item }">
+            <span v-if="item.tooltip">
+              <v-tooltip right max-width="200">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon align="center" v-bind="attrs" v-on="on">
+                    help
+                  </v-icon>
+                </template>
+                <span>{{ item.tooltip }}</span>
+              </v-tooltip>
+            </span>
+          </template>
+        </v-data-table>
       </v-flex>
       <v-flex xs6>
         <v-btn
@@ -46,8 +59,9 @@ export default class BasicInformation extends Vue {
   information
 
   header = [
-    { text: 'Column', value: 'column', align: 'start' },
-    { text: 'Value', value: 'value', align: 'end' },
+    { text: '', value: 'column', align: 'start', width: '35%' },
+    { text: '', value: 'value', align: 'center', width: '60%' },
+    { text: '', value: 'tooltip', align: 'end', width: '5%' },
   ]
 
   whatShow = [
@@ -134,10 +148,14 @@ export default class BasicInformation extends Vue {
       case 'corrected':
         res.column = 'Corrected'
         res.value = value ? 'yes' : 'no'
+        res.tooltip =
+          'There is a matching source in the reference image. The apparent magnitude combines the difference and reference fluxes.'
         break
       case 'stellar':
         res.column = 'Stellar'
         res.value = value ? 'yes' : 'no'
+        res.tooltip =
+          'There is a matching point-like source in the reference image.'
         break
       case 'raDec':
         res.column = 'RA(J2000) Dec(J2000)'
