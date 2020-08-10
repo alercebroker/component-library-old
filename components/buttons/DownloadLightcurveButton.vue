@@ -8,15 +8,16 @@ import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import { download } from '../utils/DownloadData'
 @Component({})
 export default class DownloadLightcurveButton extends Vue {
-  @Prop({ type: Object }) lightcurve
   @Prop({ type: String }) oid
+  @Prop({ type: Array, default: () => [] }) detections
+  @Prop({ type: Array, default: () => [] }) nonDetections
 
   get isDownloable() {
     return this.lightcurve !== undefined && this.oid != null
   }
 
   downloadLightcurve() {
-    download(this.oid, this.lightcurve)
+    download(this.oid, this.detections, this.nonDetections)
   }
 }
 </script>
