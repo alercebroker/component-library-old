@@ -36,7 +36,7 @@ export default class Aladin extends Vue {
   mounted() {
     this.aladin = A.aladin('#aladin-lite-div', {
       survey: 'P/PanSTARRS/DR1/color-z-zg-g',
-      fov: 60,
+      fov: 0.03,
       cooFrame: 'J2000d',
     })
     if (this.objects) {
