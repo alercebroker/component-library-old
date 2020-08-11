@@ -73,7 +73,6 @@ export default class ResultTable extends Vue {
 
   @Watch('paginationOptions', { immediate: true, deep: true })
   setLocalPaginationOptions(val) {
-    console.log('paginationOptions Watch', val)
     this.localPaginationOptions = { ...this.localPaginationOptions, ...val }
   }
 
