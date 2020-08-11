@@ -71,8 +71,10 @@ export default class ResultTable extends Vue {
     } else this.localMessage = this.defaultMessage
   }
 
-  setLocalPaginationOptions() {
-    this.localPaginationOptions = this.paginationOptions
+  @Watch('paginationOptions', { immediate: true, deep: true })
+  setLocalPaginationOptions(val) {
+    console.log('paginationOptions Watch', val)
+    this.localPaginationOptions = { ...this.localPaginationOptions, ...val }
   }
 
   get numPages() {
