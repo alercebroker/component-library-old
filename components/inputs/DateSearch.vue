@@ -21,31 +21,14 @@
       >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="displayedMinFirstGreg"
+            v-model="minDateText"
             label="Min first greg date"
             prepend-icon="mdi-calendar"
             readonly
             v-on="on"
           />
         </template>
-        <v-card>
-          <v-date-picker
-            v-model="minFirstGreg"
-            scrollable
-            first-day-of-week="1"
-            :allowed-dates="minDates"
-          />
-          <v-time-picker v-model="minFirstTime" format="24hr" />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn text color="error" @click="clearMin">
-              Clear
-            </v-btn>
-            <v-btn text color="primary" @click="saveMin">
-              Save
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+        <alerce-date-time-picker v-model="minDatetime" :open.sync="menuMin" />
       </v-menu>
     </v-flex>
 
@@ -69,181 +52,76 @@
       >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="displayedMaxFirstGreg"
+            v-model="maxDateText"
             label="Max first greg date"
             prepend-icon="mdi-calendar"
             readonly
             v-on="on"
           />
         </template>
-        <v-card>
-          <v-date-picker
-            v-model="maxFirstGreg"
-            scrollable
-            actions
-            first-day-of-week="1"
-            :allowed-dates="maxDates"
-          />
-          <v-time-picker v-model="maxFirstTime" format="24hr" />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn text color="primary" @click="clearMax">
-              Clear
-            </v-btn>
-            <v-btn text color="primary" @click="saveMax">
-              Save
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+        <alerce-date-time-picker v-model="maxDatetime" :open.sync="menuMax" />
       </v-menu>
     </v-flex>
   </v-layout>
 </template>
 <script>
-import { Vue, Component, Watch, Prop } from 'nuxt-property-decorator'
+import moment from 'moment'
+import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
 import { jdToDate, gregorianToJd } from '../utils/AstroDates'
-@Component({})
+@Component
 export default class DateSearch extends Vue {
   @Prop({ type: Object, required: true }) value
 
   menuMin = false
   menuMax = false
 
-  minGregDate = null
-  maxGregDate = null
-  minFirstTime = '00:00'
-  maxFirstTime = '00:00'
-
-  displayedMinFirstGreg = null
-  displayedMaxFirstGreg = null
-
   localValue = {
     minMjd: null,
     maxMjd: null,
   }
 
-  get maxMjd() {
-    return this.value.maxMjd
+  minDatetime = null
+  maxDatetime = null
+
+  @Watch('value', { deep: true, immediate: true })
+  onValueChange(val, old) {
+    this.localValue.minMjd = val.minMjd
+    this.localValue.maxMjd = val.maxMjd
   }
 
-  set maxMjd(val) {
-    this.$emit('input', { ...this.value, maxMjd: val })
+  @Watch('minDatetime')
+  onMinDatetimeChange(val) {
+    this.localValue.minMjd = gregorianToJd(val)
   }
 
-  minDates(val) {
-    if (this.maxFirstGreg != null) {
-      return val <= this.maxFirstGreg
-    } else {
-      return val
-    }
+  @Watch('maxDatetime')
+  onNaxDatetimeChange(val) {
+    this.localValue.maxMjd = gregorianToJd(val)
   }
 
-  maxDates(val) {
-    if (this.minFirstGreg != null) {
-      return val >= this.minFirstGreg
-    } else {
-      return val
-    }
-  }
-
-  clearMin() {
-    this.minFirstGreg = null
-    this.minFirstTime = '00:00'
-  }
-
-  clearMax() {
-    this.maxFirstGreg = null
-    this.maxFirstTime = '00:00'
-  }
-
-  saveMin() {
-    const stringDateTime = `${this.minFirstGreg} ${this.minFirstTime}`
-    const dateTime = new Date(stringDateTime)
-    this.minMjd = gregorianToJd(dateTime)
-    this.displayedMinFirstGreg = stringDateTime
-    this.menuMin = false
-  }
-
-  saveMax() {
-    const stringDateTime = `${this.maxFirstGreg} ${this.maxFirstTime}`
-    const dateTime = new Date(stringDateTime)
-    this.maxMjd = gregorianToJd(dateTime)
-    this.displayedMaxFirstGreg = stringDateTime
-    this.menuMax = false
-  }
-
-  @Watch('value', { immediate: true, deep: true })
-  onValueChange(val) {
-    if (val.minMjd != null) {
-      this.displayedMinFirstGreg = jdToDate(val.minMjd)
-        .toString()
-        .split(' GMT')[0]
-    }
-    if (val.maxMjd != null) {
-      this.displayedMaxFirstGreg = jdToDate(val.maxMjd)
-        .toString()
-        .split(' GMT')[0]
-    }
-    this.localValue = { ...this.localValue, ...val }
-  }
-
-  @Watch('localValue', { immediate: true, deep: true })
+  @Watch('localValue', { deep: true })
   onLocalValueChange(val) {
+    const minDate = jdToDate(val.minMjd)
+    const maxDate = jdToDate(val.maxMjd)
+    this.minDatetime = this.getUTCDate(minDate)
+    this.maxDatetime = this.getUTCDate(maxDate)
     this.$emit('input', val)
   }
 
-  get minFirstGreg() {
-    if (!this.minGregDate) {
-      return null
-    }
-    const year = this.minGregDate.getUTCFullYear()
-    let month = this.minGregDate.getUTCMonth()
-    const day = this.minGregDate.getUTCDate()
-    if (month + 1 < 10) {
-      month = '0' + (Number(month) + 1)
-    } else {
-      month = month + 1
-    }
-    return year + '-' + month + '-' + day
+  getUTCDate(date) {
+    if (!date) return null
+    const dateStr = date.toUTCString()
+    return moment.utc(dateStr).toDate()
   }
 
-  set minFirstGreg(value) {
-    let date = null
-    if (value) {
-      const [year, month, day] = value.split('-')
-      const [hour, mins] = this.minFirstTime
-        ? this.minFirstTime.split(':')
-        : [null, null]
-      date = new Date(Date.UTC(year, month - 1, day, hour, mins))
-    }
-    this.minGregDate = date ? new Date(date.getTime()) : null
+  get minDateText() {
+    if (!this.minDatetime) return null
+    return moment.utc(this.minDatetime).format()
   }
 
-  get maxFirstGreg() {
-    if (!this.maxGregDate) {
-      return null
-    }
-    const year = this.maxGregDate.getUTCFullYear()
-    let month = this.maxGregDate.getUTCMonth()
-    const day = this.maxGregDate.getUTCDate()
-    if (month + 1 < 10) {
-      month = '0' + (Number(month) + 1)
-    } else {
-      month = month + 1
-    }
-    return year + '-' + month + '-' + day
-  }
-
-  set maxFirstGreg(value) {
-    let date = null
-    if (value) {
-      const [year, month, day] = value.split('-')
-      const [hour, mins] = this.maxFirstTime
-        ? this.maxFirstTime.split(':')
-        : [null, null]
-      date = new Date(Date.UTC(year, month - 1, day, hour, mins))
-    }
-    this.maxGregDate = date
+  get maxDateText() {
+    if (!this.maxDatetime) return null
+    return moment.utc(this.maxDatetime).format()
   }
 }
 </script>
