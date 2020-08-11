@@ -23,12 +23,12 @@ function jsonToCsv(arrayOfJson) {
 }
 
 /* based in https://stackoverflow.com/questions/8847766/how-to-convert-json-to-csv-format-and-store-in-a-variable */
-function download(oid, lightcurve) {
+function download(oid, detections, nonDetections) {
   const today = dateToString(new Date())
   const filename = `${oid}_${today}.zip`
   const zip = new JSZip()
-  zip.file('detections.csv', jsonToCsv(lightcurve.detections))
-  zip.file('non_detections.csv', jsonToCsv(lightcurve.non_detections))
+  zip.file('detections.csv', jsonToCsv(detections))
+  zip.file('non_detections.csv', jsonToCsv(nonDetections))
   zip.generateAsync({ type: 'blob' }).then((content) => {
     FileSaver.saveAs(content, filename)
   })

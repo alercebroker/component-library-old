@@ -5,8 +5,9 @@ export class LightCurveOptions {
     this.bandMap = {
       1: { name: 'g', color: '#56E03A' },
       2: { name: 'r', color: '#D42F4B' },
+      // 3: { name: 'i', color: '#2E2EFE' },
     }
-    this.detections = detections
+    this.detections = detections.filter((x) => x.fid === 1 || x.fid === 2)
     this.nonDetections = nonDetections
     this.fontColor = fontColor
     this.options = {
