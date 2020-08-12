@@ -7,6 +7,8 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
     this.addDetections(this.detections, bands)
 
     this.addErrorBars(this.detections, bands)
+
+    this.getBoundaries(this.detections)
   }
 
   addDetections(detections, bands) {

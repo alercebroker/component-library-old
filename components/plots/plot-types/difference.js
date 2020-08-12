@@ -9,6 +9,8 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
     this.addErrorBars(this.detections, bands)
 
     this.addNonDetections(this.nonDetections, bands)
+
+    this.getBoundaries(this.detections, this.nonDetections)
   }
 
   addDetections(detections, bands) {

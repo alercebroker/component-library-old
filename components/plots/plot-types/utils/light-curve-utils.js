@@ -98,9 +98,6 @@ export class LightCurveOptions {
           show: false,
         },
         inverse: true,
-        /* nameTextStyle: {
-          padding: 25,
-        }, */
       },
       textStyle: {
         color: this.fontColor,
@@ -241,5 +238,19 @@ export class LightCurveOptions {
     } else {
       return 'rgb(' + r + ', ' + g + ', ' + b + ')'
     }
+  }
+
+  getBoundaries(detections, nonDetections) {
+    let minValues = detections.map((x) => x.magpsf - x.sigmapsf)
+    let maxValues = detections.map((x) => x.magpsf + x.sigmapsf)
+    if (nonDetections) {
+      const diffmaglim = nonDetections
+        .filter((x) => x.diffmaglim > 10)
+        .map((x) => x.diffmaglim)
+      minValues = minValues.concat(diffmaglim)
+      maxValues = maxValues.concat(diffmaglim)
+    }
+    this.options.yAxis.min = parseInt(Math.min.apply(Math, minValues)) - 1
+    this.options.yAxis.max = parseInt(Math.max.apply(Math, maxValues)) + 1
   }
 }
