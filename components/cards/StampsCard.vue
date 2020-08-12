@@ -43,7 +43,7 @@
     <v-divider></v-divider>
     <v-card-text>
       <v-row justify="center">
-        <v-col cols="4" class="text-center">
+        <v-col cols="4" class="py-0 text-center">
           <h5>
             Science
             <v-btn x-small outlined color="primary" :href="download('science')">
@@ -51,7 +51,7 @@
             </v-btn>
           </h5>
         </v-col>
-        <v-col cols="4" class="text-center">
+        <v-col cols="4" class="py-0 text-center">
           <h5>
             Template
             <v-btn
@@ -64,7 +64,7 @@
             </v-btn>
           </h5>
         </v-col>
-        <v-col cols="4" class="text-center">
+        <v-col cols="4" class="py-0 text-center">
           <h5>
             Difference
             <v-btn

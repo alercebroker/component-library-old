@@ -10,6 +10,7 @@
           dense
           disable-sort
           hide-default-footer
+          hide-default-header
         >
           <template v-slot:[`item.tooltip`]="{ item }">
             <span v-if="item.tooltip">
