@@ -7,7 +7,6 @@
 <script>
 import { Vue, Component, Prop, Watch, Emit } from 'nuxt-property-decorator'
 // import Echarts from 'vue-echarts'
-import { jdToDate } from '../utils/AstroDates.js'
 import { DifferenceLightCurveOptions } from './plot-types/difference'
 import { ApparentLightCurveOptions } from './plot-types/apparent'
 import { FoldedLightCurveOptions } from './plot-types/folded'
@@ -35,12 +34,14 @@ export default class LightCurvePlot extends Vue {
   }
 
   @Emit('detectionClick')
-  onClick(detection) {
-    const date = jdToDate(detection.value[0]).toUTCString().slice(0, -3) + 'UT'
-    return {
-      mjd: detection.value[0],
-      date,
-      index: this.detections.findIndex((x) => x.mjd === detection.value[0]),
+  onClick(point) {
+    if (point.data.length === 5) {
+      const detection = {
+        index: this.detections.map((x) => x.candid).indexOf(point.data[2]),
+        mjd: point.data[0],
+        candid: point.data[2],
+      }
+      console.log(detection)
     }
   }
 
