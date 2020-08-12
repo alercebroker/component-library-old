@@ -105,6 +105,7 @@ export class LightCurveOptions {
       },
       series: [],
     }
+    this.getBoundaries(detections, nonDetections)
   }
 
   /**
@@ -243,7 +244,7 @@ export class LightCurveOptions {
   getBoundaries(detections, nonDetections) {
     let minValues = detections.map((x) => x.magpsf - x.sigmapsf)
     let maxValues = detections.map((x) => x.magpsf + x.sigmapsf)
-    if (nonDetections) {
+    if (nonDetections.length > 0) {
       const diffmaglim = nonDetections
         .filter((x) => x.diffmaglim > 10)
         .map((x) => x.diffmaglim)

@@ -10,7 +10,6 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
     const bands = Array.from(new Set(this.detections.map((item) => item.fid)))
     this.addDetections(this.detections, bands, this.period)
     this.addErrorBars(this.detections, bands, this.period)
-    this.getBoundaries(this.detections, this.nonDetections)
   }
 
   addDetections(detections, bands, period) {
