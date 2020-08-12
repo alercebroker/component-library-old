@@ -51,8 +51,6 @@ export default class LightCurvePlot extends Vue {
         nonDetections,
         this.fontColor
       )
-      differenceLightCurveOptions.getSeries()
-      differenceLightCurveOptions.getLegend()
       this.chartOptions = differenceLightCurveOptions
     }
     if (type === 'apparent') {
@@ -61,8 +59,6 @@ export default class LightCurvePlot extends Vue {
         nonDetections,
         this.fontColor
       )
-      apparentLightCurveOptions.getSeries()
-      apparentLightCurveOptions.getLegend()
       this.chartOptions = apparentLightCurveOptions
     }
     if (type === 'folded') {
@@ -72,8 +68,6 @@ export default class LightCurvePlot extends Vue {
         this.fontColor,
         period
       )
-      foldedLightCurveOptions.getSeries()
-      foldedLightCurveOptions.getLegend()
       this.chartOptions = foldedLightCurveOptions
     }
   }
