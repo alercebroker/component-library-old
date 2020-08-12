@@ -105,7 +105,6 @@ export class LightCurveOptions {
       },
       series: [],
     }
-    this.getBoundaries(detections, nonDetections)
   }
 
   /**
@@ -120,6 +119,13 @@ export class LightCurveOptions {
    */
   getSeries() {
     throw new Error("Method 'getSeries()' must be implemented")
+  }
+
+  /**
+   * Sets options series from data
+   */
+  getBoundaries() {
+    throw new Error("Method 'getBoundaries()' must be implemented")
   }
 
   formatTooltip(params) {
@@ -239,19 +245,5 @@ export class LightCurveOptions {
     } else {
       return 'rgb(' + r + ', ' + g + ', ' + b + ')'
     }
-  }
-
-  getBoundaries(detections, nonDetections) {
-    let minValues = detections.map((x) => x.magpsf - x.sigmapsf)
-    let maxValues = detections.map((x) => x.magpsf + x.sigmapsf)
-    if (nonDetections.length > 0) {
-      const diffmaglim = nonDetections
-        .filter((x) => x.diffmaglim > 10)
-        .map((x) => x.diffmaglim)
-      minValues = minValues.concat(diffmaglim)
-      maxValues = maxValues.concat(diffmaglim)
-    }
-    this.options.yAxis.min = parseInt(Math.min.apply(Math, minValues)) - 1
-    this.options.yAxis.max = parseInt(Math.max.apply(Math, maxValues)) + 1
   }
 }

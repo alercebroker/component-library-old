@@ -1,6 +1,13 @@
 import { LightCurveOptions } from './utils/light-curve-utils'
 
 export class DifferenceLightCurveOptions extends LightCurveOptions {
+  constructor(detections, nonDetections, fontColor) {
+    super(detections, nonDetections, fontColor)
+    this.getSeries()
+    this.getLegend()
+    this.getBoundaries()
+  }
+
   getSeries() {
     const bands = new Set(this.detections.map((item) => item.fid))
     this.addDetections(this.detections, bands)
@@ -96,5 +103,19 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
       bands.map((band) => this.bandMap[band].name + ' non-detections')
     )
     this.options.legend.data = legend
+  }
+
+  getBoundaries() {
+    const diffmaglim = this.nonDetections
+      .filter((x) => x.diffmaglim > 10)
+      .map((x) => x.diffmaglim)
+    const minValues = this.detections
+      .map((x) => x.magpsf - x.sigmapsf)
+      .concat(diffmaglim)
+    const maxValues = this.detections
+      .map((x) => x.magpsf + x.sigmapsf)
+      .concat(diffmaglim)
+    this.options.yAxis.min = parseInt(Math.min.apply(Math, minValues)) - 1
+    this.options.yAxis.max = parseInt(Math.max.apply(Math, maxValues)) + 1
   }
 }

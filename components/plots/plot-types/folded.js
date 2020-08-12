@@ -4,6 +4,9 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
   constructor(detections, nonDetections, fontColor, period) {
     super(detections, nonDetections, fontColor)
     this.period = period
+    this.getSeries()
+    this.getLegend()
+    this.getBoundaries()
   }
 
   getSeries(data) {
@@ -56,7 +59,13 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
       })
       .map((x) => {
         const phase = (x.mjd % period) / period
-        return [phase, x.magpsf_corr, x.candid, x.sigmapsf_corr, x.isdiffpos]
+        return [
+          phase,
+          x.magpsf_corr,
+          x.candid,
+          x.sigmapsf_corr_ext,
+          x.isdiffpos,
+        ]
       })
     const folded2 = folded1.map((x) => {
       return [x[0] + 1, x[1], x[2], x[3], x[4]]
@@ -81,8 +90,8 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
         const phase = (x.mjd % period) / period
         return [
           phase,
-          x.magpsf_corr - x.sigmapsf_corr,
-          x.magpsf_corr + x.sigmapsf_corr,
+          x.magpsf_corr - x.sigmapsf_corr_ext,
+          x.magpsf_corr + x.sigmapsf_corr_ext,
         ]
       })
 
@@ -103,5 +112,15 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
     )
     this.options.legend.data = legend
     this.options.title.subtext = 'Period: ' + this.period.toFixed(3) + ' days'
+  }
+
+  getBoundaries() {
+    const detections = this.detections.filter(
+      (x) => x.magpsf_corr < 100 && x.sigmapsf_corr_ext < 2
+    )
+    const minValues = detections.map((x) => x.magpsf_corr - x.sigmapsf_corr_ext)
+    const maxValues = detections.map((x) => x.magpsf_corr + x.sigmapsf_corr_ext)
+    this.options.yAxis.min = parseInt(Math.min.apply(Math, minValues)) - 1
+    this.options.yAxis.max = parseInt(Math.max.apply(Math, maxValues)) + 1
   }
 }
