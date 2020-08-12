@@ -3,11 +3,8 @@ import { LightCurveOptions } from './utils/light-curve-utils'
 export class DifferenceLightCurveOptions extends LightCurveOptions {
   getSeries() {
     const bands = new Set(this.detections.map((item) => item.fid))
-
     this.addDetections(this.detections, bands)
-
     this.addErrorBars(this.detections, bands)
-
     this.addNonDetections(this.nonDetections, bands)
   }
 
