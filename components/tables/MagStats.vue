@@ -5,6 +5,7 @@
     :hide-default-footer="hideDefaultFooter"
     :items-per-page="itemsPerPage"
     :dense="dense"
+    :mobile-breakpoint="250"
   />
 </template>
 
@@ -30,10 +31,10 @@ export default class MagStats extends Vue {
   setHeaders(stats) {
     this.headers = []
     if (stats.length) {
-      Object.keys(stats[0]).forEach((k) => {
+      Object.keys(stats[0]).forEach(k => {
         this.headers.push({
           text: k,
-          value: k,
+          value: k
         })
       })
     }
