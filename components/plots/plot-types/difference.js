@@ -1,6 +1,13 @@
 import { LightCurveOptions } from './utils/light-curve-utils'
 
 export class DifferenceLightCurveOptions extends LightCurveOptions {
+  constructor(detections, nonDetections, fontColor) {
+    super(detections, nonDetections, fontColor)
+    this.detections = this.detections.filter((x) => x.magpsf <= 23)
+    this.getSeries()
+    this.getLegend()
+  }
+
   getSeries() {
     const bands = new Set(this.detections.map((item) => item.fid))
     this.addDetections(this.detections, bands)

@@ -8,7 +8,7 @@ export class LightCurveOptions {
       // 3: { name: 'i', color: '#2E2EFE' },
     }
     this.detections = detections.filter((x) => x.fid === 1 || x.fid === 2)
-    this.nonDetections = nonDetections
+    this.nonDetections = nonDetections.filter((x) => x.diffmaglim <= 23)
     this.fontColor = fontColor
     this.options = {
       grid: {
@@ -98,6 +98,8 @@ export class LightCurveOptions {
           show: false,
         },
         inverse: true,
+        min: (x) => parseInt(x.min - 3),
+        max: (x) => parseInt(x.max + 3),
       },
       textStyle: {
         color: this.fontColor,
@@ -105,7 +107,6 @@ export class LightCurveOptions {
       },
       series: [],
     }
-    this.getBoundaries(detections, nonDetections)
   }
 
   /**
@@ -239,19 +240,5 @@ export class LightCurveOptions {
     } else {
       return 'rgb(' + r + ', ' + g + ', ' + b + ')'
     }
-  }
-
-  getBoundaries(detections, nonDetections) {
-    let minValues = detections.map((x) => x.magpsf - x.sigmapsf)
-    let maxValues = detections.map((x) => x.magpsf + x.sigmapsf)
-    if (nonDetections.length > 0) {
-      const diffmaglim = nonDetections
-        .filter((x) => x.diffmaglim > 10)
-        .map((x) => x.diffmaglim)
-      minValues = minValues.concat(diffmaglim)
-      maxValues = maxValues.concat(diffmaglim)
-    }
-    this.options.yAxis.min = parseInt(Math.min.apply(Math, minValues)) - 1
-    this.options.yAxis.max = parseInt(Math.max.apply(Math, maxValues)) + 1
   }
 }

@@ -1,6 +1,13 @@
 import { LightCurveOptions } from './utils/light-curve-utils'
 
 export class ApparentLightCurveOptions extends LightCurveOptions {
+  constructor(detections, nonDetections, fontColor) {
+    super(detections, nonDetections, fontColor)
+    this.detections = this.detections.filter((x) => x.magpsf_corr <= 23)
+    this.getSeries()
+    this.getLegend()
+  }
+
   getSeries() {
     const bands = new Set(this.detections.map((item) => item.fid))
     this.addDetections(this.detections, bands)
@@ -42,7 +49,7 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
   formatError(detections, band) {
     return detections
       .filter(function (x) {
-        return x.fid === band && x.corrected && x.magpsf_corr < 100
+        return x.fid === band && x.corrected
       })
       .map(function (x) {
         if (x.sigmapsf_corr_ext > 2) {
@@ -59,7 +66,7 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
   formatDetections(detections, band) {
     return detections
       .filter(function (x) {
-        return x.fid === band && x.corrected && x.magpsf_corr < 100
+        return x.fid === band && x.corrected
       })
       .map(function (x) {
         return [

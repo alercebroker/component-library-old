@@ -3,7 +3,10 @@ import { LightCurveOptions } from './utils/light-curve-utils'
 export class FoldedLightCurveOptions extends LightCurveOptions {
   constructor(detections, nonDetections, fontColor, period) {
     super(detections, nonDetections, fontColor)
+    this.detections = this.detections.filter((x) => x.magpsf_corr <= 23)
     this.period = period
+    this.getSeries()
+    this.getLegend()
   }
 
   getSeries(data) {
@@ -46,17 +49,16 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
 
   formatDetections(detections, band, period) {
     const folded1 = detections
-      .filter(function (x) {
-        return (
-          x.fid === band &&
-          x.corrected &&
-          x.magpsf_corr != null &&
-          x.magpsf_corr < 100
-        )
-      })
+      .filter((x) => x.fid === band && x.corrected)
       .map((x) => {
         const phase = (x.mjd % period) / period
-        return [phase, x.magpsf_corr, x.candid, x.sigmapsf_corr, x.isdiffpos]
+        return [
+          phase,
+          x.magpsf_corr,
+          x.candid,
+          x.sigmapsf_corr_ext,
+          x.isdiffpos,
+        ]
       })
     const folded2 = folded1.map((x) => {
       return [x[0] + 1, x[1], x[2], x[3], x[4]]
@@ -75,14 +77,14 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
         )
       })
       .map(function (x) {
-        if (x.sigmapsf_corr > 1) {
+        if (x.sigmapsf_corr > 2) {
           return [null, null, null]
         }
         const phase = (x.mjd % period) / period
         return [
           phase,
-          x.magpsf_corr - x.sigmapsf_corr,
-          x.magpsf_corr + x.sigmapsf_corr,
+          x.magpsf_corr - x.sigmapsf_corr_ext,
+          x.magpsf_corr + x.sigmapsf_corr_ext,
         ]
       })
 
