@@ -8,7 +8,7 @@ export class LightCurveOptions {
       // 3: { name: 'i', color: '#2E2EFE' },
     }
     this.detections = detections.filter((x) => x.fid === 1 || x.fid === 2)
-    this.nonDetections = nonDetections
+    this.nonDetections = nonDetections.filter((x) => x.diffmaglim <= 23)
     this.fontColor = fontColor
     this.options = {
       grid: {
@@ -98,6 +98,8 @@ export class LightCurveOptions {
           show: false,
         },
         inverse: true,
+        min: (x) => parseInt(x.min - 3),
+        max: (x) => parseInt(x.max + 3),
       },
       textStyle: {
         color: this.fontColor,
@@ -119,13 +121,6 @@ export class LightCurveOptions {
    */
   getSeries() {
     throw new Error("Method 'getSeries()' must be implemented")
-  }
-
-  /**
-   * Sets options series from data
-   */
-  getBoundaries() {
-    throw new Error("Method 'getBoundaries()' must be implemented")
   }
 
   formatTooltip(params) {

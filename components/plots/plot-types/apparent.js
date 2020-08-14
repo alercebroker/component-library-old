@@ -3,9 +3,9 @@ import { LightCurveOptions } from './utils/light-curve-utils'
 export class ApparentLightCurveOptions extends LightCurveOptions {
   constructor(detections, nonDetections, fontColor) {
     super(detections, nonDetections, fontColor)
+    this.detections = this.detections.filter((x) => x.magpsf_corr <= 23)
     this.getSeries()
     this.getLegend()
-    this.getBoundaries()
   }
 
   getSeries() {
@@ -49,7 +49,7 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
   formatError(detections, band) {
     return detections
       .filter(function (x) {
-        return x.fid === band && x.corrected && x.magpsf_corr < 100
+        return x.fid === band && x.corrected
       })
       .map(function (x) {
         if (x.sigmapsf_corr_ext > 2) {
@@ -66,7 +66,7 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
   formatDetections(detections, band) {
     return detections
       .filter(function (x) {
-        return x.fid === band && x.corrected && x.magpsf_corr < 100
+        return x.fid === band && x.corrected
       })
       .map(function (x) {
         return [
@@ -83,15 +83,5 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
     const bands = Array.from(new Set(this.detections.map((item) => item.fid)))
     const legend = bands.map((band) => this.bandMap[band].name)
     this.options.legend.data = legend
-  }
-
-  getBoundaries() {
-    const detections = this.detections.filter(
-      (x) => x.magpsf_corr < 100 && x.sigmapsf_corr_ext < 2
-    )
-    const minValues = detections.map((x) => x.magpsf_corr - x.sigmapsf_corr_ext)
-    const maxValues = detections.map((x) => x.magpsf_corr + x.sigmapsf_corr_ext)
-    this.options.yAxis.min = parseInt(Math.min.apply(Math, minValues)) - 1
-    this.options.yAxis.max = parseInt(Math.max.apply(Math, maxValues)) + 1
   }
 }

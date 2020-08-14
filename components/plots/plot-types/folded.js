@@ -3,10 +3,10 @@ import { LightCurveOptions } from './utils/light-curve-utils'
 export class FoldedLightCurveOptions extends LightCurveOptions {
   constructor(detections, nonDetections, fontColor, period) {
     super(detections, nonDetections, fontColor)
+    this.detections = this.detections.filter((x) => x.magpsf_corr <= 23)
     this.period = period
     this.getSeries()
     this.getLegend()
-    this.getBoundaries()
   }
 
   getSeries(data) {
@@ -49,14 +49,7 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
 
   formatDetections(detections, band, period) {
     const folded1 = detections
-      .filter(function (x) {
-        return (
-          x.fid === band &&
-          x.corrected &&
-          x.magpsf_corr != null &&
-          x.magpsf_corr < 100
-        )
-      })
+      .filter((x) => x.fid === band && x.corrected)
       .map((x) => {
         const phase = (x.mjd % period) / period
         return [
@@ -84,7 +77,7 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
         )
       })
       .map(function (x) {
-        if (x.sigmapsf_corr > 1) {
+        if (x.sigmapsf_corr > 2) {
           return [null, null, null]
         }
         const phase = (x.mjd % period) / period
@@ -112,15 +105,5 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
     )
     this.options.legend.data = legend
     this.options.title.subtext = 'Period: ' + this.period.toFixed(3) + ' days'
-  }
-
-  getBoundaries() {
-    const detections = this.detections.filter(
-      (x) => x.magpsf_corr < 100 && x.sigmapsf_corr_ext < 2
-    )
-    const minValues = detections.map((x) => x.magpsf_corr - x.sigmapsf_corr_ext)
-    const maxValues = detections.map((x) => x.magpsf_corr + x.sigmapsf_corr_ext)
-    this.options.yAxis.min = parseInt(Math.min.apply(Math, minValues)) - 1
-    this.options.yAxis.max = parseInt(Math.max.apply(Math, maxValues)) + 1
   }
 }
