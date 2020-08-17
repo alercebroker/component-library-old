@@ -2,7 +2,17 @@
   <v-layout wrap align-center>
     <!--Object ID-->
     <v-flex xs12 sm12 md12>
-      <v-text-field v-model="localValue.oid" label="Object ID" />
+      <v-combobox
+        v-model="localValue.oid"
+        label="Object ID"
+        append-icon=" "
+        :delimiters="delimiters"
+        disable-lookup
+        clearable
+        deletable-chips
+        multiple
+        small-chips
+      />
     </v-flex>
     <!--Classifier-->
     <v-flex xs12 sm12 md6 lg6>
@@ -54,6 +64,8 @@ export default class DefaultSearch extends Vue {
   @Prop({ type: Array, default: () => [1, 2000] }) limitNdet
 
   localValue = {}
+  _localOids = []
+  delimiters = [' ', ',', ';']
 
   get probLabel() {
     return this.value.probability
