@@ -67,11 +67,12 @@ export default class DefaultSearch extends Vue {
   delimiters = [' ', ',', ';']
 
   get localOids() {
-    return this.oids
+    return this.localValue.oid
   }
 
   set localOids(val) {
     this.oids = this.formatOids(val)
+    this.localValue.oid = this.oids
   }
 
   get probLabel() {
@@ -86,7 +87,6 @@ export default class DefaultSearch extends Vue {
     let oids = listOfOids.reduce(reducer, [])
     oids = oids.map((x) => x.trim())
     oids = Array.from(new Set(oids))
-    this.localValue.oid = oids
     return oids
   }
 
