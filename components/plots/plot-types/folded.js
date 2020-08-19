@@ -7,6 +7,7 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
     this.period = period
     this.getSeries()
     this.getLegend()
+    this.getBoundaries()
   }
 
   getSeries(data) {
@@ -105,5 +106,12 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
     )
     this.options.legend.data = legend
     this.options.title.subtext = 'Period: ' + this.period.toFixed(3) + ' days'
+  }
+
+  getBoundaries() {
+    const sigmas = this.detections.map((x) => x.sigmapsf_corr_ext)
+    const maxSigma = Math.max.apply(Math, sigmas) + 0.1
+    this.options.yAxis.min = (x) => (x.min - maxSigma).toFixed(1)
+    this.options.yAxis.max = (x) => (x.max + maxSigma).toFixed(1)
   }
 }

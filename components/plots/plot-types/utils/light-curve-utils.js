@@ -98,8 +98,8 @@ export class LightCurveOptions {
           show: false,
         },
         inverse: true,
-        min: (x) => parseInt(x.min - 3),
-        max: (x) => parseInt(x.max + 3),
+        min: (x) => x.min - 0.1,
+        max: (x) => x.max + 0.1,
       },
       textStyle: {
         color: this.fontColor,
