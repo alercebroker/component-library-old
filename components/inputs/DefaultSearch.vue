@@ -1,13 +1,12 @@
 <template>
   <v-layout wrap align-center>
-    <!--Object ID-->
+    <!--Objects ID-->
     <v-flex xs12 sm12 md12>
       <v-combobox
-        v-model="localValue.oid"
+        v-model="localOids"
         label="Object ID"
         append-icon=" "
         :delimiters="delimiters"
-        disable-lookup
         clearable
         deletable-chips
         multiple
@@ -64,13 +63,31 @@ export default class DefaultSearch extends Vue {
   @Prop({ type: Array, default: () => [1, 2000] }) limitNdet
 
   localValue = {}
-  _localOids = []
+  oids = []
   delimiters = [' ', ',', ';']
+
+  get localOids() {
+    return this.oids
+  }
+
+  set localOids(val) {
+    this.oids = this.formatOids(val)
+  }
 
   get probLabel() {
     return this.value.probability
       ? 'Probability ≥' + this.value.probability
       : 'Probability ≥ 0.00'
+  }
+
+  formatOids(listOfOids) {
+    const reducer = (accumulator, current) =>
+      accumulator.concat(current.split(/[,;]|\s|\n/g))
+    let oids = listOfOids.reduce(reducer, [])
+    oids = oids.map((x) => x.trim())
+    oids = Array.from(new Set(oids))
+    this.localValue.oid = oids
+    return oids
   }
 
   @Watch('value', { immediate: true, deep: true })
