@@ -82,7 +82,7 @@ export default class DefaultSearch extends Vue {
 
   formatOids(listOfOids) {
     const reducer = (accumulator, current) =>
-      accumulator.concat(current.split(/[,;]|\s|\n/g))
+      accumulator.concat(current.split(/[,;]*\s|\s|\n/g))
     let oids = listOfOids.reduce(reducer, [])
     oids = oids.map((x) => x.trim())
     oids = Array.from(new Set(oids))
