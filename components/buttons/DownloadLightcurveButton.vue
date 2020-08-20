@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click="downloadLightcurve" outlined small>
+  <v-btn outlined small @click="downloadLightcurve">
     <v-icon left small>cloud_download</v-icon>Download
   </v-btn>
 </template>
