@@ -6,6 +6,7 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
     this.detections = this.detections.filter((x) => x.magpsf <= 23)
     this.getSeries()
     this.getLegend()
+    this.getBoundaries()
   }
 
   getSeries() {
@@ -103,5 +104,13 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
       bands.map((band) => this.bandMap[band].name + ' non-detections')
     )
     this.options.legend.data = legend
+  }
+
+  getBoundaries() {
+    const sigmas = this.detections.map((x) => x.sigmapsf)
+    const maxSigma = Math.max.apply(Math, sigmas) + 0.1
+    this.options.yAxis.min = (x) => (x.min - maxSigma).toFixed(1)
+    this.options.yAxis.max = (x) => (x.max + maxSigma).toFixed(1)
+    console.log(this.options.yAxis.min)
   }
 }
