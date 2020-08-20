@@ -71,9 +71,9 @@ export default class ColumnsoptionsButton extends Vue {
           '&filter=color',
       },
       {
-        name: 'SDSS DR15',
+        name: 'SDSS DR16',
         link:
-          'http://skyserver.sdss.org/dr15/en/tools/chart/navi.aspx?ra=' +
+          'http://skyserver.sdss.org/dr16/en/tools/chart/navi.aspx?ra=' +
           this.ra +
           '&dec=' +
           this.dec,
