@@ -3,7 +3,10 @@ import { LightCurveOptions } from './utils/light-curve-utils'
 export class ApparentLightCurveOptions extends LightCurveOptions {
   constructor(detections, nonDetections, fontColor) {
     super(detections, nonDetections, fontColor)
-    this.detections = this.detections.filter((x) => x.magpsf_corr <= 23)
+    this.detections = this.detections.filter(
+      (x) => x.magpsf_corr <= 23 && x.sigmapsf_corr_ext < 1
+    )
+
     this.getSeries()
     this.getLegend()
     this.getBoundaries()
@@ -53,9 +56,6 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
         return x.fid === band && x.corrected
       })
       .map(function (x) {
-        if (x.sigmapsf_corr_ext > 2) {
-          return [null, null, null]
-        }
         return [
           x.mjd,
           x.magpsf_corr - x.sigmapsf_corr_ext,

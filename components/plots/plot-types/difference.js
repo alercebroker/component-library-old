@@ -111,6 +111,5 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
     const maxSigma = Math.max.apply(Math, sigmas) + 0.1
     this.options.yAxis.min = (x) => (x.min - maxSigma).toFixed(1)
     this.options.yAxis.max = (x) => (x.max + maxSigma).toFixed(1)
-    console.log(this.options.yAxis.min)
   }
 }

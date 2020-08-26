@@ -40,6 +40,7 @@ export class LightCurveOptions {
         feature: {
           dataZoom: {
             show: true,
+            yAxisIndex: 'none',
             title: {
               zoom: 'Zoom',
               back: 'Back',

@@ -3,7 +3,9 @@ import { LightCurveOptions } from './utils/light-curve-utils'
 export class FoldedLightCurveOptions extends LightCurveOptions {
   constructor(detections, nonDetections, fontColor, period) {
     super(detections, nonDetections, fontColor)
-    this.detections = this.detections.filter((x) => x.magpsf_corr <= 23)
+    this.detections = this.detections.filter(
+      (x) => x.magpsf_corr <= 23 && x.sigmapsf_corr_ext < 1
+    )
     this.period = period
     this.getSeries()
     this.getLegend()
@@ -78,9 +80,6 @@ export class FoldedLightCurveOptions extends LightCurveOptions {
         )
       })
       .map(function (x) {
-        if (x.sigmapsf_corr > 2) {
-          return [null, null, null]
-        }
         const phase = (x.mjd % period) / period
         return [
           phase,
