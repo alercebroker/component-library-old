@@ -30,13 +30,15 @@ export default class Aladin extends Vue {
 
   @Prop({ type: Boolean, default: true }) showCloseObjects
 
+  @Prop({ type: Number, default: 0.03 }) fov
+
   aladinObject = null
   aladin = null
   catalog = null
   mounted() {
     this.aladin = A.aladin('#aladin-lite-div', {
       survey: 'P/PanSTARRS/DR1/color-z-zg-g',
-      fov: 0.03,
+      fov: this.fov,
       cooFrame: 'J2000d',
     })
     if (this.objects) {
@@ -152,7 +154,7 @@ export default class Aladin extends Vue {
     })
     this.aladinObject = src
     this.aladin.gotoRaDec(coordinates.ra, coordinates.dec)
-    this.aladin.setFov(0.1)
+    this.aladin.setFov(this.fov)
   }
 
   @Watch('aladinObject')
