@@ -17,7 +17,9 @@
     <v-flex xs12 sm12 md6 lg6>
       <v-select
         v-model="localValue.selectedClassifier"
-        :items="classifiers"
+        :items="_classifiers"
+        item-value="value"
+        item-text="name"
         label="Classifier"
         hide-no-data
       />
@@ -52,6 +54,7 @@
 </template>
 <script>
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
+import { formatClassifierName } from '../utils/Formatters'
 @Component({})
 export default class DefaultSearch extends Vue {
   @Prop({ type: Object, required: true }) value
@@ -79,6 +82,15 @@ export default class DefaultSearch extends Vue {
     return this.value.probability
       ? 'Probability ≥' + this.value.probability
       : 'Probability ≥ 0.00'
+  }
+
+  get _classifiers() {
+    return this.classifiers.map((x) => {
+      return {
+        name: formatClassifierName(x),
+        value: x,
+      }
+    })
   }
 
   formatOids(listOfOids) {
