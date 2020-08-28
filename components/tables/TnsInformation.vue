@@ -4,6 +4,7 @@
       :headers="headers"
       :items="values"
       :mobile-breakpoint="250"
+      :loading="loading"
       dense
       hide-default-footer
     />
@@ -22,6 +23,9 @@ export default class TnsInformation extends Vue {
 
   @Prop({ type: Number | String, default: null })
   redshift
+
+  @Prop({ type: Boolean })
+  loading
 
   headers = [
     { text: 'Type', value: 'type', sortable: false, align: 'center' },
