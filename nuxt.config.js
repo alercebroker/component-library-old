@@ -26,27 +26,8 @@ export default {
         content: process.env.npm_package_description || '',
       },
     ],
-    script: [
-      {
-        type: 'text/javascript',
-        src: 'https://code.jquery.com/jquery-1.12.1.min.js',
-        charset: 'utf-8',
-      },
-      {
-        type: 'text/javascript',
-        src:
-          'https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.js',
-        charset: 'utf-8',
-      },
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.css',
-      },
-    ],
+    script: [],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   /*
    ** Global CSS

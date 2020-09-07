@@ -14,7 +14,7 @@ export default function () {
     // Add ./components dir to the list
     dirs.push({
       path: join(__dirname, 'components'),
-      prefix: 'alerce'
+      prefix: 'alerce',
     })
   })
 }

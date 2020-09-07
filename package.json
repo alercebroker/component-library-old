@@ -1,6 +1,6 @@
 {
   "name": "@alerce/components",
-  "version": "0.0.13-dev",
+  "version": "0.0.14-dev",
   "private": false,
   "scripts": {
     "dev": "nuxt",
@@ -17,6 +17,7 @@
     "styleguide:build": "vue-styleguidist build"
   },
   "dependencies": {
+    "@cquiroz/aladin-lite": "^0.2.4",
     "@mdi/font": "^4.9.95",
     "@nuxtjs/vuetify": "^1.11.2",
     "echarts": "^4.8.0",
