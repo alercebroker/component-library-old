@@ -3,9 +3,6 @@
 </template>
 
 <script>
-/* global A */
-/* eslint no-undef: "error" */
-
 import {
   Vue,
   Component,
@@ -14,6 +11,7 @@ import {
   Model,
   Emit,
 } from 'nuxt-property-decorator'
+import * as A from '@cquiroz/aladin-lite/lib/js/A'
 /**
  * Description of aladin
  * @version 0.0.1
