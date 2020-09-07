@@ -9,7 +9,7 @@
               <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon align="center" v-bind="attrs" v-on="on">
-                    help
+                    mdi-help-circle
                   </v-icon>
                 </template>
                 <span>{{ option.tooltip }}</span>

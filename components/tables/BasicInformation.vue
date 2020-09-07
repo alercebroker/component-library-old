@@ -17,7 +17,7 @@
               <v-tooltip right max-width="200">
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon align="center" v-bind="attrs" v-on="on">
-                    help
+                    mdi-help-circle
                   </v-icon>
                 </template>
                 <span>{{ item.tooltip }}</span>

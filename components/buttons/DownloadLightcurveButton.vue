@@ -1,6 +1,6 @@
 <template>
   <v-btn outlined small @click="downloadLightcurve">
-    <v-icon left small>cloud_download</v-icon>Download
+    <v-icon left small>mdi-cloud-download</v-icon>Download
   </v-btn>
 </template>
 <script>
