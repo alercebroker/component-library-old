@@ -77,7 +77,7 @@ export default class ResultTable extends Vue {
   }
 
   get numPages() {
-    return Math.round(this.total / this.localPaginationOptions.itemsPerPage)
+    return Math.ceil(this.total / this.localPaginationOptions.itemsPerPage)
   }
 
   get header() {
