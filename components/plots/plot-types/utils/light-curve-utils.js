@@ -40,7 +40,6 @@ export class LightCurveOptions {
         feature: {
           dataZoom: {
             show: true,
-            yAxisIndex: 'none',
             title: {
               zoom: 'Zoom',
               back: 'Back',
@@ -138,9 +137,7 @@ export class LightCurveOptions {
       col3 +
       '</td> </tr>'
     const calendarIcon = (color) =>
-      "<i class='material-icons' style='font-size:13px;color:" +
-      color +
-      ";'>alarm</i>"
+      `<span class="mdi mdi-alarm" style='font-size:13px; color: ${color};'></span>`
     const serie = params[0].seriesName
     let table = '<table> <tr> <th></th> <th></th> <th></th></tr>'
     if (serie === 'r non-detections' || serie === 'g non-detections') {
