@@ -33,6 +33,22 @@ export default class Aladin extends Vue {
   aladinObject = null
   aladin = null
   catalog = null
+
+  customZoom(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    let level = this.aladin.view.zoomLevel
+    const delta = -event.deltaY
+
+    if (delta > 0) {
+      level += 1
+    } else {
+      level -= 1
+    }
+    this.aladin.view.setZoomLevel(level)
+    return false
+  }
+
   mounted() {
     this.aladin = A.aladin('#aladin-lite-div', {
       survey: 'P/PanSTARRS/DR1/color-z-zg-g',
@@ -43,6 +59,7 @@ export default class Aladin extends Vue {
       this.catalog = this.addObjects(this.aladin, this.objects)
     }
     this.onSelectedObjectChange(this.selectedObject)
+    this.aladin.view.reticleCanvas.onwheel = this.customZoom
   }
 
   @Emit('objectSelected')
