@@ -8,7 +8,7 @@
       dense
       hide-default-footer
     />
-    <alerce-footer-tns :tns_id="name" />
+    <alerce-footer-tns :tnsId="name" />
   </v-flex>
 </template>
 <script>
