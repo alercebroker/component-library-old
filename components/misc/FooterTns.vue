@@ -23,7 +23,6 @@ export default class FooterTns extends Vue {
   classified
 
   get url() {
-    console.log(this.tnsId)
     if (this.tnsId) {
       return 'https://www.wis-tns.org/object/' + this.tnsId
     } else if (this.classified) {
