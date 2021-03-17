@@ -6,7 +6,7 @@
       <a :href="url" target="_blank"
         >TNS
         <img
-          src="https://wis-tns.weizmann.ac.il/sites/default/files/favicon.png"
+          src="https://www.wis-tns.org/sites/default/files/favicon.png"
           alt="TNS icon"
       /></a>
     </p>
