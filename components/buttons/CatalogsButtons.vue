@@ -56,7 +56,7 @@ export default class ColumnsoptionsButton extends Vue {
       {
         name: 'TNS',
         link:
-          'https://wis-tns.weizmann.ac.il/search?ra=' +
+          'https://www.wis-tns.org/search?ra=' +
           this.ra +
           '&decl=' +
           this.dec +
