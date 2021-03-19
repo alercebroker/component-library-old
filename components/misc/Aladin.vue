@@ -65,8 +65,6 @@ export default class Aladin extends Vue {
   @Emit('objectSelected')
   onClick(object) {
     if (object) {
-      // this.selectedObject = this.findZTFObject(object)
-      // this.aladinObject = object
       return this.findZTFObject(object)
     } else {
       this.aladinObject = null
