@@ -68,7 +68,7 @@ export default class Aladin extends Vue {
       return this.findZTFObject(object)
     } else {
       this.aladinObject = null
-      return null
+      return {}
     }
   }
 
