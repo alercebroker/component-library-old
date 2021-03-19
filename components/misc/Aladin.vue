@@ -65,8 +65,9 @@ export default class Aladin extends Vue {
   @Emit('objectSelected')
   onClick(object) {
     if (object) {
+      // this.selectedObject = this.findZTFObject(object)
+      // this.aladinObject = object
       return this.findZTFObject(object)
-      // this.aladinObject = object;
     } else {
       this.aladinObject = null
       return null
@@ -169,7 +170,7 @@ export default class Aladin extends Vue {
     })
     this.aladinObject = src
     this.aladin.gotoRaDec(coordinates.ra, coordinates.dec)
-    this.aladin.setFov(this.fov)
+    // this.aladin.setFov(this.fov)
   }
 
   @Watch('aladinObject')
