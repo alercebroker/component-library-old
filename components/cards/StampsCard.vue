@@ -1,12 +1,11 @@
 <template>
   <v-card flat>
-    <v-toolbar dense flat>
+    <v-toolbar flat>
       <v-row align="center">
-        <v-col cols="3">
-          <v-toolbar-title>Stamps</v-toolbar-title>
-        </v-col>
-        <v-col cols="5" class="mt-4">
+        <v-col cols="6" class="mt-4">
           <v-select
+            dense
+            label="date"
             :items="dates"
             item-value="index"
             item-text="date"
@@ -22,6 +21,9 @@
           <v-icon data-test="nextIcon" @click="nextStamp"
             >mdi-arrow-right-drop-circle</v-icon
           >
+        </v-col>
+        <v-col cols="1">
+          <v-btn small rounded color="indigo" @click="onAvroClick">AVRO</v-btn>
         </v-col>
         <v-spacer></v-spacer>
         <v-col v-if="hasFullscreenListener" cols="1">
@@ -304,6 +306,11 @@ export default class StampCard extends Vue {
   @Watch('selectedDetection')
   onSelectedDetection(newVal) {
     this.stateSelectedDetection = newVal
+  }
+
+  @Emit('avroClick')
+  onAvroClick(event) {
+    return this.selectedDetection
   }
 }
 </script>

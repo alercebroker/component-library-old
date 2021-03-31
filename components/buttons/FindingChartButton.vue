@@ -9,10 +9,12 @@
         :href="link"
         target="_blank"
       >
-        <v-icon left>
-          mdi-file-document-outline
-        </v-icon>
-        Finding Chart
+        <slot name="icon">
+          <v-icon v-if="useIcon" left>
+            mdi-file-document-outline
+          </v-icon>
+        </slot>
+        {{ title }}
       </v-btn>
     </v-flex>
   </v-layout>
@@ -27,11 +29,19 @@ export default class FindingChartButton extends Vue {
   @Prop({ type: Number | String, default: 0 })
   candid
 
+  @Prop({ type: String, default: 'Finding Chart' }) title
+
   @Prop({
     type: String,
     default: 'https://www.findingchart.alerce.online/get_chart?',
   })
   url
+
+  @Prop({
+    type: Boolean,
+    default: true,
+  })
+  useIcon
 
   get link() {
     return this.url + 'oid=' + this.oid + '&candid=' + this.candid
