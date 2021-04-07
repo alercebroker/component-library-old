@@ -97,14 +97,14 @@
       </v-row>
       <v-row
         align="start"
-        style="max-height: 20px;"
+        style="max-height: 20px"
         class="pa-0"
         justify="center"
       >
         <v-col
           v-for="tool in tools"
           :key="tool.id"
-          style="max-height: 20px;"
+          style="max-height: 20px"
           cols="1"
           class="pa-0"
         >

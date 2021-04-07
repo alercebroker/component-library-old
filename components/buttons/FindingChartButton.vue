@@ -10,9 +10,7 @@
         target="_blank"
       >
         <slot name="icon">
-          <v-icon v-if="useIcon" left>
-            mdi-file-document-outline
-          </v-icon>
+          <v-icon v-if="useIcon" left> mdi-file-document-outline </v-icon>
         </slot>
         {{ title }}
       </v-btn>
