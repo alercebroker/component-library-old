@@ -4,12 +4,12 @@
       <v-tabs v-model="activeTab" fixed-tabs>
         <v-tab key="calendar">
           <slot name="dateIcon">
-            <v-icon>event</v-icon>
+            <v-icon>mdi-calendar</v-icon>
           </slot>
         </v-tab>
         <v-tab key="timer">
           <slot name="timeIcon">
-            <v-icon>access_time</v-icon>
+            <v-icon>mdi-clock</v-icon>
           </slot>
         </v-tab>
         <v-tab-item key="calendar">
