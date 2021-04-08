@@ -12,7 +12,7 @@
           hide-default-footer
           hide-default-header
         >
-          <template v-slot:[`item.tooltip`]="{ item }">
+          <template v-slot:item.tooltip="{ item }">
             <span v-if="item.tooltip">
               <v-tooltip right max-width="200">
                 <template v-slot:activator="{ on, attrs }">
@@ -23,6 +23,14 @@
                 <span>{{ item.tooltip }}</span>
               </v-tooltip>
             </span>
+          </template>
+          <template v-slot:item.value="{ item }">
+            {{ item.value }}
+            <a
+              v-if="item.date === item.value"
+              href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time"
+              >UTC</a
+            >
           </template>
         </v-data-table>
       </v-flex>
@@ -112,7 +120,7 @@ export default class BasicInformation extends Vue {
   }
 
   formatDate(val) {
-    return jdToDate(val).toString().split('GMT')[0]
+    return jdToDate(val).toUTCString().split('GMT')[0]
   }
 
   infoMapper(key, value) {
