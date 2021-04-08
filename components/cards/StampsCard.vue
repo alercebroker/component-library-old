@@ -34,10 +34,11 @@
             <template v-slot:activator="{ on }">
               <v-icon v-on="on">mdi-information</v-icon>
             </template>
-            <span
-              >Use the tool icons below to change between zoom or crosshair
-              modes</span
-            >
+            <span>
+              AVRO is the format in which we receive alerts from ZTF. Clicking
+              the AVRO button will show the full information contained in the
+              avro file for the selected detection.
+            </span>
           </v-tooltip>
         </v-col>
       </v-row>
@@ -111,6 +112,17 @@
           <slot :name="'btn-' + tool.id" :tool="tool" :selectTool="selectTool">
             <v-icon @click="selectTool(tool.id)">{{ tool.icon }}</v-icon>
           </slot>
+        </v-col>
+        <v-col cols="1" style="max-height: 20px" class="pa-0">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on">mdi-information</v-icon>
+            </template>
+            <span
+              >Use the tool icons to change between zoom or crosshair
+              modes</span
+            >
+          </v-tooltip>
         </v-col>
       </v-row>
     </v-card-text>
