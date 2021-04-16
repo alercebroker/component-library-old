@@ -84,7 +84,7 @@ export default class DateSearch extends Vue {
   maxDatetime = null
 
   @Watch('value', { deep: true, immediate: true })
-  onValueChange(val, old) {
+  onValueChange(val) {
     this.localValue.minMjd = val.minMjd
     this.localValue.maxMjd = val.maxMjd
   }
@@ -99,7 +99,7 @@ export default class DateSearch extends Vue {
     this.localValue.maxMjd = gregorianToJd(val)
   }
 
-  @Watch('localValue', { deep: true })
+  @Watch('localValue', { deep: true, immediate: true })
   onLocalValueChange(val) {
     const minDate = jdToDate(val.minMjd)
     const maxDate = jdToDate(val.maxMjd)
