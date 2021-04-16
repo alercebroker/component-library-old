@@ -16,13 +16,27 @@
             <span v-if="item.tooltip">
               <v-tooltip right max-width="200">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-icon align="center" v-bind="attrs" v-on="on">
-                    mdi-help-circle
-                  </v-icon>
+                  <v-icon align="center" v-bind="attrs" v-on="on"
+                    >mdi-help-circle</v-icon
+                  >
                 </template>
                 <span>{{ item.tooltip }}</span>
               </v-tooltip>
             </span>
+            <v-tooltip v-if="item.action" right max-width="200">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  align="center"
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="item.action"
+                >
+                  <v-icon align="center">{{ item.icon }}</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ item.actionText }}</span>
+            </v-tooltip>
           </template>
           <template v-slot:item.value="{ item }">
             {{ item.value }}
@@ -33,28 +47,6 @@
             >
           </template>
         </v-data-table>
-      </v-flex>
-      <v-flex xs6>
-        <v-btn
-          small
-          outlined
-          block
-          color="primary"
-          @click="changeMjdButtonText"
-        >
-          {{ mjdButtonText }}
-        </v-btn>
-      </v-flex>
-      <v-flex xs6>
-        <v-btn
-          small
-          outlined
-          block
-          color="primary"
-          @click="changeHmsButtonText"
-        >
-          {{ hmsButtonText }}
-        </v-btn>
       </v-flex>
     </v-layout>
   </v-container>
@@ -84,7 +76,7 @@ export default class BasicInformation extends Vue {
     'Stellar',
   ]
 
-  mjdButtonText = 'View date'
+  mjdButtonText = 'View MJD'
   hmsButtonText = 'View H:M:S'
 
   changeMjdButtonText() {
@@ -144,15 +136,21 @@ export default class BasicInformation extends Vue {
         break
       case 'firstmjd':
         res.column = 'Discovery date'
-        res.value = value
+        res.value = this.formatDate(value)
         res.mjd = value
         res.date = this.formatDate(value)
+        res.actionText = this.mjdButtonText
+        res.action = this.changeMjdButtonText
+        res.icon = 'mdi-calendar'
         break
       case 'lastmjd':
         res.column = 'Last detection'
-        res.value = value
+        res.value = this.formatDate(value)
         res.mjd = value
         res.date = this.formatDate(value)
+        res.actionText = this.mjdButtonText
+        res.action = this.changeMjdButtonText
+        res.icon = 'mdi-calendar'
         break
       case 'corrected':
         res.column = 'Corrected'
@@ -171,6 +169,9 @@ export default class BasicInformation extends Vue {
         res.value = `${value.ra} ${value.dec}`
         res.radec = `${value.ra} ${value.dec}`
         res.hms = raDectoHMS(value.ra, value.dec)
+        res.actionText = this.hmsButtonText
+        res.action = this.changeHmsButtonText
+        res.icon = 'mdi-earth'
         break
       default:
         res.column = key
@@ -188,5 +189,7 @@ export default class BasicInformation extends Vue {
     })
     return toDisplay.filter((x) => this.whatShow.includes(x.column))
   }
+
+  set values(val) {}
 }
 </script>
