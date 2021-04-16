@@ -5,6 +5,7 @@
     :loading="loading"
     :server-items-length="total"
     :options.sync="localPaginationOptions"
+    :no-data-text="noDataText"
     hide-default-footer
     dense
     @update:page="onPageChange"
@@ -41,6 +42,8 @@ export default class ResultTable extends Vue {
   @Prop({ type: Array, default: () => [] }) columnOptions
 
   @Prop({ type: Object, default: () => {} }) paginationOptions
+
+  @Prop({ type: String, default: 'No data available' }) noDataText
 
   localPaginationOptions = {}
 
