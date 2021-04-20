@@ -37,7 +37,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['@/plugins/echarts.js'],
+  plugins: ['@/plugins/echarts.js', '@/plugins/validation.js'],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -46,10 +46,7 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: [
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify',
-  ],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {

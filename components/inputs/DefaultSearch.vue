@@ -7,6 +7,7 @@
         label="Object ID"
         append-icon=" "
         :delimiters="delimiters"
+        :error-messages="oidErrors"
         clearable
         deletable-chips
         multiple
@@ -30,6 +31,7 @@
         v-model="localValue.selectedClass"
         :items="classes"
         label="Class"
+        :error-messages="validationErrors ? validationErrors.class : null"
       />
     </v-flex>
     <!--Probabilities-->
@@ -42,11 +44,12 @@
       />
     </v-flex>
     <!--Detections-->
-    <v-flex xs12> Number of detections range </v-flex>
+    <v-flex xs12>Number of detections range</v-flex>
     <alerce-slider-range
       v-model="localValue.ndet"
       :max="limitNdet[1]"
       :min="limitNdet[0]"
+      :error="validationErrors ? validationErrors.ndet : null"
     />
   </v-layout>
 </template>
@@ -62,6 +65,8 @@ export default class DefaultSearch extends Vue {
   @Prop({ type: Array, default: () => [] }) classes
 
   @Prop({ type: Array, default: () => [1, 2000] }) limitNdet
+
+  @Prop({ type: Object, default: () => {} }) validationErrors
 
   localValue = {}
   oids = []
@@ -108,6 +113,16 @@ export default class DefaultSearch extends Vue {
   @Watch('localValue', { immediate: true, deep: true })
   onLocalValueChange(newVal, oldVal) {
     this.$emit('input', newVal)
+  }
+
+  get oidErrors() {
+    const errors = []
+    Object.keys(this.validationErrors).forEach((key) => {
+      if (key.startsWith('oid')) {
+        errors.push(this.validationErrors[key])
+      }
+    })
+    return errors
   }
 }
 </script>

@@ -8,6 +8,7 @@
         min="0"
         type="number"
         step="0.01"
+        :error-messages="validationErrors.date"
       />
     </v-flex>
     <!-- calendar for min modified julian dates-->
@@ -39,6 +40,7 @@
         min="0"
         type="number"
         step="0.01"
+        :error-messages="validationErrors.date"
       />
     </v-flex>
 
@@ -71,6 +73,7 @@ import { jdToDate, gregorianToJd } from '../utils/AstroDates'
 @Component
 export default class DateSearch extends Vue {
   @Prop({ type: Object, required: true }) value
+  @Prop({ type: Object, default: () => {} }) validationErrors
 
   menuMin = false
   menuMax = false

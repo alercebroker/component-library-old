@@ -6,6 +6,7 @@
         type="number"
         step="0.00001"
         label="RA (deg)"
+        :error-messages="validationErrors.conesearch"
       />
     </v-flex>
     <v-spacer />
@@ -15,6 +16,7 @@
         label="DEC (deg)"
         type="number"
         step="0.00001"
+        :error-messages="validationErrors.conesearch"
       />
     </v-flex>
     <v-flex xs12>
@@ -24,6 +26,9 @@
         type="number"
         step="0.00001"
         min="0"
+        :error-messages="
+          validationErrors.conesearch || validationErrors.radiusPositive
+        "
       />
     </v-flex>
   </v-layout>
@@ -33,6 +38,7 @@ import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
 @Component({})
 export default class CoordinatesSearch extends Vue {
   @Prop({ type: Object, required: true }) value
+  @Prop({ type: Object, default: () => {} }) validationErrors
 
   localValue = {}
 
