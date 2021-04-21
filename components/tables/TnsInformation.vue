@@ -8,7 +8,11 @@
       dense
       hide-default-footer
     />
-    <alerce-footer-tns :tnsId="name" />
+    <alerce-footer-tns
+      :discoverer="discoverer"
+      :reporter="reporter"
+      :tnsId="name"
+    />
   </v-flex>
 </template>
 <script>
@@ -23,6 +27,12 @@ export default class TnsInformation extends Vue {
 
   @Prop({ type: Number | String, default: null })
   redshift
+
+  @Prop({ type: String, default: null })
+  discoverer
+
+  @Prop({ type: String, default: null })
+  reporter
 
   @Prop({ type: Boolean })
   loading
