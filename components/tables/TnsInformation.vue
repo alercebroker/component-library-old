@@ -12,6 +12,7 @@
       :discoverer="discoverer"
       :reporter="reporter"
       :tnsId="name"
+      :instrument="instrument"
     />
   </v-flex>
 </template>
@@ -33,6 +34,9 @@ export default class TnsInformation extends Vue {
 
   @Prop({ type: String, default: null })
   reporter
+
+  @Prop({ type: String, default: null })
+  instrument
 
   @Prop({ type: Boolean })
   loading

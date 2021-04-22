@@ -1,26 +1,33 @@
 <template>
   <v-footer class="caption transparent py-0">
-    <span v-if="discoverer" class="mb-0">
-      Discovered by {{ reporter }}
-      <v-tooltip bottom max-width="400px">
-        <template v-slot:activator="{ on, attrs }">
-          <v-avatar size="20" v-bind="attrs" v-on="on">
-            <img :src="_logo" />
-          </v-avatar>
-        </template>
-        <span>{{ discoverer }}</span>
-      </v-tooltip>
-    </span>
-    <v-spacer />
-    <p class="mb-0">
-      Provided by
-      <a :href="url" target="_blank"
-        >TNS
-        <img
-          src="https://www.wis-tns.org/sites/default/files/favicon.png"
-          alt="TNS icon"
-      /></a>
-    </p>
+    <v-row>
+      <v-col cols="6">
+        <span v-if="discoverer" class="mb-0">
+          Reported by {{ reporter }}
+          <v-tooltip bottom max-width="400px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-avatar size="20" v-bind="attrs" v-on="on">
+                <img :src="_logo" />
+              </v-avatar>
+            </template>
+            <span>{{ discoverer }}</span>
+          </v-tooltip>
+        </span>
+        <span v-if="instrument"> Discovered by {{ instrument }}</span>
+      </v-col>
+
+      <v-col cols="6">
+        <p class="mb-0">
+          Provided by
+          <a :href="url" target="_blank"
+            >TNS
+            <img
+              src="https://www.wis-tns.org/sites/default/files/favicon.png"
+              alt="TNS icon"
+          /></a>
+        </p>
+      </v-col>
+    </v-row>
   </v-footer>
 </template>
 <script>
@@ -35,6 +42,9 @@ export default class FooterTns extends Vue {
 
   @Prop({ type: String, default: null })
   discoverer
+
+  @Prop({ type: String, default: null })
+  instrument
 
   @Prop({ type: Boolean, default: false })
   classified
