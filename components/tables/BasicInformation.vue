@@ -65,16 +65,21 @@ export default class BasicInformation extends Vue {
     { text: '', value: 'tooltip', align: 'end', width: '5%' },
   ]
 
-  whatShow = [
-    'Object',
-    'RA(J2000) Dec(J2000)',
-    'Number',
-    'Detections',
-    'Discovery date',
-    'Last detection',
-    'Corrected',
-    'Stellar',
-  ]
+  @Prop({
+    type: Array,
+    default: () => [
+      'Object',
+      'RA(J2000) Dec(J2000)',
+      'Number',
+      'Detections',
+      'Non Detections',
+      'Discovery date',
+      'Last detection',
+      'Corrected',
+      'Stellar',
+    ],
+  })
+  contents
 
   mjdButtonText = 'View MJD'
   hmsButtonText = 'View H:M:S'
@@ -187,7 +192,7 @@ export default class BasicInformation extends Vue {
     const toDisplay = keys.map((k) => {
       return this.infoMapper(k, this.information[k])
     })
-    return toDisplay.filter((x) => this.whatShow.includes(x.column))
+    return toDisplay.filter((x) => this.contents.includes(x.column))
   }
 
   set values(val) {}

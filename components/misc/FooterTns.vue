@@ -2,6 +2,8 @@
   <v-footer class="caption transparent py-0">
     <v-row>
       <v-col cols="6">
+        <span v-if="instrument">Discovered by {{ instrument }}</span>
+        <br />
         <span v-if="discoverer" class="mb-0">
           Reported by {{ reporter }}
           <v-tooltip bottom max-width="400px">
@@ -13,18 +15,18 @@
             <span>{{ discoverer }}</span>
           </v-tooltip>
         </span>
-        <span v-if="instrument"> Discovered by {{ instrument }}</span>
       </v-col>
 
       <v-col cols="6">
         <p class="mb-0">
           Provided by
-          <a :href="url" target="_blank"
-            >TNS
+          <a :href="url" target="_blank">
+            TNS
             <img
               src="https://www.wis-tns.org/sites/default/files/favicon.png"
               alt="TNS icon"
-          /></a>
+            />
+          </a>
         </p>
       </v-col>
     </v-row>

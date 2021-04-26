@@ -132,6 +132,6 @@ export default class LightCurvePlot extends Vue {
   margin: auto;
   width: 100%;
   height: 100%;
-  min-height: 350px;
+  min-height: 400px;
 }
 </style>

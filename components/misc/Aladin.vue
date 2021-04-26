@@ -183,6 +183,6 @@ export default class Aladin extends Vue {
 #aladin-lite-div {
   height: '100%';
   width: '100%';
-  min-height: 350px;
+  min-height: 400px;
 }
 </style>

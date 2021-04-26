@@ -44,6 +44,7 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
         renderItem: this.renderError,
       }
       serie.data = this.formatError(detections, band)
+      console.log('serie', serie)
       this.options.series.push(serie)
     })
   }
@@ -70,9 +71,6 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
         return x.fid === band
       })
       .map(function (x) {
-        if (x.sigmapsf_corr > 1) {
-          return [null, null, null]
-        }
         return [x.mjd, x.magpsf - x.sigmapsf, x.magpsf + x.sigmapsf]
       })
   }
