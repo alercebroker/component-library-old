@@ -45,7 +45,7 @@
     </v-flex>
     <!--Detections-->
     <v-flex xs12>Number of detections range</v-flex>
-    <alerce-slider-range
+    <inputs-slider-range
       v-model="localValue.ndet"
       :max="limitNdet[1]"
       :min="limitNdet[0]"

@@ -11,7 +11,7 @@
 
 <script>
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
-@Component({})
+@Component({ name: 'crosshair' })
 export default class Crosshair extends Vue {
   @Prop({
     type: Array,

@@ -1,6 +1,6 @@
 import { join } from 'path'
 
-export default function () {
+export default function() {
   const { nuxt } = this
 
   // Make sure components is enabled
@@ -14,7 +14,6 @@ export default function () {
     // Add ./components dir to the list
     dirs.push({
       path: join(__dirname, 'components'),
-      prefix: 'alerce',
     })
   })
 }

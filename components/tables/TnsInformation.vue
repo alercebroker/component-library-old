@@ -8,7 +8,7 @@
       dense
       hide-default-footer
     />
-    <alerce-footer-tns
+    <misc-footer-tns
       :discoverer="discoverer"
       :reporter="reporter"
       :tnsId="name"

@@ -67,9 +67,9 @@ Now you can use it in your components
 
 <template>
   <v-app>
-    <alerce-a-header />
+    <misc-a-header />
     <nuxt />
-    <alerce-a-footer />
+    <misc-a-footer />
   </v-app>
 </template>
 
@@ -100,15 +100,15 @@ extend(config) {
 
 <template>
   <v-app>
-    <alerce-a-header />
+    <misc-a-header />
     <router-view />
-    <alerce-a-footer />
+    <misc-a-footer />
   </v-app>
 </template>
 
 <script>
-import AHeader from 'alerce-vue/components/misc/AHeader.vue'
-import AFooter from 'alerce-vue/components/misc/AFooter.vue'
+import AHeader from '@alerce/components/components/misc/AHeader.vue'
+import AFooter from '@alerce/components/components/misc/AFooter.vue'
 export default {
   components: {
     AHeader,

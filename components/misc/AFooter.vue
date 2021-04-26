@@ -10,9 +10,7 @@
           :href="link.to"
           target="_blank"
         >
-          <v-icon size="24px">
-            {{ link.icon }}
-          </v-icon>
+          <v-icon size="24px">{{ link.icon }}</v-icon>
         </v-btn>
       </v-card-text>
       <v-divider v-if="social" />
@@ -32,20 +30,20 @@ export default class AFooter extends Vue {
   links = [
     {
       to: 'https://github.com/alercebroker/',
-      icon: 'mdi-github'
+      icon: 'mdi-github',
     },
     {
       to: 'https://twitter.com/alercebroker',
-      icon: 'mdi-twitter'
+      icon: 'mdi-twitter',
     },
     {
       to: 'https://instagram.com/alercebroker',
-      icon: 'mdi-instagram'
+      icon: 'mdi-instagram',
     },
     {
       to: '',
-      icon: 'mdi-slack'
-    }
+      icon: 'mdi-slack',
+    },
   ]
 }
 </script>
@@ -78,7 +76,7 @@ export default {
     return {
       social: false,
     }
-  }
+  },
 }
 </script>
 ```

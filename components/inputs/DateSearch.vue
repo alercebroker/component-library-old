@@ -29,7 +29,7 @@
             v-on="on"
           />
         </template>
-        <alerce-date-time-picker v-model="minDatetime" :open.sync="menuMin" />
+        <inputs-date-time-picker v-model="minDatetime" :open.sync="menuMin" />
       </v-menu>
     </v-flex>
 
@@ -61,7 +61,7 @@
             v-on="on"
           />
         </template>
-        <alerce-date-time-picker v-model="maxDatetime" :open.sync="menuMax" />
+        <inputs-date-time-picker v-model="maxDatetime" :open.sync="menuMax" />
       </v-menu>
     </v-flex>
   </v-layout>

@@ -37,6 +37,9 @@
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
 @Component({})
 export default class CoordinatesSearch extends Vue {
+  /**
+   * Object with ra, dec and radius keys
+   */
   @Prop({ type: Object, required: true }) value
   @Prop({ type: Object, default: () => {} }) validationErrors
 

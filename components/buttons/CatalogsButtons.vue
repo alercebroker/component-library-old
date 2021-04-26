@@ -2,9 +2,9 @@
   <v-layout v-if="ra != null && dec != null" wrap justify-center>
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn small tile block color="blue" v-bind="attrs" v-on="on">
-          {{ title }}
-        </v-btn>
+        <v-btn small tile block color="blue" v-bind="attrs" v-on="on">{{
+          title
+        }}</v-btn>
       </template>
       <v-list>
         <v-list-item
@@ -12,9 +12,7 @@
           :key="item.name"
           @click="openPage(item.link)"
         >
-          <v-list-item-title>
-            {{ item.name }}
-          </v-list-item-title>
+          <v-list-item-title>{{ item.name }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -22,16 +20,26 @@
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
+/**
+ * This component uses coordinates to search in other catalogs.
+ * Available catalogs are: NED, SIMBAD, TNS, PanSTARRS and SDSS DR16
+ */
 @Component({})
 export default class ColumnsoptionsButton extends Vue {
-  @Prop({ type: Number, default: 0 })
-  ra
+  /**
+   * Right assention in degrees
+   */
+  @Prop({ type: Number, default: 0 }) ra
 
-  @Prop({ type: Number, default: 0 })
-  dec
+  /**
+   * Declination in degrees
+   */
+  @Prop({ type: Number, default: 0 }) dec
 
-  @Prop({ type: String, default: 'External Catalogs' })
-  title
+  /**
+   * Button text
+   */
+  @Prop({ type: String, default: 'External Catalogs' }) title
 
   get links() {
     return [

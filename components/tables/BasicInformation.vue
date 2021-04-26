@@ -54,7 +54,7 @@
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import { jdToDate, raDectoHMS } from '../utils/AstroDates.js'
-@Component({})
+@Component({ name: 'BasicInformation' })
 export default class BasicInformation extends Vue {
   @Prop({ type: Object, default: () => {} })
   information

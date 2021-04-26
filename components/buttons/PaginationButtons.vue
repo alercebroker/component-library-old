@@ -6,8 +6,9 @@
       small
       :disabled="loading || page == 1"
       @click="onPagePrev"
-      ><v-icon>mdi-arrow-left</v-icon></v-btn
     >
+      <v-icon>mdi-arrow-left</v-icon>
+    </v-btn>
     <v-btn elevation="2" icon>{{ page }}</v-btn>
     <v-btn
       elevation="2"
@@ -15,28 +16,46 @@
       small
       :disabled="loading || disableNext"
       @click="onPageNext"
-      ><v-icon>mdi-arrow-right</v-icon></v-btn
     >
+      <v-icon>mdi-arrow-right</v-icon>
+    </v-btn>
   </div>
 </template>
 <script>
-import { Vue, Component, Prop, Emit } from 'nuxt-property-decorator'
+import { Vue, Component, Prop } from 'nuxt-property-decorator'
 @Component({})
 export default class PaginationButtons extends Vue {
+  /**
+   * The current page.
+   */
   @Prop({ type: Number }) page
 
+  /**
+   * disabled then true
+   */
   @Prop({ type: Boolean, default: false }) loading
 
+  /**
+   * If next page is not available
+   */
   @Prop({ type: Boolean, default: false }) disableNext
 
-  @Emit('pageChange')
   onPageNext() {
-    return this.page + 1
+    /**
+     * Triggers when the page changes
+     *
+     * @property {number} page the new page
+     */
+    this.$emit('pageChange', this.page + 1)
   }
 
-  @Emit('pageChange')
   onPagePrev() {
-    return this.page > 0 ? this.page - 1 : this.page
+    /**
+     * Triggers when the page changes
+     *
+     * @property {number} page the new page
+     */
+    this.$emit('pageChange', this.page > 0 ? this.page - 1 : this.page)
   }
 }
 </script>

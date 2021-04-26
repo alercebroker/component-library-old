@@ -18,7 +18,7 @@
       <slot name="top">
         <v-toolbar dense flat>
           <v-spacer></v-spacer>
-          <AlercePaginationButtons
+          <ButtonsPaginationButtons
             :page="paginationOptions.page"
             :loading="loading"
             :disableNext="nextDisabled"
