@@ -41,6 +41,7 @@
         :label="probLabel"
         :max="1"
         :step="0.01"
+        :error-messages="validationErrors ? validationErrors.probability : null"
       />
     </v-flex>
     <!--Detections-->

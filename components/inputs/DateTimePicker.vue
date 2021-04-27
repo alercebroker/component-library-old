@@ -16,6 +16,7 @@
           <v-date-picker
             v-model="date"
             v-bind="datePickerProps"
+            :show-current="false"
           ></v-date-picker>
         </v-tab-item>
         <v-tab-item key="timer">
@@ -29,12 +30,12 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <slot name="actions" :parent="this">
-        <v-btn color="grey lighten-1" text @click.native="clearHandler">{{
-          clearText
-        }}</v-btn>
-        <v-btn color="green darken-1" text @click="okHandler">{{
-          okText
-        }}</v-btn>
+        <v-btn color="grey lighten-1" text @click.native="clearHandler">
+          {{ clearText }}
+        </v-btn>
+        <v-btn color="green darken-1" text @click="okHandler">
+          {{ okText }}
+        </v-btn>
       </slot>
     </v-card-actions>
   </v-card>
