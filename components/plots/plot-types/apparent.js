@@ -6,7 +6,6 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
     this.detections = this.detections.filter(
       (x) => x.magpsf_corr <= 23 && x.sigmapsf_corr_ext < 1
     )
-
     this.getSeries()
     this.getLegend()
     this.getBoundaries()
@@ -73,9 +72,9 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
         return [
           x.mjd,
           x.magpsf_corr,
-          x.candid,
+          x.candid !== undefined ? x.candid : '',
           x.sigmapsf_corr_ext,
-          x.isdiffpos,
+          x.isdiffpos !== undefined ? x.isdiffpos : '',
         ]
       })
   }

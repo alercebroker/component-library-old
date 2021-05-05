@@ -5,9 +5,18 @@ export class LightCurveOptions {
     this.bandMap = {
       1: { name: 'g', color: '#56E03A' },
       2: { name: 'r', color: '#D42F4B' },
-      // 3: { name: 'i', color: '#2E2EFE' },
+      101: { name: 'g DR5', color: '#ADA3A3' },
+      102: { name: 'r DR5', color: '#A62197' },
+      103: { name: 'i DR5', color: '#885252' },
     }
-    this.detections = detections.filter((x) => x.fid === 1 || x.fid === 2)
+    this.detections = detections.filter(
+      (x) =>
+        x.fid === 1 ||
+        x.fid === 2 ||
+        x.fid === 101 ||
+        x.fid === 102 ||
+        x.fid === 103
+    )
     this.nonDetections = nonDetections.filter((x) => x.diffmaglim <= 23)
     this.fontColor = fontColor
     this.options = {
@@ -157,7 +166,13 @@ export class LightCurveOptions {
         jdToDate(params[0].value[0]).toUTCString().slice(0, -3) + 'UT'
       )
       return table + '</table>'
-    } else if (serie === 'r' || serie === 'g') {
+    } else if (
+      serie === 'r' ||
+      serie === 'g' ||
+      serie === 'r DR5' ||
+      serie === 'g DR5' ||
+      serie === 'i DR5'
+    ) {
       const isdiffpos = params[0].value[4] === 1 ? '(+)' : '(-)'
       const mag = params[0].value[1].toFixed(3)
       const err = params[0].value[3].toFixed(3)

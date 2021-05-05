@@ -44,7 +44,6 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
         renderItem: this.renderError,
       }
       serie.data = this.formatError(detections, band)
-      console.log('serie', serie)
       this.options.series.push(serie)
     })
   }
