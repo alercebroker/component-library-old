@@ -36,6 +36,9 @@ export default class LightCurvePlot extends Vue {
 
   @Emit('detectionClick')
   onClick(detection) {
+    const serieType = detection.seriesName
+    if (serieType.includes('non-detections') || serieType.includes('DR'))
+      return null
     const date = jdToDate(detection.value[0]).toUTCString().slice(0, -3) + 'UT'
     return {
       mjd: detection.value[0],

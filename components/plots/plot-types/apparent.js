@@ -24,11 +24,13 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
         type: 'scatter',
         scale: true,
         color: this.bandMap[band].color,
-        symbolSize: 6,
+        symbolSize: band < 100 ? 6 : 3,
+        symbol: band < 100 ? 'circle' : 'square',
         encode: {
           x: 0,
           y: 1,
         },
+        zlevel: band < 100 ? 10 : 0,
       }
       serie.data = this.formatDetections(detections, band)
       this.options.series.push(serie)
@@ -72,15 +74,16 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
         return [
           x.mjd,
           x.magpsf_corr,
-          x.candid !== undefined ? x.candid : '',
+          x.candid !== undefined ? x.candid : x.objectid,
           x.sigmapsf_corr_ext,
-          x.isdiffpos !== undefined ? x.isdiffpos : '',
+          x.isdiffpos !== undefined ? x.isdiffpos : x.field,
         ]
       })
   }
 
   getLegend() {
-    const bands = Array.from(new Set(this.detections.map((item) => item.fid)))
+    let bands = Array.from(new Set(this.detections.map((item) => item.fid)))
+    bands = bands.sort((x, y) => x - y)
     const legend = bands.map((band) => this.bandMap[band].name)
     this.options.legend.data = legend
   }
