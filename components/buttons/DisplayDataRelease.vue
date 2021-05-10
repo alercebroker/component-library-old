@@ -16,7 +16,7 @@
       </template>
       <template v-slot:default="dialog">
         <v-card>
-          <v-toolbar dark> Select elements to display of DR5 </v-toolbar>
+          <v-toolbar dark> Select elements to display of ZTF DR5 </v-toolbar>
           <v-card-text>
             <v-data-table
               v-model="selected"
