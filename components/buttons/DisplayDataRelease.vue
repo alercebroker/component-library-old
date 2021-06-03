@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog transition="dialog-bottom-transition" max-width="600">
+    <v-bottom-sheet v-model="sheet" inset>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           outlined
@@ -14,25 +14,30 @@
           <v-icon left small>mdi-eye</v-icon>Display DR
         </v-btn>
       </template>
-      <template v-slot:default="dialog">
+
+      <v-sheet class="text-center">
         <v-card>
           <v-toolbar dark> Select elements to display of ZTF DR5 </v-toolbar>
           <v-card-text>
             <v-data-table
               v-model="selected"
-              item-key="objectid"
+              dense
               show-select
+              multi-sort
+              hide-default-footer
+              item-key="_id"
+              :sort-by="['filterid', 'nepochs']"
+              :sort-desc="[false, true]"
               :headers="headers"
               :items="datarelease"
-              hide-default-footer
             />
           </v-card-text>
           <v-card-actions class="justify-end">
-            <v-btn text @click="dialog.value = false">Close</v-btn>
+            <v-btn text @click="sheet = false">Close</v-btn>
           </v-card-actions>
         </v-card>
-      </template>
-    </v-dialog>
+      </v-sheet>
+    </v-bottom-sheet>
   </div>
 </template>
 <script>
@@ -58,22 +63,33 @@ export default class DisplayDataRelease extends Vue {
 
   selected = []
 
+  sheet = false
+
   headers = [
     {
       text: 'objectid',
-      value: 'objectid',
+      value: '_id',
+      align: 'center',
     },
     {
       text: 'filterid',
       value: 'filterid',
-    },
-    {
-      text: 'fieldid',
-      value: 'fieldid',
+      align: 'center',
     },
     {
       text: 'nepochs',
       value: 'nepochs',
+      align: 'center',
+    },
+    {
+      text: 'fieldid',
+      value: 'fieldid',
+      align: 'center',
+    },
+    {
+      text: 'rcid',
+      value: 'rcid',
+      align: 'center',
     },
   ]
 
@@ -83,7 +99,7 @@ export default class DisplayDataRelease extends Vue {
     const drMagError = objectLightCurve.magerr
     const drFid = 100 + objectLightCurve.filterid
     const drField = objectLightCurve.fieldid
-    const drId = objectLightCurve.objectid
+    const drId = objectLightCurve._id
     return drMjd.map((mjd, index) => {
       return {
         mjd,
