@@ -59,6 +59,11 @@ export default class DisplayDataRelease extends Vue {
    */
   @Prop({ type: Boolean, default: () => [] }) loading
 
+  /**
+   *
+   */
+  @Prop({ type: String, default: 'difference' }) plot
+
   firstTime = true
 
   selected = []
@@ -122,6 +127,10 @@ export default class DisplayDataRelease extends Vue {
     if (this.firstTime) {
       this.firstTime = false
       this.selected = this.datarelease
+    }
+
+    if (this.plot === 'difference') {
+      this.$emit('update-plot', 'apparent')
     }
   }
 
