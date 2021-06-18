@@ -44,7 +44,6 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
         renderItem: this.renderError,
       }
       serie.data = this.formatError(detections, band)
-      console.log('serie', serie)
       this.options.series.push(serie)
     })
   }
@@ -96,7 +95,8 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
   }
 
   getLegend() {
-    const bands = Array.from(new Set(this.detections.map((item) => item.fid)))
+    let bands = Array.from(new Set(this.detections.map((item) => item.fid)))
+    bands = bands.sort((x, y) => x - y)
     let legend = bands.map((band) => this.bandMap[band].name)
     legend = legend.concat(
       bands.map((band) => this.bandMap[band].name + ' non-detections')

@@ -5,9 +5,18 @@ export class LightCurveOptions {
     this.bandMap = {
       1: { name: 'g', color: '#56E03A' },
       2: { name: 'r', color: '#D42F4B' },
-      // 3: { name: 'i', color: '#2E2EFE' },
+      101: { name: 'g DR5', color: '#ADA3A3' },
+      102: { name: 'r DR5', color: '#377EB8' },
+      103: { name: 'i DR5', color: '#FF7F00' },
     }
-    this.detections = detections.filter((x) => x.fid === 1 || x.fid === 2)
+    this.detections = detections.filter(
+      (x) =>
+        x.fid === 1 ||
+        x.fid === 2 ||
+        x.fid === 101 ||
+        x.fid === 102 ||
+        x.fid === 103
+    )
     this.nonDetections = nonDetections.filter((x) => x.diffmaglim <= 23)
     this.fontColor = fontColor
     this.options = {
@@ -136,6 +145,23 @@ export class LightCurveOptions {
       '</td> <td>' +
       col3 +
       '</td> </tr>'
+    const dataReleaseTooltip = (params) => {
+      const color = params.color
+      const mjd = params.value[0]
+      const mag = params.value[1].toFixed(3)
+      const objectid = params.value[2]
+      const magerr = params.value[3].toFixed(3)
+      const field = params.value[4]
+      const magnitude = `${mag} ± ${magerr}`
+      const utcDate = jdToDate(mjd).toUTCString().slice(0, -3) + 'UT'
+      let data = ''
+      data += rowTable('', 'objectid: ', objectid)
+      data += rowTable('', 'field: ', field)
+      data += rowTable(colorSpan(color), `${params.seriesName}: `, magnitude)
+      data += rowTable(calendarIcon(color), 'MJD: ', mjd)
+      data += rowTable(calendarIcon(color), 'Date: ', utcDate)
+      return data
+    }
     const calendarIcon = (color) =>
       `<span class="mdi mdi-alarm" style='font-size:13px; color: ${color};'></span>`
     const serie = params[0].seriesName
@@ -179,6 +205,9 @@ export class LightCurveOptions {
       )
       table += rowTable('', 'click to change stamp', '')
       return table + '</table>'
+    } else if (serie === 'r DR5' || serie === 'g DR5' || serie === 'i DR5') {
+      table += dataReleaseTooltip(params[0])
+      return table
     }
   }
 
