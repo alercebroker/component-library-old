@@ -1,10 +1,14 @@
 <template>
   <v-footer class="caption transparent py-0">
     <v-row>
-      <v-col cols="6">
+      <v-col md="5" lg="6" class="pa-0" align-self="end">
         <span v-if="instrument">Discovered by {{ instrument }}</span>
         <br />
-        <span v-if="discoverer" class="mb-0">
+        <span
+          v-show="this.$vuetify.breakpoint.width > 1400"
+          v-if="discoverer"
+          class="mb-0"
+        >
           Reported by {{ reporter }}
           <v-tooltip bottom max-width="400px">
             <template v-slot:activator="{ on, attrs }">
@@ -17,8 +21,8 @@
         </span>
       </v-col>
 
-      <v-col cols="6">
-        <p class="mb-0">
+      <v-col md="7" lg="6" class="pa-0">
+        <p class="mb-0 text-right">
           Provided by
           <a :href="url" target="_blank">
             TNS
