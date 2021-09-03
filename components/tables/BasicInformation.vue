@@ -1,55 +1,49 @@
 <template>
-  <v-container class="py-0">
-    <v-layout row wrap>
-      <v-flex xs12>
-        <v-data-table
-          :headers="header"
-          :items="values"
-          :items-per-page="values.length"
-          :mobile-breakpoint="250"
-          dense
-          disable-sort
-          hide-default-footer
-          hide-default-header
-        >
-          <template v-slot:item.tooltip="{ item }">
-            <span v-if="item.tooltip">
-              <v-tooltip right max-width="200">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon align="center" v-bind="attrs" v-on="on"
-                    >mdi-help-circle</v-icon
-                  >
-                </template>
-                <span>{{ item.tooltip }}</span>
-              </v-tooltip>
-            </span>
-            <v-tooltip v-if="item.action" right max-width="200">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  align="center"
-                  v-bind="attrs"
-                  v-on="on"
-                  @click="item.action"
-                >
-                  <v-icon align="center">{{ item.icon }}</v-icon>
-                </v-btn>
-              </template>
-              <span>{{ item.actionText }}</span>
-            </v-tooltip>
-          </template>
-          <template v-slot:item.value="{ item }">
-            {{ item.value }}
-            <a
-              v-if="item.date === item.value"
-              href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time"
-              >UTC</a
+  <v-data-table
+    :headers="header"
+    :items="values"
+    :items-per-page="values.length"
+    :mobile-breakpoint="250"
+    dense
+    disable-sort
+    hide-default-footer
+    hide-default-header
+  >
+    <template v-slot:item.tooltip="{ item }">
+      <span v-if="item.tooltip">
+        <v-tooltip right max-width="200">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon align="center" v-bind="attrs" v-on="on"
+              >mdi-help-circle</v-icon
             >
           </template>
-        </v-data-table>
-      </v-flex>
-    </v-layout>
-  </v-container>
+          <span>{{ item.tooltip }}</span>
+        </v-tooltip>
+      </span>
+      <v-tooltip v-if="item.action" right max-width="200">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            align="center"
+            v-bind="attrs"
+            v-on="on"
+            @click="item.action"
+          >
+            <v-icon align="center">{{ item.icon }}</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ item.actionText }}</span>
+      </v-tooltip>
+    </template>
+    <template v-slot:item.value="{ item }">
+      {{ item.value }}
+      <a
+        v-if="item.date === item.value"
+        href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time"
+        >UTC</a
+      >
+    </template>
+  </v-data-table>
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
