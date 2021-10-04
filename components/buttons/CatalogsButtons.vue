@@ -86,6 +86,10 @@ export default class ColumnsoptionsButton extends Vue {
           '&dec=' +
           this.dec,
       },
+      {
+        name: 'VSX',
+        link: `http://www.aavso.org/vsx/index.php?view=results.get&coords=${this.ra}+${this.dec}&format=d&size=10&geom=r&unit=3`,
+      },
     ]
   }
 
