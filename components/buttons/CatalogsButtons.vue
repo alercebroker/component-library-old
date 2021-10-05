@@ -39,8 +39,10 @@ export default class ColumnsoptionsButton extends Vue {
   /**
    * Button text
    */
-  @Prop({ type: String, default: 'External Catalogs' }) title
-
+  @Prop({ type: String, default: 'External archives' }) title
+  /**
+   * Links of dropdown. This array is sorted by formal name.
+   */
   get links() {
     return [
       {
@@ -87,10 +89,39 @@ export default class ColumnsoptionsButton extends Vue {
           this.dec,
       },
       {
-        name: 'VSX',
-        link: `http://www.aavso.org/vsx/index.php?view=results.get&coords=${this.ra}+${this.dec}&format=d&size=10&geom=r&unit=3`,
+        name: 'DESI Legacy Survey DR9',
+        link:
+          'https://www.legacysurvey.org/viewer/jpeg-cutout/?ra=' +
+          this.ra +
+          '&dec=' +
+          this.dec +
+          '&layer=ls-dr9&pixscale=0.1&bands=grz',
       },
-    ]
+      {
+        name: 'Vizier',
+        link:
+          'http://vizier.u-strasbg.fr/viz-bin/VizieR-4?-c=' +
+          this.ra +
+          (this.dec > 0 ? '+' : '-') +
+          this.dec +
+          '&-c.rs=10&-out.add=_r&-sort=_r&-out.max=$4',
+      },
+      {
+        name: 'VSX',
+        link: `http://www.aavso.org/vsx/index.php?view=results.get&coords=${this.ra}+${this.dec}&format=d&size=10&geom=r&unit=3&order=9`,
+      },
+    ].sort((a, b) => {
+      const fa = a.name.toLowerCase()
+      const fb = b.name.toLowerCase()
+
+      if (fa < fb) {
+        return -1
+      }
+      if (fa > fb) {
+        return 1
+      }
+      return 0
+    })
   }
 
   openPage(url) {
