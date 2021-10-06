@@ -1,8 +1,8 @@
 <template>
-  <v-layout v-if="ra != null && dec != null" wrap justify-center>
+  <v-layout v-if="ra != null && dec != null" justify-center>
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn small tile block color="blue" v-bind="attrs" v-on="on">{{
+        <v-btn x-small block tile color="blue" v-bind="attrs" v-on="on">{{
           title
         }}</v-btn>
       </template>

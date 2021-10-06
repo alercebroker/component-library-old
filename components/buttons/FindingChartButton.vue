@@ -1,21 +1,19 @@
 <template>
-  <v-layout wrap justify-center>
-    <v-flex xs12>
-      <v-btn
-        small
-        tile
-        block
-        color="cyan darken-2"
-        :href="link"
-        target="_blank"
-      >
-        <!-- @slot icon slot, usually a v-icon -->
-        <slot name="icon">
-          <v-icon v-if="useIcon" left>mdi-file-document-outline</v-icon>
-        </slot>
-        {{ title }}
-      </v-btn>
-    </v-flex>
+  <v-layout justify-center>
+    <v-btn
+      x-small
+      block
+      tile
+      color="cyan darken-2"
+      :href="link"
+      target="_blank"
+    >
+      <!-- @slot icon slot, usually a v-icon -->
+      <slot name="icon">
+        <v-icon v-if="useIcon" left>mdi-file-document-outline</v-icon>
+      </slot>
+      {{ title }}
+    </v-btn>
   </v-layout>
 </template>
 <script>
