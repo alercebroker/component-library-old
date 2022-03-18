@@ -18,8 +18,8 @@ export class LightCurveOptions {
         x.fid === 101 ||
         x.fid === 102 ||
         x.fid === 103 ||
-        x.fid === 11 ||
-        x.fid === 12
+        x.fid === 4 ||
+        x.fid === 5
     )
     this.nonDetections = nonDetections.filter((x) => x.diffmaglim <= 23)
     this.fontColor = fontColor
