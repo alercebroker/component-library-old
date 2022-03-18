@@ -8,6 +8,8 @@ export class LightCurveOptions {
       101: { name: 'g DR5', color: '#ADA3A3' },
       102: { name: 'r DR5', color: '#377EB8' },
       103: { name: 'i DR5', color: '#FF7F00' },
+      4: { name: 'c', color: '#00FFFF' },
+      5: { name: 'o', color: '#FFA500' },
     }
     this.detections = detections.filter(
       (x) =>
@@ -15,7 +17,9 @@ export class LightCurveOptions {
         x.fid === 2 ||
         x.fid === 101 ||
         x.fid === 102 ||
-        x.fid === 103
+        x.fid === 103 ||
+        x.fid === 11 ||
+        x.fid === 12
     )
     this.nonDetections = nonDetections.filter((x) => x.diffmaglim <= 23)
     this.fontColor = fontColor
