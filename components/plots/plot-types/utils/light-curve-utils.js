@@ -21,7 +21,7 @@ export class LightCurveOptions {
         x.fid === 4 ||
         x.fid === 5
     )
-    this.nonDetections = nonDetections.filter((x) => x.diffmaglim <= 23)
+    this.nonDetections = nonDetections.filter((x) => x.diffmaglim <= 23 && x.fid != 4 && x.fid != 5)
     this.fontColor = fontColor
     this.options = {
       grid: {

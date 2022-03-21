@@ -12,6 +12,7 @@ export class ApparentLightCurveOptions extends LightCurveOptions {
   }
 
   getSeries() {
+    this.detections = this.detections.filter((item) => item.fid != 4 && item.fid != 5)
     const bands = new Set(this.detections.map((item) => item.fid))
     this.addDetections(this.detections, bands)
     this.addErrorBars(this.detections, bands)

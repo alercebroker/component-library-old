@@ -11,12 +11,13 @@ export class DifferenceLightCurveOptions extends LightCurveOptions {
 
   getSeries() {
     const bands = new Set(this.detections.map((item) => item.fid))
+    const ndBands = new Set(this.nonDetections.map((item) => item.fid))
     this.nonDetections
       .map((item) => item.fid)
       .forEach((element) => bands.add(element))
     this.addDetections(this.detections, bands)
     this.addErrorBars(this.detections, bands)
-    this.addNonDetections(this.nonDetections, bands)
+    this.addNonDetections(this.nonDetections, ndBands)
   }
 
   addDetections(detections, bands) {
