@@ -24,7 +24,7 @@
     "file-saver": "^2.0.2",
     "jszip": "^3.5.0",
     "julian": "^0.2.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "nuxt": "^2.13.0",
     "nuxt-property-decorator": "^2.7.2",
     "vue-echarts": "^5.0.0-beta.0",
