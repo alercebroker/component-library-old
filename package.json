@@ -1,6 +1,6 @@
 {
   "name": "@alerce/components",
-  "version": "0.0.41-dev",
+  "version": "0.0.42-dev",
   "private": false,
   "scripts": {
     "dev": "nuxt",
