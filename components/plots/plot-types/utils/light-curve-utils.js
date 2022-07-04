@@ -12,16 +12,9 @@ export class LightCurveOptions {
       5: { name: 'o', color: '#FFA500' },
     }
     this.detections = detections.filter(
-      (x) =>
-        x.fid === 1 ||
-        x.fid === 2 ||
-        x.fid === 101 ||
-        x.fid === 102 ||
-        x.fid === 103 ||
-        x.fid === 4 ||
-        x.fid === 5
+      (x) => x.fid in this.bandMap
     )
-    this.nonDetections = nonDetections.filter((x) => x.diffmaglim <= 23 && x.fid != 4 && x.fid != 5)
+    this.nonDetections = nonDetections.filter((x) => x.diffmaglim <= 23 && x.fid in this.bandMap)
     this.fontColor = fontColor
     this.options = {
       grid: {
