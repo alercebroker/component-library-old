@@ -208,12 +208,22 @@ export default class StampCard extends Vue {
     }
   }
 
+  getSurveyID(index) {
+    if (this.detections && this.detections.length) {
+      return this.detections[index].tid
+    } else {
+      return ''
+    }
+  }
+
   download(type) {
     const link =
       'http://avro.alerce.online/get_stamp?oid=' +
       this.object +
       '&candid=' +
       this.getCandid(this.stateSelectedDetection) +
+      '&survey_id=' +
+      this.getSurveyID(this.stateSelectedDetection) +
       '&type=' +
       type +
       '&format=fits'
@@ -240,7 +250,7 @@ export default class StampCard extends Vue {
     this.$emit('selectDetection', date)
   }
 
-  getScienceURL(object, candid) {
+  getScienceURL(object, candid, survey_id) {
     if (!candid) {
       return 'https://via.placeholder.com/300'
     }
@@ -249,11 +259,13 @@ export default class StampCard extends Vue {
       object +
       '&candid=' +
       candid +
+      '&survey_id=' +
+      survey_id +
       '&type=science&format=png'
     )
   }
 
-  getTemplateURL(object, candid) {
+  getTemplateURL(object, candid, survey_id) {
     if (!candid) {
       return 'https://via.placeholder.com/300'
     }
@@ -262,11 +274,13 @@ export default class StampCard extends Vue {
       object +
       '&candid=' +
       candid +
+      '&survey_id=' +
+      survey_id +
       '&type=template&format=png'
     )
   }
 
-  getDifferenceURL(object, candid) {
+  getDifferenceURL(object, candid, survey_id) {
     if (!candid) {
       return 'https://via.placeholder.com/300'
     }
@@ -275,6 +289,8 @@ export default class StampCard extends Vue {
       object +
       '&candid=' +
       candid +
+      '&survey_id=' +
+      survey_id +
       '&type=difference&format=png'
     )
   }
@@ -294,21 +310,24 @@ export default class StampCard extends Vue {
   get science() {
     return this.getScienceURL(
       this.object,
-      this.getCandid(this.stateSelectedDetection)
+      this.getCandid(this.stateSelectedDetection),
+      this.getSurveyID(this.stateSelectedDetection)
     )
   }
 
   get difference() {
     return this.getDifferenceURL(
       this.object,
-      this.getCandid(this.stateSelectedDetection)
+      this.getCandid(this.stateSelectedDetection),
+      this.getSurveyID(this.stateSelectedDetection)
     )
   }
 
   get template() {
     return this.getTemplateURL(
       this.object,
-      this.getCandid(this.stateSelectedDetection)
+      this.getCandid(this.stateSelectedDetection),
+      this.getSurveyID(this.stateSelectedDetection)
     )
   }
 
