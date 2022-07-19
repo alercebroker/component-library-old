@@ -139,6 +139,10 @@ export default class StampCard extends Vue {
    * Object ID
    */
   @Prop({ type: String, default: '' }) object
+  /**
+   * Base URL
+   */
+  @Prop({ type: String, default: '' }) baseURL
 
   /**
    * @model
@@ -218,7 +222,8 @@ export default class StampCard extends Vue {
 
   download(type) {
     const link =
-      'http://avro.alerce.online/get_stamp?oid=' +
+      this.baseURL +
+      '/get_stamp?oid=' +
       this.object +
       '&candid=' +
       this.getCandid(this.stateSelectedDetection) +
@@ -255,7 +260,8 @@ export default class StampCard extends Vue {
       return 'https://via.placeholder.com/300'
     }
     return (
-      'https://avro.alerce.online/get_stamp?oid=' +
+      this.baseURL +
+      '/get_stamp?oid=' +
       object +
       '&candid=' +
       candid +
@@ -270,7 +276,8 @@ export default class StampCard extends Vue {
       return 'https://via.placeholder.com/300'
     }
     return (
-      'https://avro.alerce.online/get_stamp?oid=' +
+      this.baseURL +
+      '/get_stamp?oid=' +
       object +
       '&candid=' +
       candid +
@@ -285,7 +292,8 @@ export default class StampCard extends Vue {
       return 'https://via.placeholder.com/300'
     }
     return (
-      'https://avro.alerce.online/get_stamp?oid=' +
+      this.baseURL +
+      '/get_stamp?oid=' +
       object +
       '&candid=' +
       candid +
