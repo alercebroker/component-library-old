@@ -1,6 +1,37 @@
 <template>
   <v-layout wrap align-center>
-    <v-flex xs5>
+    <!--Target Name-->
+    <v-flex xs10 sm12 md12>
+      <v-row>
+        <v-col lg="6" md="12">
+        <v-text-field
+          v-model="targetName"
+          label="Target Name"
+        />
+        </v-col>
+      <!--BOTON-->
+        <v-col lg="6" md="12" mt ="5">
+          <v-btn @click="obtenerInfo" color="normal" block margin-top = "4" >
+            Resolve
+          </v-btn>
+        </v-col> 
+      </v-row>
+    </v-flex> 
+    <!--PROVIDED BY-->
+    <v-flex xs10 sm12 md12>
+    <v-row>
+      <v-col md="7" lg="12" class="pa-0 caption transparent py-0 ">
+        <p class="mb-0 mr-3 text-right">
+          Provided by
+          <a href="https://vizier.cds.unistra.fr/vizier/doc/sesame.htx" target="_blank">
+            Sesame
+          </a>
+        </p>
+      </v-col>
+    </v-row>
+    </v-flex>
+    <!--RA--> 
+    <v-flex xs5>      
       <v-text-field
         v-model="localValue.ra"
         type="number"
@@ -10,7 +41,8 @@
       />
     </v-flex>
     <v-spacer />
-    <v-flex xs5>
+    <!--DEC--> 
+    <v-flex xs5> 
       <v-text-field
         v-model="localValue.dec"
         label="DEC (deg)"
@@ -19,7 +51,8 @@
         :error-messages="validationErrors.conesearch"
       />
     </v-flex>
-    <v-flex xs12>
+    <!--RADIUS-->      
+    <v-flex xs12> 
       <v-text-field
         v-model="localValue.radius"
         label="Radius (arcsec)"
@@ -35,6 +68,7 @@
 </template>
 <script>
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
+import axios from "axios"
 @Component({})
 export default class CoordinatesSearch extends Vue {
   /**
@@ -44,6 +78,7 @@ export default class CoordinatesSearch extends Vue {
   @Prop({ type: Object, default: () => {} }) validationErrors
 
   localValue = {}
+  targetName = ""
 
   @Watch('value', { immediate: true, deep: true })
   onValueChange(val) {
@@ -53,6 +88,16 @@ export default class CoordinatesSearch extends Vue {
   @Watch('localValue', { immediate: true, deep: true })
   onLocalValueChange(val) {
     this.$emit('input', val)
+  }
+  obtenerInfo() {
+    axios.get(`https://cds.unistra.fr/cgi-bin/nph-sesame/-ox?${this.targetName}`).then((result) => {
+      let parser = new DOMParser();
+      let xmlDom = parser.parseFromString(result.data , 'application/xml');
+      let jra = xmlDom.querySelector('jradeg').innerHTML;
+      let jdec = xmlDom.querySelector('jdedeg').innerHTML;
+      console.log(jra, jdec);
+      this.localValue = {...this.localValue, ra:(+jra), dec:+jdec}
+    })
   }
 }
 </script>
