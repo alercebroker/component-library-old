@@ -23,7 +23,7 @@
       <v-col md="7" lg="12" class="pa-0 caption transparent py-0 ">
         <p class="mb-0 mr-3 text-right">
           Provided by
-          <a :href="url" target="_blank">
+          <a href="https://vizier.cds.unistra.fr/vizier/doc/sesame.htx" target="_blank">
             Sesame
           </a>
         </p>
