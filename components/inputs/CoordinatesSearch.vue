@@ -11,7 +11,7 @@
         </v-col>
       <!--BOTON-->
         <v-col lg="6" md="12" mt ="5">
-          <v-btn @click="obtenerInfo" color="normal" block margin-top = "4" >
+          <v-btn @click="obtenerInfo" :loading="isLoading" color="normal" block margin-top = "4" >
             Resolve
           </v-btn>
         </v-col> 
@@ -68,6 +68,7 @@
 </template>
 <script>
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
+import { hmstoRaDec } from '../utils/AstroDates.js'
 import axios from "axios"
 @Component({})
 export default class CoordinatesSearch extends Vue {
@@ -79,6 +80,7 @@ export default class CoordinatesSearch extends Vue {
 
   localValue = {}
   targetName = ""
+  isLoading = false
 
   @Watch('value', { immediate: true, deep: true })
   onValueChange(val) {
@@ -89,7 +91,9 @@ export default class CoordinatesSearch extends Vue {
   onLocalValueChange(val) {
     this.$emit('input', val)
   }
+
   obtenerInfo() {
+    this.isLoading = true;
     axios.get(`https://cds.unistra.fr/cgi-bin/nph-sesame/-ox?${this.targetName}`).then((result) => {
       let parser = new DOMParser();
       let xmlDom = parser.parseFromString(result.data , 'application/xml');
@@ -97,6 +101,7 @@ export default class CoordinatesSearch extends Vue {
       let jdec = xmlDom.querySelector('jdedeg').innerHTML;
       console.log(jra, jdec);
       this.localValue = {...this.localValue, ra:(+jra), dec:+jdec}
+      this.isLoading = false;
     })
   }
 }
