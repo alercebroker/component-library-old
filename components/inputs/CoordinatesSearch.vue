@@ -7,6 +7,8 @@
         <v-text-field
           v-model="targetName"
           label="Target Name"
+         :error-messages="error"
+          
         />
         </v-col>
       <!--BOTON-->
@@ -81,6 +83,7 @@ export default class CoordinatesSearch extends Vue {
   localValue = {}
   targetName = ""
   isLoading = false
+  error = []
 
   @Watch('value', { immediate: true, deep: true })
   onValueChange(val) {
@@ -97,10 +100,17 @@ export default class CoordinatesSearch extends Vue {
     axios.get(`https://cds.unistra.fr/cgi-bin/nph-sesame/-ox?${this.targetName}`).then((result) => {
       let parser = new DOMParser();
       let xmlDom = parser.parseFromString(result.data , 'application/xml');
-      let jra = xmlDom.querySelector('jradeg').innerHTML;
-      let jdec = xmlDom.querySelector('jdedeg').innerHTML;
+      let jra = xmlDom.querySelector('jradeg')?.innerHTML;
+      let jdec = xmlDom.querySelector('jdedeg')?.innerHTML;
+      if (!jra  && !jdec){
+        this.error = ["object doesnt exist"];
+        console.log("Error");
+      }
+      else {
       console.log(jra, jdec);
-      this.localValue = {...this.localValue, ra:(+jra), dec:+jdec}
+      this.localValue = {...this.localValue, ra:(+jra), dec:+jdec, radius:1.5}
+      this.error = []
+      }
       this.isLoading = false;
     })
   }
