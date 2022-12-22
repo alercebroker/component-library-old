@@ -1,60 +1,54 @@
 <template>
-  <v-container class="py-0">
-    <v-layout row wrap>
-      <v-flex xs12>
-        <v-data-table
-          :headers="header"
-          :items="values"
-          :items-per-page="values.length"
-          :mobile-breakpoint="250"
-          dense
-          disable-sort
-          hide-default-footer
-          hide-default-header
-        >
-          <template v-slot:[`item.tooltip`]="{ item }">
-            <span v-if="item.tooltip">
-              <v-tooltip right max-width="200">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon align="center" v-bind="attrs" v-on="on">
-                    mdi-help-circle
-                  </v-icon>
-                </template>
-                <span>{{ item.tooltip }}</span>
-              </v-tooltip>
-            </span>
+  <v-data-table
+    :headers="header"
+    :items="values"
+    :items-per-page="values.length"
+    :mobile-breakpoint="250"
+    dense
+    disable-sort
+    hide-default-footer
+    hide-default-header
+  >
+    <template v-slot:item.tooltip="{ item }">
+      <span v-if="item.tooltip">
+        <v-tooltip right max-width="200">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon align="center" v-bind="attrs" v-on="on"
+              >mdi-help-circle</v-icon
+            >
           </template>
-        </v-data-table>
-      </v-flex>
-      <v-flex xs6>
-        <v-btn
-          small
-          outlined
-          block
-          color="primary"
-          @click="changeMjdButtonText"
-        >
-          {{ mjdButtonText }}
-        </v-btn>
-      </v-flex>
-      <v-flex xs6>
-        <v-btn
-          small
-          outlined
-          block
-          color="primary"
-          @click="changeHmsButtonText"
-        >
-          {{ hmsButtonText }}
-        </v-btn>
-      </v-flex>
-    </v-layout>
-  </v-container>
+          <span>{{ item.tooltip }}</span>
+        </v-tooltip>
+      </span>
+      <v-tooltip v-if="item.action" right max-width="200">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            align="center"
+            v-bind="attrs"
+            v-on="on"
+            @click="item.action"
+          >
+            <v-icon align="center">{{ item.icon }}</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ item.actionText }}</span>
+      </v-tooltip>
+    </template>
+    <template v-slot:item.value="{ item }">
+      {{ item.value }}
+      <a
+        v-if="item.date === item.value"
+        href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time"
+        >UTC</a
+      >
+    </template>
+  </v-data-table>
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import { jdToDate, raDectoHMS } from '../utils/AstroDates.js'
-@Component({})
+@Component({ name: 'BasicInformation' })
 export default class BasicInformation extends Vue {
   @Prop({ type: Object, default: () => {} })
   information
@@ -65,18 +59,23 @@ export default class BasicInformation extends Vue {
     { text: '', value: 'tooltip', align: 'end', width: '5%' },
   ]
 
-  whatShow = [
-    'Object',
-    'RA(J2000) Dec(J2000)',
-    'Number',
-    'Detections',
-    'Discovery date',
-    'Last detection',
-    'Corrected',
-    'Stellar',
-  ]
+  @Prop({
+    type: Array,
+    default: () => [
+      'Object',
+      'RA(J2000) Dec(J2000)',
+      'Number',
+      'Detections',
+      'Non Detections',
+      'Discovery date',
+      'Last detection',
+      'Corrected',
+      'Stellar',
+    ],
+  })
+  contents
 
-  mjdButtonText = 'View date'
+  mjdButtonText = 'View MJD'
   hmsButtonText = 'View H:M:S'
 
   changeMjdButtonText() {
@@ -112,7 +111,7 @@ export default class BasicInformation extends Vue {
   }
 
   formatDate(val) {
-    return jdToDate(val).toString().split('GMT')[0]
+    return jdToDate(val).toUTCString().split('GMT')[0]
   }
 
   infoMapper(key, value) {
@@ -136,15 +135,21 @@ export default class BasicInformation extends Vue {
         break
       case 'firstmjd':
         res.column = 'Discovery date'
-        res.value = value
+        res.value = this.formatDate(value)
         res.mjd = value
         res.date = this.formatDate(value)
+        res.actionText = this.mjdButtonText
+        res.action = this.changeMjdButtonText
+        res.icon = 'mdi-calendar'
         break
       case 'lastmjd':
         res.column = 'Last detection'
-        res.value = value
+        res.value = this.formatDate(value)
         res.mjd = value
         res.date = this.formatDate(value)
+        res.actionText = this.mjdButtonText
+        res.action = this.changeMjdButtonText
+        res.icon = 'mdi-calendar'
         break
       case 'corrected':
         res.column = 'Corrected'
@@ -163,6 +168,9 @@ export default class BasicInformation extends Vue {
         res.value = `${value.ra} ${value.dec}`
         res.radec = `${value.ra} ${value.dec}`
         res.hms = raDectoHMS(value.ra, value.dec)
+        res.actionText = this.hmsButtonText
+        res.action = this.changeHmsButtonText
+        res.icon = 'mdi-earth'
         break
       default:
         res.column = key
@@ -178,7 +186,9 @@ export default class BasicInformation extends Vue {
     const toDisplay = keys.map((k) => {
       return this.infoMapper(k, this.information[k])
     })
-    return toDisplay.filter((x) => this.whatShow.includes(x.column))
+    return toDisplay.filter((x) => this.contents.includes(x.column))
   }
+
+  set values(val) {}
 }
 </script>

@@ -3,9 +3,7 @@
     <a @click="$router.push('/')">
       <v-img :src="_logo" max-width="40px" class="mr-4" />
     </a>
-    <v-toolbar-title class="mr-4">
-      {{ title }}
-    </v-toolbar-title>
+    <v-toolbar-title class="mr-4">{{ title }}</v-toolbar-title>
     <v-spacer />
     <v-toolbar-items v-if="items">
       <v-btn
@@ -15,11 +13,23 @@
         class="pl-5 pr-5 d-none d-md-flex text-capitalize"
         target="_blank"
         text
+        >{{ item.title }}</v-btn
       >
-        {{ item.title }}
-      </v-btn>
     </v-toolbar-items>
-    <alerce-bar-options :title="title" />
+    <v-menu
+      v-if="$slots['menu']"
+      offset-y
+      right
+      bottom
+      :close-on-content-click="false"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon v-bind="attrs" v-on="on">
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </template>
+      <slot name="menu"></slot>
+    </v-menu>
   </v-app-bar>
 </template>
 <script>

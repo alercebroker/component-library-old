@@ -54,6 +54,8 @@ export default class Aladin extends Vue {
       survey: 'P/PanSTARRS/DR1/color-z-zg-g',
       fov: this.fov,
       cooFrame: 'J2000d',
+      showFov: true,
+      showCoordinates: true,
     })
     if (this.objects) {
       this.catalog = this.addObjects(this.aladin, this.objects)
@@ -183,6 +185,18 @@ export default class Aladin extends Vue {
 #aladin-lite-div {
   height: '100%';
   width: '100%';
-  min-height: 350px;
+  min-height: 400px;
+}
+
+.aladin-measurement-div {
+  color: black;
+}
+
+.aladin-reticleColor {
+  color: black;
+}
+
+.aladin-location-text {
+  color: black;
 }
 </style>

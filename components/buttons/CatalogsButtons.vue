@@ -1,10 +1,10 @@
 <template>
-  <v-layout v-if="ra != null && dec != null" wrap justify-center>
+  <v-layout v-if="ra != null && dec != null" justify-center>
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn small tile block color="blue" v-bind="attrs" v-on="on">
-          {{ title }}
-        </v-btn>
+        <v-btn x-small block tile color="blue" v-bind="attrs" v-on="on">{{
+          title
+        }}</v-btn>
       </template>
       <v-list>
         <v-list-item
@@ -12,9 +12,7 @@
           :key="item.name"
           @click="openPage(item.link)"
         >
-          <v-list-item-title>
-            {{ item.name }}
-          </v-list-item-title>
+          <v-list-item-title>{{ item.name }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -22,17 +20,29 @@
 </template>
 <script>
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
+/**
+ * This component uses coordinates to search in other catalogs.
+ * Available catalogs are: NED, SIMBAD, TNS, PanSTARRS and SDSS DR16
+ */
 @Component({})
 export default class ColumnsoptionsButton extends Vue {
-  @Prop({ type: Number, default: 0 })
-  ra
+  /**
+   * Right assention in degrees
+   */
+  @Prop({ type: Number, default: 0 }) ra
 
-  @Prop({ type: Number, default: 0 })
-  dec
+  /**
+   * Declination in degrees
+   */
+  @Prop({ type: Number, default: 0 }) dec
 
-  @Prop({ type: String, default: 'External Catalogs' })
-  title
-
+  /**
+   * Button text
+   */
+  @Prop({ type: String, default: 'External archives' }) title
+  /**
+   * Links of dropdown. This array is sorted by formal name.
+   */
   get links() {
     return [
       {
@@ -78,7 +88,40 @@ export default class ColumnsoptionsButton extends Vue {
           '&dec=' +
           this.dec,
       },
-    ]
+      {
+        name: 'DESI Legacy Survey DR9',
+        link:
+          'https://www.legacysurvey.org/viewer/jpeg-cutout/?ra=' +
+          this.ra +
+          '&dec=' +
+          this.dec +
+          '&layer=ls-dr9&pixscale=0.1&bands=grz',
+      },
+      {
+        name: 'Vizier',
+        link:
+          'http://vizier.u-strasbg.fr/viz-bin/VizieR-4?-c=' +
+          this.ra +
+          (this.dec > 0 ? '+' : '-') +
+          this.dec +
+          '&-c.rs=10&-out.add=_r&-sort=_r&-out.max=$4',
+      },
+      {
+        name: 'VSX',
+        link: `http://www.aavso.org/vsx/index.php?view=results.get&coords=${this.ra}+${this.dec}&format=d&size=10&geom=r&unit=3&order=9`,
+      },
+    ].sort((a, b) => {
+      const fa = a.name.toLowerCase()
+      const fb = b.name.toLowerCase()
+
+      if (fa < fb) {
+        return -1
+      }
+      if (fa > fb) {
+        return 1
+      }
+      return 0
+    })
   }
 
   openPage(url) {

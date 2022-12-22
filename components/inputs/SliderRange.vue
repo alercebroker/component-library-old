@@ -1,7 +1,13 @@
 <template>
   <v-layout>
     <v-flex xs3 sm3 md3>
-      <v-text-field v-model="minRange" type="number" label="min" :min="min" />
+      <v-text-field
+        v-model="minRange"
+        type="number"
+        label="min"
+        :min="min"
+        :error-messages="error"
+      />
     </v-flex>
     <v-flex xs6 sm6 md6 pl-3 pr-3>
       <v-range-slider
@@ -9,11 +15,18 @@
         :max="max"
         :min="min"
         :step="step"
+        :error-messages="error"
         @end="setRange"
       />
     </v-flex>
     <v-flex xs3 sm3 md3>
-      <v-text-field v-model="maxRange" type="number" label="max" :max="max" />
+      <v-text-field
+        v-model="maxRange"
+        type="number"
+        label="max"
+        :max="max"
+        :error-messages="error"
+      />
     </v-flex>
   </v-layout>
 </template>
@@ -29,6 +42,8 @@ export default class SliderRange extends Vue {
   @Prop({ type: Number, default: null }) min
 
   @Prop({ type: Number, default: 1 }) step
+
+  @Prop({ type: String, default: '' }) error
 
   get minRange() {
     return this.value[0]

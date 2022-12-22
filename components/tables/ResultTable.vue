@@ -3,9 +3,9 @@
     :headers="header"
     :items="items"
     :loading="loading"
-    :no-data-text="localMessage"
     :server-items-length="total"
     :options.sync="localPaginationOptions"
+    :no-data-text="noDataText"
     hide-default-footer
     dense
     @update:page="onPageChange"
@@ -16,14 +16,13 @@
   >
     <template v-slot:top>
       <slot name="top">
-        <v-toolbar v-show="items.length > 0" dense flat>
-          {{ paginationMessage }}
+        <v-toolbar dense flat>
           <v-spacer></v-spacer>
-          <v-pagination
-            v-show="$vuetify.breakpoint.mdAndUp"
-            v-model="localPaginationOptions.page"
-            :length="numPages"
-            :total-visible="8"
+          <ButtonsPaginationButtons
+            :page="paginationOptions.page"
+            :loading="loading"
+            :disableNext="nextDisabled"
+            @pageChange="onPaginationComponentChange"
           />
         </v-toolbar>
       </slot>
@@ -44,40 +43,17 @@ export default class ResultTable extends Vue {
 
   @Prop({ type: Object, default: () => {} }) paginationOptions
 
-  @Prop({ type: String, default: 'Your results will appear here' })
-  defaultMessage
-
-  paginationMessage = ''
-
-  localMessage = ''
+  @Prop({ type: String, default: 'No data available' }) noDataText
 
   localPaginationOptions = {}
 
   beforeMount() {
-    this.setLocalMessage()
     this.setLocalPaginationOptions()
-    this.setPaginationMessage()
-  }
-
-  setPaginationMessage() {
-    if (this.items) {
-      this.onItemsChange(this.items)
-    }
-  }
-
-  setLocalMessage() {
-    if (this.items.length) {
-      this.localMessage = `Found ${this.total.toLocaleString()} results`
-    } else this.localMessage = this.defaultMessage
   }
 
   @Watch('paginationOptions', { immediate: true, deep: true })
   setLocalPaginationOptions(val) {
     this.localPaginationOptions = { ...this.localPaginationOptions, ...val }
-  }
-
-  get numPages() {
-    return Math.ceil(this.total / this.localPaginationOptions.itemsPerPage)
   }
 
   get header() {
@@ -86,16 +62,13 @@ export default class ResultTable extends Vue {
     })
   }
 
+  get nextDisabled() {
+    return this.items.length < this.localPaginationOptions.itemsPerPage
+  }
+
   @Emit('rowClicked')
   onRowClicked(item) {
     return item
-  }
-
-  @Watch('items')
-  onItemsChange(val) {
-    this.paginationMessage = val.length
-      ? `Found ${this.total.toLocaleString()} results`
-      : 'No results found'
   }
 
   @Emit('pageChange')
@@ -114,6 +87,10 @@ export default class ResultTable extends Vue {
   @Emit('optionsChange')
   onOptionsChange(val) {
     return val
+  }
+
+  onPaginationComponentChange(page) {
+    this.localPaginationOptions.page = page
   }
 }
 </script>

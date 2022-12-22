@@ -8,6 +8,7 @@
         min="0"
         type="number"
         step="0.01"
+        :error-messages="validationErrors.date"
       />
     </v-flex>
     <!-- calendar for min modified julian dates-->
@@ -28,7 +29,7 @@
             v-on="on"
           />
         </template>
-        <alerce-date-time-picker v-model="minDatetime" :open.sync="menuMin" />
+        <inputs-date-time-picker v-model="minDatetime" :open.sync="menuMin" />
       </v-menu>
     </v-flex>
 
@@ -39,6 +40,7 @@
         min="0"
         type="number"
         step="0.01"
+        :error-messages="validationErrors.date"
       />
     </v-flex>
 
@@ -59,7 +61,7 @@
             v-on="on"
           />
         </template>
-        <alerce-date-time-picker v-model="maxDatetime" :open.sync="menuMax" />
+        <inputs-date-time-picker v-model="maxDatetime" :open.sync="menuMax" />
       </v-menu>
     </v-flex>
   </v-layout>
@@ -71,6 +73,7 @@ import { jdToDate, gregorianToJd } from '../utils/AstroDates'
 @Component
 export default class DateSearch extends Vue {
   @Prop({ type: Object, required: true }) value
+  @Prop({ type: Object, default: () => {} }) validationErrors
 
   menuMin = false
   menuMax = false
@@ -84,7 +87,7 @@ export default class DateSearch extends Vue {
   maxDatetime = null
 
   @Watch('value', { deep: true, immediate: true })
-  onValueChange(val, old) {
+  onValueChange(val) {
     this.localValue.minMjd = val.minMjd
     this.localValue.maxMjd = val.maxMjd
   }
@@ -99,7 +102,7 @@ export default class DateSearch extends Vue {
     this.localValue.maxMjd = gregorianToJd(val)
   }
 
-  @Watch('localValue', { deep: true })
+  @Watch('localValue', { deep: true, immediate: true })
   onLocalValueChange(val) {
     const minDate = jdToDate(val.minMjd)
     const maxDate = jdToDate(val.maxMjd)

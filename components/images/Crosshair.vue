@@ -1,9 +1,9 @@
 <template>
-  <v-row class="pa-0" justify="center" align="center" style="height: 100%;">
+  <v-row class="pa-0" justify="center" align="center" style="height: 100%">
     <v-col v-for="(image, index) in images" :key="index" class="pa-0" cols="4">
       <canvas
         :ref="'canvas_' + index"
-        style="width: 100%; height: 100%;"
+        style="width: 100%; height: 100%"
       ></canvas>
     </v-col>
   </v-row>
@@ -11,7 +11,7 @@
 
 <script>
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
-@Component({})
+@Component({ name: 'crosshair' })
 export default class Crosshair extends Vue {
   @Prop({
     type: Array,

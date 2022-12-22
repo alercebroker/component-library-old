@@ -1,12 +1,9 @@
 <template>
-  <div>
-    <v-chart :options="chartOptions.options" autoresize @click="onClick" />
-  </div>
+  <v-chart :options="chartOptions.options" autoresize @click="onClick" />
 </template>
 
 <script>
 import { Vue, Component, Prop, Watch, Emit } from 'nuxt-property-decorator'
-// import Echarts from 'vue-echarts'
 import { jdToDate } from '../utils/AstroDates.js'
 import { DifferenceLightCurveOptions } from './plot-types/difference'
 import { ApparentLightCurveOptions } from './plot-types/apparent'
@@ -36,6 +33,9 @@ export default class LightCurvePlot extends Vue {
 
   @Emit('detectionClick')
   onClick(detection) {
+    const serieType = detection.seriesName
+    if (serieType.includes('non-detections') || serieType.includes('DR'))
+      return null
     const date = jdToDate(detection.value[0]).toUTCString().slice(0, -3) + 'UT'
     return {
       mjd: detection.value[0],
@@ -127,11 +127,10 @@ export default class LightCurvePlot extends Vue {
 }
 </script>
 
-<style css>
+<style scoped>
 .echarts {
-  margin: auto;
   width: 100%;
   height: 100%;
-  min-height: 350px;
+  min-height: 400px;
 }
 </style>

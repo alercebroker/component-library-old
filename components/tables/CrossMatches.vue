@@ -13,7 +13,7 @@
               :min="0"
               :max="20"
               step="0.1"
-              style="width: 175px;"
+              style="width: 175px"
               suffix="arcsec"
             ></v-text-field>
           </template>

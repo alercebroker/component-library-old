@@ -1,12 +1,11 @@
 <template>
   <v-card flat>
-    <v-toolbar dense flat>
+    <v-toolbar flat>
       <v-row align="center">
-        <v-col cols="3">
-          <v-toolbar-title>Stamps</v-toolbar-title>
-        </v-col>
-        <v-col cols="5" class="mt-4">
+        <v-col cols="6" class="mt-4">
           <v-select
+            dense
+            label="date"
             :items="dates"
             item-value="index"
             item-text="date"
@@ -23,6 +22,9 @@
             >mdi-arrow-right-drop-circle</v-icon
           >
         </v-col>
+        <v-col cols="1">
+          <v-btn small rounded color="indigo" @click="onAvroClick">AVRO</v-btn>
+        </v-col>
         <v-spacer></v-spacer>
         <v-col v-if="hasFullscreenListener" cols="1">
           <v-icon @click="fullscreen">{{ fullscreenIcon }}</v-icon>
@@ -32,10 +34,11 @@
             <template v-slot:activator="{ on }">
               <v-icon v-on="on">mdi-information</v-icon>
             </template>
-            <span
-              >Use the tool icons below to change between zoom or crosshair
-              modes</span
-            >
+            <span>
+              AVRO is the format in which we receive alerts from ZTF. Clicking
+              the AVRO button will show the full information contained in the
+              avro file for the selected detection.
+            </span>
           </v-tooltip>
         </v-col>
       </v-row>
@@ -80,58 +83,75 @@
       </v-row>
       <v-row class="pa-0">
         <v-col v-if="stampComponent === 'zoom'" cols="12">
-          <alerce-zoom-on-hover
+          <images-zoom-on-hover
             :images="[science, template, difference]"
             :disabled="isFullscreen"
-          ></alerce-zoom-on-hover>
+          ></images-zoom-on-hover>
         </v-col>
         <v-col v-if="stampComponent === 'crosshair'" cols="12">
-          <alerce-crosshair
+          <images-crosshair
             :images="[science, template, difference]"
             :fullscreen="isFullscreen"
             :cross-hair-space="crossHairSpace"
-          ></alerce-crosshair>
+          ></images-crosshair>
         </v-col>
       </v-row>
       <v-row
         align="start"
-        style="max-height: 20px;"
+        style="max-height: 20px"
         class="pa-0"
         justify="center"
       >
         <v-col
           v-for="tool in tools"
           :key="tool.id"
-          style="max-height: 20px;"
+          style="max-height: 20px"
           cols="1"
           class="pa-0"
         >
-          <slot :name="'btn-' + tool.id" :tool="tool" :selectTool="selectTool">
-            <v-icon @click="selectTool(tool.id)">{{ tool.icon }}</v-icon>
-          </slot>
+          <v-icon @click="selectTool(tool.id)">{{ tool.icon }}</v-icon>
+        </v-col>
+        <v-col cols="1" style="max-height: 20px" class="pa-0">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on">mdi-information</v-icon>
+            </template>
+            <span
+              >Use the tool icons to change between zoom or crosshair
+              modes</span
+            >
+          </v-tooltip>
         </v-col>
       </v-row>
     </v-card-text>
   </v-card>
 </template>
 <script>
-import {
-  Vue,
-  Component,
-  Prop,
-  Watch,
-  Emit,
-  Model,
-} from 'nuxt-property-decorator'
+import { Vue, Component, Prop, Watch, Model } from 'nuxt-property-decorator'
 import { jdToDate } from '../utils/AstroDates.js'
-@Component
+@Component({ name: 'StampCard' })
 export default class StampCard extends Vue {
+  /**
+   * Detections array to change stamp
+   */
   @Prop({ type: Array, default: () => [] }) detections
-
+  /**
+   * Object ID
+   */
   @Prop({ type: String, default: '' }) object
+  /**
+   * Base URL
+   */
+  @Prop({ type: String, default: '' }) baseURL
 
+  /**
+   * @model
+   */
   @Model('selectDetection', { type: Number, default: 0 }) selectedDetection
 
+  /**
+   * Tool buttons. Should have id, text and icon
+   */
   @Prop({
     type: Array,
     default: () => [
@@ -149,6 +169,9 @@ export default class StampCard extends Vue {
   })
   tools
 
+  /**
+   * Change the crosshair size
+   */
   @Prop({ type: Number }) crossHairSpace
 
   isFullscreen = false
@@ -159,28 +182,26 @@ export default class StampCard extends Vue {
     this.stateSelectedDetection = this.selectedDetection
   }
 
-  @Emit('selectDetection')
   prevStamp() {
     if (this.stateSelectedDetection > 0) {
-      /**
-       * Event triggered when a detection is selected
-       * @arg {number} index of the selected detection
-       */
       this.stateSelectedDetection -= 1
     }
-    return this.stateSelectedDetection
+    /**
+     * Event triggered when a detection is selected
+     * @arg {number} selectedDetection index of the selected detection
+     */
+    this.$emit('selectDetection', this.stateSelectedDetection)
   }
 
-  @Emit('selectDetection')
   nextStamp() {
     if (this.stateSelectedDetection + 1 < this.detections.length) {
-      /**
-       * Event triggered when a detection is selected
-       * @arg {number} index of the selected detection
-       */
       this.stateSelectedDetection += 1
     }
-    return this.stateSelectedDetection
+    /**
+     * Event triggered when a detection is selected
+     * @arg {number} index of the selected detection
+     */
+    this.$emit('selectDetection', this.stateSelectedDetection)
   }
 
   getCandid(index) {
@@ -191,12 +212,23 @@ export default class StampCard extends Vue {
     }
   }
 
+  getSurveyID(index) {
+    if (this.detections && this.detections.length) {
+      return this.detections[index].tid
+    } else {
+      return ''
+    }
+  }
+
   download(type) {
     const link =
-      'http://avro.alerce.online/get_stamp?oid=' +
+      this.baseURL +
+      '/get_stamp?oid=' +
       this.object +
       '&candid=' +
       this.getCandid(this.stateSelectedDetection) +
+      '&survey_id=' +
+      this.getSurveyID(this.stateSelectedDetection) +
       '&type=' +
       type +
       '&format=fits'
@@ -204,6 +236,9 @@ export default class StampCard extends Vue {
   }
 
   fullscreen() {
+    /**
+     * Emitted when fullscreen button is pressed
+     */
     this.$emit('fullscreen')
   }
 
@@ -211,51 +246,59 @@ export default class StampCard extends Vue {
     this.stampComponent = id
   }
 
-  @Emit('selectDetection')
   onDateSelected(date) {
+    this.stateSelectedDetection = date
     /**
      * Event triggered when a detection is selected
-     * @arg {number} index of the selected detection
+     * @arg {number} selectedDetection index of the selected detection
      */
-    this.stateSelectedDetection = date
-    return date
+    this.$emit('selectDetection', date)
   }
 
-  getScienceURL(object, candid) {
+  getScienceURL(object, candid, survey_id) {
     if (!candid) {
       return 'https://via.placeholder.com/300'
     }
     return (
-      'https://avro.alerce.online/get_stamp?oid=' +
+      this.baseURL +
+      '/get_stamp?oid=' +
       object +
       '&candid=' +
       candid +
+      '&survey_id=' +
+      survey_id +
       '&type=science&format=png'
     )
   }
 
-  getTemplateURL(object, candid) {
+  getTemplateURL(object, candid, survey_id) {
     if (!candid) {
       return 'https://via.placeholder.com/300'
     }
     return (
-      'https://avro.alerce.online/get_stamp?oid=' +
+      this.baseURL +
+      '/get_stamp?oid=' +
       object +
       '&candid=' +
       candid +
+      '&survey_id=' +
+      survey_id +
       '&type=template&format=png'
     )
   }
 
-  getDifferenceURL(object, candid) {
+  getDifferenceURL(object, candid, survey_id) {
     if (!candid) {
       return 'https://via.placeholder.com/300'
     }
     return (
-      'https://avro.alerce.online/get_stamp?oid=' +
+      this.baseURL +
+      '/get_stamp?oid=' +
       object +
       '&candid=' +
       candid +
+      '&survey_id=' +
+      survey_id +
       '&type=difference&format=png'
     )
   }
@@ -275,21 +318,24 @@ export default class StampCard extends Vue {
   get science() {
     return this.getScienceURL(
       this.object,
-      this.getCandid(this.stateSelectedDetection)
+      this.getCandid(this.stateSelectedDetection),
+      this.getSurveyID(this.stateSelectedDetection)
     )
   }
 
   get difference() {
     return this.getDifferenceURL(
       this.object,
-      this.getCandid(this.stateSelectedDetection)
+      this.getCandid(this.stateSelectedDetection),
+      this.getSurveyID(this.stateSelectedDetection)
     )
   }
 
   get template() {
     return this.getTemplateURL(
       this.object,
-      this.getCandid(this.stateSelectedDetection)
+      this.getCandid(this.stateSelectedDetection),
+      this.getSurveyID(this.stateSelectedDetection)
     )
   }
 
@@ -304,6 +350,14 @@ export default class StampCard extends Vue {
   @Watch('selectedDetection')
   onSelectedDetection(newVal) {
     this.stateSelectedDetection = newVal
+  }
+
+  onAvroClick(event) {
+    /**
+     * Emitted when avro button is pressed
+     * @arg {number} selectedDetection index of the selected detection
+     */
+    this.$emit('avroClick', this.selectedDetection)
   }
 }
 </script>
