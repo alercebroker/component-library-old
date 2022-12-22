@@ -102,14 +102,19 @@ export default class CoordinatesSearch extends Vue {
       let xmlDom = parser.parseFromString(result.data , 'application/xml');
       let jra = xmlDom.querySelector('jradeg')?.innerHTML;
       let jdec = xmlDom.querySelector('jdedeg')?.innerHTML;
-      if (!jra  && !jdec){
-        this.error = ["object doesnt exist"];
-        console.log("Error");
+
+      if (!jra || !jdec){
+        this.error = ["Object not found"];
       }
+
       else {
-      console.log(jra, jdec);
-      this.localValue = {...this.localValue, ra:(+jra), dec:+jdec, radius:1.5}
-      this.error = []
+        this.localValue = {
+          ...this.localValue,
+          ra: +jra,
+          dec:+jdec,
+          radius:1.5
+        }
+        this.error = []
       }
       this.isLoading = false;
     })
