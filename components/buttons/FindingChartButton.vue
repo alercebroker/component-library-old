@@ -29,7 +29,7 @@ export default class FindingChartButton extends Vue {
 
   @Prop({
     type: String,
-    default: 'https://www.findingchart.alerce.online/get_chart?',
+    default: 'https://findingchart.alerce.online/get_chart?',
   })
   url
 
