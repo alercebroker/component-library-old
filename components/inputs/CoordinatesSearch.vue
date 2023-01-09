@@ -58,6 +58,7 @@
 <script>
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
 import { hmsToDegrees } from '../utils/AstroDates.js'
+import { raDectoHMS } from '../utils/AstroDates.js'
 import axios from "axios"
 @Component({})
 export default class CoordinatesSearch extends Vue {
@@ -74,6 +75,9 @@ export default class CoordinatesSearch extends Vue {
 
   @Watch('value', { immediate: true, deep: true })
   onValueChange(val) {
+    if(this.usingHMS){
+      return 
+    } 
     this.localValue = { ...this.localValue, ...val }
   }
 
@@ -86,6 +90,17 @@ export default class CoordinatesSearch extends Vue {
     else{
       this.$emit('input', val)
     }
+  }
+
+  @Watch('usingHMS')
+  onFormatChange(isHMS){
+    if(isHMS){
+      const raDecHMS = raDectoHMS(this.localValue.ra, this.localValue.dec).split(" ")
+      console.log(raDecHMS)
+      this.localValue = {...this.localValue, ra: raDecHMS[0], dec: raDecHMS[1]}
+      return raDecHMS
+    }
+    console.log(isHMS)
   }
 
   conversionRaDec(hmsRa, hmsDec){
@@ -104,7 +119,7 @@ export default class CoordinatesSearch extends Vue {
     const[raH, raM, raS] = hmsR
     const degR = hmsToDegrees(raH, raM, raS)
     const degD = hmsToDegrees(decH, decM, decS)
-    return {ra: degR, dec: degD}
+    return {ra: degR * 15 , dec: degD }
   }
 
   obtenerInfo() {
