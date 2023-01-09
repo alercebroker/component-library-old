@@ -62,4 +62,9 @@ function raDectoHMS(ra, dec) {
   return `${ra} ${dec}`
 }
 
-export { gregorianToJd, jdToGregorian, jdToDate, raDectoHMS }
+function hmsToDegrees(hrs, min, sec){
+  const degrees = (hrs + min / 60 + sec / 3600)
+  return `${degrees}`
+}
+
+export { gregorianToJd, jdToGregorian, jdToDate, raDectoHMS, hmsToDegrees }
