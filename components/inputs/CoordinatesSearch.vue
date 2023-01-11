@@ -43,7 +43,7 @@
     <v-spacer />
     <!--DEC-->
     <v-flex xs5>
-      <v-text-field v-model="localValue.dec" :label="usingHMS ?`DEC(hms)` : `DEC(deg)` " type="text"
+      <v-text-field v-model="localValue.dec" :label="usingHMS ?`DEC(dms)` : `DEC(deg)` " type="text"
         :error-messages="validationErrors.conesearch" />
     </v-flex>
     <!--RADIUS-->
@@ -60,6 +60,7 @@ import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
 import { hmsToDegrees } from '../utils/AstroDates.js'
 import { raDectoHMS } from '../utils/AstroDates.js'
 import axios from "axios"
+import { toHandlers } from '@vue/runtime-core'
 @Component({})
 export default class CoordinatesSearch extends Vue {
   /**
@@ -94,13 +95,27 @@ export default class CoordinatesSearch extends Vue {
 
   @Watch('usingHMS')
   onFormatChange(isHMS){
-    if(isHMS){
+    if (this.localValue.ra === null && this.localValue.dec === null){
+      return 
+    }
+    if(!isHMS) {
+      this.localValue = {
+        ...this.localValue,
+        ...this.value
+      }
+      console.log("ESTOY EN EL IF")
+      return
+    }
+    else {
       const raDecHMS = raDectoHMS(this.localValue.ra, this.localValue.dec).split(" ")
-      console.log(raDecHMS)
-      this.localValue = {...this.localValue, ra: raDecHMS[0], dec: raDecHMS[1]}
+      console.log("ESTOY EN EL ELSE", raDecHMS)
+      this.localValue = {
+        ...this.localValue, 
+        ra: raDecHMS[0].slice(1), 
+        dec: raDecHMS[1]
+      }
       return raDecHMS
     }
-    console.log(isHMS)
   }
 
   conversionRaDec(hmsRa, hmsDec){
