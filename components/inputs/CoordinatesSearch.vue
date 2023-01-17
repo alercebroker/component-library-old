@@ -2,16 +2,16 @@
   <v-layout wrap align-center>
     <!--Target Name-->
     <v-flex xs10 sm12 md12>
-      <v-row class="mr-5">
-        <v-col lg="6" md="11">
+      <v-row>
+        <v-col lg="5" md="11">
           <v-text-field v-model="localValue.targetName" label="Target Name" :error-messages="error" />
         </v-col>
     <!--BOTON RESOLVE-->
-        <v-col lg="6" md="13" mt="5">
+        <v-col lg="7" md="13" mt="5">
           <v-btn @click="obtenerInfo" :loading="isLoading" color="normal" block margin-top="4">
             Resolve
           </v-btn>
-    <!--PROVIDED BY-->
+    <!--PROVIDED BY SESAME-->
           <v-col lg="12" class="pa-0 caption transparent py-0 ">
             <p class="mb-0 mt-1 text-right">
               Provided by
@@ -25,15 +25,15 @@
     </v-flex>
     <!--RADIO BUTTON-->
     <v-flex xs10 sm12 md12>
-      <v-row>
+      <v-row class="mt-2">
         <v-col lg="12">
-          <input type="radio" id="degrees" :value="false" v-model="usingHMS">
-          <label for="degrees"> 
+          <input class="mr-1" type="radio" id="degrees" :value="false" v-model="usingHMS">
+          <label class="mr-12" for="degrees"> 
             Degrees
           </label>
-          <input type="radio" id="hms" :value="true" v-model="usingHMS">
+          <input class="mr-1" type="radio" id="hms" :value="true" v-model="usingHMS">
           <label for="hms">
-            HMS
+            HMS/DMS
           </label>
         </v-col>
       </v-row>
@@ -181,7 +181,6 @@ export default class CoordinatesSearch extends Vue {
         this.error = ["Object not found"];
       }
       this.isLoading = false;
-      //this.usingHMS = false
     })
   }
 }
