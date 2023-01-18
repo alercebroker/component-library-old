@@ -130,7 +130,7 @@ export default class CoordinatesSearch extends Vue {
     }
   }
 
-  conversionRaDec(hmsRa, hmsDec){
+  RaDectoDegrees(hmsRa, hmsDec){
     const hmsR = hmsRa?.split(":").map(x => +x)
     const hmsD = hmsDec?.split(":").map(x => +x)
 
@@ -149,7 +149,7 @@ export default class CoordinatesSearch extends Vue {
     return {ra: degR * 15 , dec: degD }
   }
 
-  obtenerInfo() {
+  getTargetName() {
     this.isLoading = true;
     axios.get(`https://cds.unistra.fr/cgi-bin/nph-sesame/-ox?${this.localValue.targetName}`).then((result) => {
       let parser = new DOMParser();
