@@ -42,13 +42,13 @@ function jdToDate(mjd) {
 }
 
 /* Based in: http://www.bdnyc.org/2012/10/decimal-deg-to-hms/ */
-function raDectoHMS(ra, dec) {
+function raDectoHMS(ra, dec, precision=2) {
   if (dec) {
     const sign = dec < 0 ? '-' : '+'
     dec = Math.abs(dec)
     const deg = Math.floor(dec)
     const decM = Math.abs(Math.floor((dec - deg) * 60))
-    const decS = ((Math.abs((dec - deg) * 60) - decM) * 60).toFixed(2)
+    const decS = ((Math.abs((dec - deg) * 60) - decM) * 60).toFixed(precision)
     dec = `${sign}${deg}:${decM}:${decS}`
   }
   if (ra) {
@@ -56,10 +56,15 @@ function raDectoHMS(ra, dec) {
     ra = Math.abs(ra)
     const raH = Math.floor(ra / 15)
     const raM = Math.floor((ra / 15 - raH) * 60)
-    const raS = (((ra / 15 - raH) * 60 - raM) * 60).toFixed(3)
+    const raS = (((ra / 15 - raH) * 60 - raM) * 60).toFixed(precision + 1)
     ra = `${sign}${raH}:${raM}:${raS}`
   }
   return `${ra} ${dec}`
 }
 
-export { gregorianToJd, jdToGregorian, jdToDate, raDectoHMS }
+function hmsToDegrees(hrs, min, sec){
+  const degrees = (hrs + min / 60 + sec / 3600)
+  return `${degrees}`
+}
+
+export { gregorianToJd, jdToGregorian, jdToDate, raDectoHMS, hmsToDegrees }
