@@ -99,7 +99,7 @@ export default class CoordinatesSearch extends Vue {
   @Watch('localValue', { immediate: true, deep: true })
   onLocalValueChange(val) {
     if(this.usingHMS){
-      const raDec = this.raDectoDregrees(String(val.ra), String(val.dec))
+      const raDec = this.raDectoDegrees(String(val.ra), String(val.dec))
       this.$emit('input', {...val, ...raDec})
     }
     else{
@@ -130,7 +130,7 @@ export default class CoordinatesSearch extends Vue {
     }
   }
 
-  raDectoDregrees(hmsRa, hmsDec){
+  raDectoDegrees(hmsRa, hmsDec){
     const hmsR = hmsRa?.split(/:|\s+/).map(x => +x)
     const hmsD = hmsDec?.split(/:|\s+/).map(x => +x)
 
