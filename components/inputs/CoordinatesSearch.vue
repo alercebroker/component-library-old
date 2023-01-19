@@ -99,7 +99,7 @@ export default class CoordinatesSearch extends Vue {
   @Watch('localValue', { immediate: true, deep: true })
   onLocalValueChange(val) {
     if(this.usingHMS){
-      const raDec = this.conversionRaDec(String(val.ra), String(val.dec))
+      const raDec = this.RaDectoDegrees(String(val.ra), String(val.dec))
       this.$emit('input', {...val, ...raDec})
     }
     else{
