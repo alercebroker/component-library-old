@@ -8,7 +8,7 @@
         </v-col>
     <!--BOTON RESOLVE-->
         <v-col lg="7" md="13" mt="5">
-          <v-btn @click="obtenerInfo" :loading="isLoading" color="normal" block margin-top="4">
+          <v-btn @click="getTargetName" :loading="isLoading" color="normal" block margin-top="4">
             Resolve
           </v-btn>
     <!--PROVIDED BY SESAME-->
