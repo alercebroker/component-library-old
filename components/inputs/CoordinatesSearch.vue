@@ -40,13 +40,13 @@
     </v-flex>
     <!--RA-->
     <v-flex xs5>
-      <v-text-field v-model="localValue.ra" :label="usingHMS ?`RA(hms)` : `RA(deg)` " type="text"
+      <v-text-field v-model="localValue.ra" :label="usingHMS ?`RA(hms)` : `RA(deg)` " :type="usingHMS ? 'text': 'number'"
         :error-messages="validationErrors.conesearch" />
     </v-flex>
     <v-spacer />
     <!--DEC-->
     <v-flex xs5>
-      <v-text-field v-model="localValue.dec" :label="usingHMS ?`DEC(dms)` : `DEC(deg)` " type="text"
+      <v-text-field v-model="localValue.dec" :label="usingHMS ?`DEC(dms)` : `DEC(deg)` " :type="usingHMS ? 'text': 'number'"
         :error-messages="validationErrors.conesearch" />
     </v-flex>
     <!--RADIUS-->
@@ -99,7 +99,7 @@ export default class CoordinatesSearch extends Vue {
   @Watch('localValue', { immediate: true, deep: true })
   onLocalValueChange(val) {
     if(this.usingHMS){
-      const raDec = this.conversionRaDec(String(val.ra), String(val.dec))
+      const raDec = this.raDectoDregrees(String(val.ra), String(val.dec))
       this.$emit('input', {...val, ...raDec})
     }
     else{
@@ -130,9 +130,9 @@ export default class CoordinatesSearch extends Vue {
     }
   }
 
-  conversionRaDec(hmsRa, hmsDec){
-    const hmsR = hmsRa?.split(":").map(x => +x)
-    const hmsD = hmsDec?.split(":").map(x => +x)
+  raDectoDregrees(hmsRa, hmsDec){
+    const hmsR = hmsRa?.split(/:|\s+/).map(x => +x)
+    const hmsD = hmsDec?.split(/:|\s+/).map(x => +x)
 
     if(!hmsR || hmsR.length !== 3 || hmsR.find(x => isNaN(x))){
       console.log("Invalid Format for Ra")
@@ -149,7 +149,7 @@ export default class CoordinatesSearch extends Vue {
     return {ra: degR * 15 , dec: degD }
   }
 
-  obtenerInfo() {
+  getTargetName() {
     this.isLoading = true;
     axios.get(`https://cds.unistra.fr/cgi-bin/nph-sesame/-ox?${this.localValue.targetName}`).then((result) => {
       let parser = new DOMParser();
