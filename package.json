@@ -60,7 +60,7 @@
     "react-styleguidist": "^11.0.8",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",
-    "stylelint": "^13.6.1",
+    "stylelint": "^15.10.1",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-standard": "^20.0.0",
     "vue-i18n": "^8.16.0",
