@@ -63,8 +63,9 @@ function raDectoHMS(ra, dec, precision=2) {
 }
 
 function hmsToDegrees(hrs, min, sec){
-  const degrees = (hrs + min / 60 + sec / 3600)
-  return `${degrees}`
+  const sign = (hrs >= 0) ? "" : "-"
+  const degrees = (Math.abs(hrs) + min / 60 + sec / 3600)
+  return `${sign}${degrees}`
 }
 
 export { gregorianToJd, jdToGregorian, jdToDate, raDectoHMS, hmsToDegrees }
